@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+/* === Prima Packages Design Tokens (Tailwind v4) === */
+@theme inline {
+  /* Brand Colors */
+  --color-sage: #7A8B72;
+  --color-sage-dark: #5F6B58;
+  --color-sage-light: #9AAB92;
+
+  --color-cream: #F5F0E8;
+  --color-ivory: #FAF8F4;
+  --color-warm-white: #FEFDF9;
+
+  --color-gold: #B8977E;
+  --color-gold-light: #D4BFA8;
+
+  --color-charcoal: #1A1A1A;
+  --color-dark: #111111;
+  --color-muted: #6B6B6B;
+
+  /* Typography */
+  --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+/* === Base Styles === */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-warm-white);
+  color: var(--color-charcoal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* === Scrollbar Hide Utility === */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* === Selection Color === */
+::selection {
+  background-color: var(--color-sage);
+  color: var(--color-warm-white);
+}
+
+/* === Line Clamp Utilities === */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
