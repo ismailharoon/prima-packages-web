@@ -1,0 +1,130 @@
+export interface ProductSeoEntry {
+  title: string
+  description: string
+  keywords: string[]
+}
+
+export const productSeo: Record<string, ProductSeoEntry> = {
+  'woven-labels': {
+    title: 'Custom Woven Labels Pakistan',
+    description:
+      'Order custom polyester woven labels for clothing and textile brands in Pakistan. Multiple sizes, fold options, bulk quantities and nationwide delivery.',
+    keywords: [
+      'custom woven labels Pakistan',
+      'polyester woven labels',
+      'clothing labels Pakistan',
+      'garment labels Karachi',
+      'custom fabric labels',
+      'woven brand labels',
+    ],
+  },
+  'zipper-bags': {
+    title: 'Custom Printed Zipper Bags Pakistan',
+    description:
+      'Get custom frosted zipper bags with your logo for clothing and ecommerce packaging. Custom sizes, bulk quantities and delivery across Pakistan.',
+    keywords: [
+      'custom zipper bags Pakistan',
+      'printed zipper bags',
+      'frosted zipper bags',
+      'clothing packaging bags',
+      'logo zipper bags Karachi',
+    ],
+  },
+  'hang-tags': {
+    title: 'Custom Hang Tags Printing Pakistan',
+    description:
+      'Custom printed hang tags for clothing brands, boutiques and retail products. Choose single or double-sided printing with bulk delivery across Pakistan.',
+    keywords: [
+      'custom hang tags Pakistan',
+      'hang tag printing Karachi',
+      'clothing tags Pakistan',
+      'brand tags printing',
+      'garment hang tags',
+    ],
+  },
+  'thank-you-cards': {
+    title: 'Custom Thank You Cards Pakistan',
+    description:
+      'Print custom thank you cards and packaging inserts for online stores and clothing brands. Branded cards with nationwide delivery in Pakistan.',
+    keywords: [
+      'custom thank you cards Pakistan',
+      'packaging insert cards',
+      'thank you card printing Karachi',
+      'ecommerce insert cards',
+    ],
+  },
+  'business-cards': {
+    title: 'Custom Business Card Printing Karachi',
+    description:
+      'Custom business card printing in Karachi with single and double-sided options, premium card stock and delivery across Pakistan.',
+    keywords: [
+      'business card printing Karachi',
+      'custom business cards Pakistan',
+      'premium business cards',
+      'business card printer Karachi',
+    ],
+  },
+  'courier-flyer-bags': {
+    title: 'Custom Courier Flyer Bags Pakistan',
+    description:
+      'Order custom printed courier flyer bags for ecommerce shipping in Pakistan. Multiple sizes, durable material, logo printing and bulk rates.',
+    keywords: [
+      'courier flyer bags Pakistan',
+      'custom courier bags',
+      'printed mailer bags Pakistan',
+      'ecommerce packaging bags Karachi',
+      'courier bags with logo',
+    ],
+  },
+  'carry-bags': {
+    title: 'Custom Printed Carry Bags Pakistan',
+    description:
+      'Custom paper carry bags with your logo for boutiques, retail shops and clothing brands. Bulk printing and delivery across Pakistan.',
+    keywords: [
+      'custom carry bags Pakistan',
+      'printed paper bags Karachi',
+      'shopping bags with logo',
+      'boutique carry bags',
+      'branded paper bags',
+    ],
+  },
+  'round-stickers': {
+    title: 'Custom Sticker Printing Pakistan',
+    description:
+      'Custom round logo stickers for product packaging, tissue seals, jars and shipping boxes. Bulk sticker printing and delivery across Pakistan.',
+    keywords: [
+      'custom stickers Pakistan',
+      'sticker printing Karachi',
+      'round logo stickers',
+      'packaging stickers Pakistan',
+      'brand stickers printing',
+    ],
+  },
+  'butter-paper': {
+    title: 'Custom Printed Butter Paper Pakistan',
+    description:
+      'Custom printed butter paper for clothing, boutiques, food and ecommerce packaging. One-color logo printing in bulk with Pakistan-wide delivery.',
+    keywords: [
+      'custom butter paper Pakistan',
+      'printed butter paper Karachi',
+      'branded wrapping paper',
+      'logo butter paper',
+      'custom tissue paper Pakistan',
+    ],
+  },
+}
+
+export const homeSeoKeywords = [
+  'custom packaging Pakistan',
+  'custom packaging Karachi',
+  'packaging supplier Pakistan',
+  'custom woven labels Pakistan',
+  'polyester clothing labels',
+  'custom hang tags Pakistan',
+  'custom zipper bags Pakistan',
+  'courier flyer bags Pakistan',
+  'butter paper printing Pakistan',
+  'custom carry bags Karachi',
+  'packaging for clothing brands',
+  'ecommerce packaging Pakistan',
+]

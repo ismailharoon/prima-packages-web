@@ -20,9 +20,6 @@ export function SizePriceSelector({
 
   const hasMultipleSizeCategories =
     uniqueSizes.length > 1 && sizes.some((s) => s.quantity)
-  const isHangTagType =
-    uniqueSizes.length === 1 && sizes.some((s) => s.quantity)
-
   // Default to popular size if exists, otherwise first
   const [selectedSizeCat, setSelectedSizeCat] = useState<string>(() => {
     const popular = uniqueSizes.find((s) => s.toLowerCase().includes('popular'))

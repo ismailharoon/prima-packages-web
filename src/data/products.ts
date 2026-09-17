@@ -22,16 +22,17 @@ export interface Product {
   finishes?: string[]
   customizable: boolean
   icon: string
+  quoteOnly?: boolean
 }
 
 export const products: Product[] = [
   {
     slug: 'woven-labels',
-    name: 'Custom Woven Labels',
+    name: 'Polyester Woven Labels',
     category: 'Labels',
     discountBadge: '15% OFF',
-    shortDescription: 'Premium woven labels stitched into every garment, the finishing touch your brand deserves.',
-    longDescription: 'Our woven labels are crafted with precision using high-density weaving techniques. Each label features crisp, detailed artwork that won\'t fade with washing. Available in damask, satin, and taffeta weaves, these labels elevate your garments with a tactile mark of quality. Every label is fully customizable with your logo, brand colors, and care instructions.',
+    shortDescription: 'Durable custom polyester labels woven with your logo for clothing, apparel and textile brands.',
+    longDescription: 'Our polyester woven labels are made for everyday garment branding. Your logo and brand details are woven directly into the label for a crisp, durable finish that holds up through regular wear and washing. Choose your size, quantity and preferred fold, then send us your artwork on WhatsApp for confirmation.',
     heroImage: '/images/products/woven-label-hero.jpeg',
     gallery: [
       '/images/products/woven-label-hero.jpeg',
@@ -52,10 +53,27 @@ export const products: Product[] = [
       { label: '1.0 × 2.5 in', sizeCategory: '1.0 × 2.5 inch', quantity: '500 PCS', originalPrice: 3300, price: 2805 },
       { label: '1.0 × 2.5 in', sizeCategory: '1.0 × 2.5 inch', quantity: '1,000 PCS', originalPrice: 4000, price: 3400 },
     ],
-    materials: ['Damask High-Density', 'Satin', 'Taffeta'],
-    finishes: ['Center-fold', 'End-fold', 'Heat-cut', 'Laser-cut', 'Mitre-fold'],
+    materials: ['Durable Polyester Yarn'],
+    finishes: ['Straight Cut', 'Center Fold', 'End Fold', 'Heat Cut'],
     customizable: true,
     icon: '🏷️',
+  },
+  {
+    slug: 'zipper-bags',
+    name: 'Custom Zipper Bags',
+    category: 'Packaging',
+    shortDescription: 'Reusable frosted zipper bags printed with your logo for clothing and ecommerce orders.',
+    longDescription: 'Give garments and ecommerce products a clean, reusable outer package with custom frosted zipper bags. Available in multiple sizes with your logo printed on the front. Final pricing depends on bag dimensions, material thickness, print colors and order quantity, so share your requirements for an accurate wholesale quote.',
+    heroImage: '/images/products/zipper-bags-hero-v2.webp',
+    gallery: ['/images/products/zipper-bags-hero-v2.webp'],
+    sizes: [
+      { label: 'Custom Size', price: 0 },
+    ],
+    materials: ['Frosted PE / PEVA'],
+    finishes: ['Custom Logo Print', 'Slider Zip Closure', 'Multiple Sizes'],
+    customizable: true,
+    quoteOnly: true,
+    icon: '♻️',
   },
   {
     slug: 'hang-tags',

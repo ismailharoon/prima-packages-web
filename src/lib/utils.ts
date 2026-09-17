@@ -18,7 +18,7 @@ export function generateWhatsAppUrl(
   if (productName) {
     message = `Hi, I'd like to enquire about ${productName}`
     if (size) {
-      message += ` – ${size}`
+      message += `, ${size}`
     }
     message += '.'
   }

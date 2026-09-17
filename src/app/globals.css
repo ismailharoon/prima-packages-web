@@ -36,6 +36,26 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.safe-area-pb {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
 /* === Scrollbar Hide Utility === */
 .scrollbar-hide {
   -ms-overflow-style: none;

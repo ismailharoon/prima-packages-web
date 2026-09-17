@@ -6,8 +6,17 @@ import { HairlineDivider } from '@/components/ui/HairlineDivider'
 import { ContactForm } from './contact-form'
 
 export const metadata: Metadata = {
-  title: 'Contact',
-  description: 'Get in touch with Prima Packages. Reach us on WhatsApp, email, or phone.',
+  title: 'Contact Prima Packages Karachi',
+  description: 'Contact Prima Packages in Saddar, Karachi for custom woven labels, hang tags, zipper bags, courier flyers and branded packaging quotes.',
+  keywords: [
+    'packaging supplier Saddar Karachi',
+    'custom packaging quote Pakistan',
+    'Prima Packages contact',
+    'woven labels Karachi contact',
+  ],
+  alternates: {
+    canonical: '/contact',
+  },
 }
 
 export default function ContactPage() {
