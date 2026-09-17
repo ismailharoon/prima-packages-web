@@ -3,7 +3,7 @@ export const siteConfig = {
   tagline: 'Custom Labels. Tags. Print. Packaging.',
   description:
     'Premium custom packaging & branding solutions for boutiques, fashion brands, and businesses across Pakistan.',
-  url: 'https://primapackages.pk',
+  url: 'https://www.primapackages.pk',
   email: 'hello@primapackages.pk',
   phone: '+92 323 3231712',
   address: 'Shop # B-52, Ground Floor, Karim Center, Saddar, Karachi',

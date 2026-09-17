@@ -1,330 +1,332 @@
-import Link from 'next/link'
 import Image from 'next/image'
-import { Section } from '@/components/ui/Section'
+import Link from 'next/link'
+import { ProductCard } from '@/components/ui/ProductCard'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
 import { WhatsAppCTA } from '@/components/ui/WhatsAppCTA'
-import { ProductCard } from '@/components/ui/ProductCard'
-import { HairlineDivider } from '@/components/ui/HairlineDivider'
-import { PlaceholderImage } from '@/components/ui/PlaceholderImage'
 import { products } from '@/data/products'
-import { siteConfig } from '@/data/site'
 
-const valueIcons: Record<string, string> = {
-  materials: '✦',
-  sizing: '◇',
-  branding: '❋',
-  turnaround: '→',
-}
+const featuredSlugs = [
+  'woven-labels',
+  'zipper-bags',
+  'hang-tags',
+  'courier-flyer-bags',
+]
+
+const featuredProducts = featuredSlugs
+  .map((slug) => products.find((product) => product.slug === slug))
+  .filter((product): product is (typeof products)[number] => Boolean(product))
+
+const steps = [
+  {
+    number: '01',
+    title: 'Choose your packaging',
+    copy: 'Pick a product, size and quantity, or ask us for a bulk recommendation.',
+  },
+  {
+    number: '02',
+    title: 'Send your logo',
+    copy: 'Share your artwork and requirements directly with our team on WhatsApp.',
+  },
+  {
+    number: '03',
+    title: 'Approve & produce',
+    copy: 'Confirm the final details, then we prepare and deliver your custom order.',
+  },
+]
+
+const faqs = [
+  {
+    question: 'Which custom packaging products do you make?',
+    answer:
+      'We supply polyester woven labels, hang tags, zipper bags, courier flyer bags, carry bags, butter paper, thank you cards, business cards and round stickers for clothing, retail and ecommerce brands.',
+  },
+  {
+    question: 'Do you deliver custom packaging outside Karachi?',
+    answer:
+      'Yes. Prima Packages is based in Saddar, Karachi and delivers custom packaging orders to customers across Pakistan.',
+  },
+  {
+    question: 'Can I order custom sizes and bulk quantities?',
+    answer:
+      'Yes. Available sizes and quantities are shown on product pages. For custom dimensions or larger wholesale quantities, request a tailored quote on WhatsApp.',
+  },
+  {
+    question: 'How do I place a custom packaging order?',
+    answer:
+      'Choose a product, share the required size and quantity, send your logo or artwork on WhatsApp, and confirm the final details before production.',
+  },
+]
 
 export default function HomePage() {
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative min-h-[580px] lg:min-h-[640px] flex items-center pt-36 sm:pt-40 pb-16 lg:pt-40 lg:pb-20 overflow-hidden bg-cream border-b border-gold/15">
-        {/* Subtle Ambient Atmosphere */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(184,151,126,0.14),transparent_65%)] pointer-events-none" />
-        <div className="absolute -bottom-16 -left-16 w-80 h-80 bg-sage/10 rounded-full blur-3xl pointer-events-none" />
+      <section className="relative overflow-hidden bg-cream pt-[118px] sm:pt-[132px] lg:pt-[150px]">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_15%,rgba(122,139,114,0.18),transparent_32%),radial-gradient(circle_at_5%_90%,rgba(184,151,126,0.16),transparent_30%)]" />
 
-        <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-4 xl:gap-6 items-center">
-            
-            {/* Left Column: Heading, Subtitle, CTAs */}
-            <div className="lg:col-span-6 xl:col-span-6 text-left">
-              <ScrollReveal>
-                <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 border border-gold/40 bg-warm-white/90 backdrop-blur-sm mb-6">
-                  <span className="text-gold text-xs">✦</span>
-                  <span className="text-[11px] uppercase tracking-[0.25em] text-sage-dark font-medium">
-                    Bespoke Print &amp; Packaging Atelier
-                  </span>
-                  <span className="text-gold text-xs">✦</span>
-                </div>
-              </ScrollReveal>
+        <div className="relative mx-auto grid max-w-7xl items-center gap-9 px-5 pb-12 sm:px-6 sm:pb-16 lg:grid-cols-[1.02fr_0.98fr] lg:gap-10 lg:px-8 lg:pb-24">
+          <div className="order-2 lg:order-1">
+            <ScrollReveal>
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-sage/25 bg-warm-white/80 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-sage-dark backdrop-blur-sm sm:text-xs">
+                <span className="h-1.5 w-1.5 rounded-full bg-sage" />
+                Custom packaging in Karachi, delivered across Pakistan
+              </div>
+            </ScrollReveal>
 
-              <ScrollReveal delay={0.1}>
-                <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[46px] xl:text-[50px] font-normal text-charcoal leading-[1.14] mb-6 tracking-tight">
-                  Bespoke packaging, labels &amp; tags crafted to define your brand
-                </h1>
-              </ScrollReveal>
+            <ScrollReveal delay={0.05}>
+              <h1 className="max-w-3xl font-serif text-[2.55rem] leading-[1.02] tracking-[-0.035em] text-charcoal sm:text-5xl md:text-6xl lg:text-[4.25rem]">
+                Custom packaging that makes your brand look established.
+              </h1>
+            </ScrollReveal>
 
-              <ScrollReveal delay={0.2}>
-                <p className="text-charcoal/75 text-base sm:text-lg font-light leading-relaxed mb-8 max-w-xl">
-                  Your single-source partner for custom-branded packaging in Pakistan. From custom-dimension rigid boxes and courier flyer bags to foil-stamped hang tags, woven labels, and cards, tailored precisely with your logo, colors, and premium finishes.
-                </p>
-              </ScrollReveal>
+            <ScrollReveal delay={0.1}>
+              <p className="mt-5 max-w-xl text-base leading-7 text-charcoal/68 sm:text-lg sm:leading-8">
+                Custom polyester woven labels, hang tags, zipper bags, courier flyers and print essentials for clothing and ecommerce businesses.
+              </p>
+            </ScrollReveal>
 
-              <ScrollReveal delay={0.3}>
-                <div className="flex flex-wrap items-center gap-4">
-                  <Link
-                    href="/catalog"
-                    className="inline-flex items-center justify-center w-full sm:w-auto bg-charcoal hover:bg-charcoal/90 text-cream px-8 py-3.5 text-xs font-medium uppercase tracking-[0.2em] transition-all duration-300 shadow-md shadow-charcoal/10 active:scale-[0.98]"
-                  >
-                    Browse the Catalog
-                  </Link>
-                  <a
-                    href="https://wa.me/923233231712?text=Hi%20Prima%20Packages%2C%20I%20would%20like%20to%20enquire%20about%20custom%20packaging%20for%20my%20brand."
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center w-full sm:w-auto border border-charcoal/30 bg-transparent text-charcoal hover:border-charcoal hover:bg-charcoal hover:text-cream px-7 py-3.5 text-xs font-medium uppercase tracking-[0.2em] transition-all duration-300 active:scale-[0.98]"
-                  >
-                    Enquire via WhatsApp
-                  </a>
-                </div>
-              </ScrollReveal>
+            <ScrollReveal delay={0.15}>
+              <div className="mt-7 grid gap-3 sm:flex sm:flex-wrap">
+                <Link
+                  href="/catalog"
+                  className="inline-flex min-h-12 items-center justify-center rounded-full bg-charcoal px-7 text-xs font-semibold uppercase tracking-[0.16em] text-cream transition-transform hover:-translate-y-0.5"
+                >
+                  Explore products
+                </Link>
+                <a
+                  href="https://wa.me/923233231712?text=Hi%20Prima%20Packages%2C%20I%20need%20custom%20packaging%20for%20my%20brand.%20Please%20guide%20me."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-sage/40 bg-warm-white px-7 text-xs font-semibold uppercase tracking-[0.16em] text-sage-dark transition-colors hover:bg-sage hover:text-white"
+                >
+                  Get a WhatsApp quote
+                </a>
+              </div>
+            </ScrollReveal>
 
-              {/* Trust highlights */}
-              <ScrollReveal delay={0.4}>
-                <div className="mt-8 pt-6 border-t border-charcoal/10 flex flex-wrap items-center gap-3 sm:gap-6 text-xs sm:text-sm text-charcoal/70 font-medium">
-                  <div className="flex items-center gap-2">
-                    <span className="text-gold">✦</span> Bespoke Sizing &amp; Finishes
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-gold">✦</span> Crafted for Pakistani Brands
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-gold">✦</span> Direct WhatsApp Consultation
-                  </div>
-                </div>
-              </ScrollReveal>
-            </div>
-
-            {/* Right Column: Transparent Packaging Suite Showcase (Larger and balanced) */}
-            <div className="order-first lg:order-none lg:col-span-6 xl:col-span-6 flex items-center justify-center lg:justify-start">
-              <ScrollReveal delay={0.2} className="w-full flex justify-center lg:justify-start">
-                <div className="relative w-full max-w-[450px] sm:max-w-[520px] lg:max-w-[580px] xl:max-w-[640px] aspect-square flex items-center justify-center lg:ml-2 xl:ml-4">
-                  <Image
-                    src="/images/products/hero-suite-transparent-bg.png"
-                    alt="Prima Packages - Custom Branded Packaging Suite"
-                    fill
-                    priority
-                    sizes="(max-width: 1024px) 90vw, (max-width: 1280px) 580px, 640px"
-                    className="object-contain object-center drop-shadow-2xl transition-transform duration-700 hover:scale-[1.03]"
-                  />
-                </div>
-              </ScrollReveal>
-            </div>
-
+            <ScrollReveal delay={0.2}>
+              <div className="mt-7 flex flex-wrap gap-x-5 gap-y-2 border-t border-charcoal/10 pt-5 text-xs font-medium text-charcoal/65 sm:text-sm">
+                <span>✓ Custom sizes</span>
+                <span>✓ Bulk quantities</span>
+                <span>✓ Delivery across Pakistan</span>
+              </div>
+            </ScrollReveal>
           </div>
+
+          <ScrollReveal delay={0.08} className="order-1 lg:order-2">
+            <div className="relative mx-auto aspect-[4/3] w-full max-w-[620px] overflow-hidden rounded-[1.75rem] bg-[#e9e4d9] shadow-[0_28px_80px_rgba(26,26,26,0.13)] sm:aspect-square lg:aspect-[4/5]">
+              <Image
+                src="/images/products/hero-suite-transparent-bg.png"
+                alt="Custom packaging in Pakistan including woven labels, hang tags, zipper bags, courier flyers, carry bags, cards, stickers and butter paper"
+                fill
+                priority
+                sizes="(max-width: 1024px) 94vw, 48vw"
+                className="object-contain p-3 sm:p-5"
+              />
+              <div className="absolute bottom-4 left-4 rounded-full border border-white/40 bg-warm-white/88 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-charcoal shadow-sm backdrop-blur-md sm:bottom-6 sm:left-6 sm:text-xs">
+                Labels · Tags · Bags · Print
+              </div>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
-      {/* Brand Intro Strip */}
-      <Section className="bg-cream">
-        <ScrollReveal>
-          <div className="max-w-3xl mx-auto text-center">
-            <HairlineDivider ornament />
-            <p className="text-lg md:text-xl leading-relaxed text-charcoal/80 font-light">
-              At Prima Packages, we believe that packaging isn&apos;t just a wrapper, it&apos;s your brand&apos;s first handshake. We craft premium labels, tags, cards, and packaging for businesses that refuse to compromise on quality.
-            </p>
-            <HairlineDivider ornament />
-          </div>
-        </ScrollReveal>
-      </Section>
+      <section className="border-y border-charcoal/8 bg-charcoal text-cream">
+        <div className="mx-auto grid max-w-7xl grid-cols-3 divide-x divide-white/10 px-4 sm:px-6 lg:px-8">
+          {[
+            ['One supplier', 'For complete packaging'],
+            ['Made custom', 'With your branding'],
+            ['Bulk-ready', 'For growing businesses'],
+          ].map(([title, copy]) => (
+            <div key={title} className="px-2 py-4 text-center sm:px-6 sm:py-5">
+              <p className="font-serif text-sm text-cream sm:text-lg">{title}</p>
+              <p className="mt-1 text-[9px] uppercase tracking-[0.12em] text-cream/50 sm:text-[11px]">
+                {copy}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-      {/* Featured Specialty: Custom Woven Labels Showcase */}
-      <section className="relative w-full py-16 sm:py-24 bg-cream border-y border-gold/15 overflow-hidden">
+      <section className="bg-warm-white py-14 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 sm:mb-12">
-              <div className="max-w-2xl">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 text-[11px] font-medium uppercase tracking-[0.25em] text-sage-dark bg-sage/10 border border-sage/20 mb-3">
-                  <span className="text-gold">✦</span>
-                  <span>Our Master Craft</span>
-                  <span className="text-gold">✦</span>
-                </div>
-                <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-charcoal tracking-tight">
-                  Custom Woven Labels
-                </h2>
-                <p className="mt-3 text-sm sm:text-base text-charcoal/70 font-light leading-relaxed">
-                  High-density damask weaves with razor-sharp lettering, soft edges, and durable finishes. The signature tactile detail stitched into every luxury garment.
+            <div className="mb-8 flex items-end justify-between gap-4 sm:mb-12">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sage-dark">
+                  Start here
                 </p>
+                <h2 className="mt-2 font-serif text-3xl tracking-tight text-charcoal sm:text-5xl">
+                  Packaging bestsellers
+                </h2>
               </div>
-
               <Link
-                href="/products/woven-labels"
-                className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-charcoal hover:text-sage transition-colors duration-300 group shrink-0"
+                href="/catalog"
+                className="hidden text-xs font-semibold uppercase tracking-[0.16em] text-sage-dark sm:inline-flex"
               >
-                <span>Explore Woven Labels</span>
-                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                View all products →
               </Link>
             </div>
           </ScrollReveal>
 
-          {/* 1. Main Wide Hero Image (covering full width of the container) */}
-          <ScrollReveal delay={0.15}>
-            <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] rounded-xl sm:rounded-2xl overflow-hidden shadow-xl border border-cream/90 bg-warm-white group">
-              <Image
-                src="/images/products/woven-label-home-hero.png"
-                alt="Prima Packages - Custom Woven Labels Production & Flatlay"
-                fill
-                priority
-                sizes="(max-width: 1280px) 100vw, 1200px"
-                className="object-cover object-center transition-transform duration-1000 group-hover:scale-[1.03]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent opacity-80 pointer-events-none" />
-              <div className="absolute bottom-4 left-5 right-5 sm:bottom-6 sm:left-8 sm:right-8 flex items-end justify-between text-warm-white">
-                <div>
-                  <span className="text-[10px] sm:text-xs uppercase tracking-[0.25em] text-gold font-medium block mb-1">
-                    Signature High-Density Weave
-                  </span>
-                  <h3 className="font-serif text-lg sm:text-2xl text-cream font-normal">
-                    Precision Damask &amp; Satin Stitching
-                  </h3>
-                </div>
-                <span className="hidden sm:inline-block text-[11px] uppercase tracking-[0.15em] text-cream/90 border border-white/25 px-3 py-1 bg-charcoal/60 backdrop-blur-sm rounded-full">
-                  100% Bespoke Yarn
-                </span>
-              </div>
-            </div>
-          </ScrollReveal>
+          <div className="grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-6 lg:grid-cols-4 lg:gap-7">
+            {featuredProducts.map((product, index) => (
+              <ProductCard key={product.slug} product={product} index={index} />
+            ))}
+          </div>
 
-          {/* 2. Three Side-by-Side Images Below */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 lg:gap-8 mt-4 sm:mt-8">
-            <ScrollReveal delay={0.2}>
-              <div className="group relative aspect-square w-full rounded-xl overflow-hidden bg-warm-white shadow-md border border-cream/90">
-                <Image
-                  src="/images/products/woven-label-home-1.jpeg"
-                  alt="Custom Woven Labels - Damask Multi-Tone Grid"
-                  fill
-                  sizes="(max-width: 640px) 100vw, 33vw"
-                  className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute bottom-3 left-4 right-4 text-warm-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <span className="text-[11px] uppercase tracking-wider font-medium">Multi-Tone Damask</span>
-                </div>
-              </div>
-            </ScrollReveal>
+          <Link
+            href="/catalog"
+            className="mt-10 inline-flex min-h-12 w-full items-center justify-center rounded-full border border-charcoal/15 text-xs font-semibold uppercase tracking-[0.16em] text-charcoal sm:hidden"
+          >
+            View all products
+          </Link>
+        </div>
+      </section>
 
-            <ScrollReveal delay={0.3}>
-              <div className="group relative aspect-square w-full rounded-xl overflow-hidden bg-warm-white shadow-md border border-cream/90">
-                <Image
-                  src="/images/products/woven-label-home-2.jpeg"
-                  alt="Custom Woven Labels - End-Fold Fabric Labels"
-                  fill
-                  sizes="(max-width: 640px) 100vw, 33vw"
-                  className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute bottom-3 left-4 right-4 text-warm-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <span className="text-[11px] uppercase tracking-wider font-medium">End-Fold Finish</span>
-                </div>
+      <section className="overflow-hidden bg-sage text-white">
+        <div className="mx-auto grid max-w-7xl lg:grid-cols-2">
+          <div className="relative min-h-[340px] sm:min-h-[500px] lg:min-h-[650px]">
+            <Image
+              src="/images/products/woven-label-home-hero.png"
+              alt="Custom polyester woven labels for clothing brands"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
+            />
+          </div>
+          <div className="flex items-center px-6 py-12 sm:px-10 sm:py-16 lg:px-16">
+            <ScrollReveal>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cream/70">
+                Our most requested product
+              </p>
+              <h2 className="mt-4 max-w-xl font-serif text-4xl leading-tight tracking-tight text-white sm:text-5xl">
+                Polyester woven labels made for real clothing brands.
+              </h2>
+              <p className="mt-5 max-w-lg text-base leading-7 text-white/72 sm:text-lg">
+                Clear logo detail, durable polyester yarn and practical fold options. Select your size and quantity online, then send your artwork for confirmation.
+              </p>
+              <div className="mt-7 grid grid-cols-2 gap-3 text-sm text-white/85">
+                <span className="rounded-xl border border-white/15 bg-white/8 px-4 py-3">Straight cut</span>
+                <span className="rounded-xl border border-white/15 bg-white/8 px-4 py-3">Center fold</span>
+                <span className="rounded-xl border border-white/15 bg-white/8 px-4 py-3">End fold</span>
+                <span className="rounded-xl border border-white/15 bg-white/8 px-4 py-3">Custom colors</span>
               </div>
-            </ScrollReveal>
-
-            <ScrollReveal delay={0.4}>
-              <div className="group relative aspect-square w-full rounded-xl overflow-hidden bg-warm-white shadow-md border border-cream/90">
-                <Image
-                  src="/images/products/woven-label-home-3.jpeg"
-                  alt="Custom Woven Labels - Custom Dyed Brand Colors"
-                  fill
-                  sizes="(max-width: 640px) 100vw, 33vw"
-                  className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute bottom-3 left-4 right-4 text-warm-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <span className="text-[11px] uppercase tracking-wider font-medium">Custom Brand Palette</span>
-                </div>
-              </div>
+              <Link
+                href="/products/woven-labels"
+                className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-cream px-7 text-xs font-semibold uppercase tracking-[0.16em] text-charcoal"
+              >
+                View sizes & pricing
+              </Link>
             </ScrollReveal>
           </div>
         </div>
       </section>
 
-      {/* Featured Categories Grid */}
-      <Section>
-        <ScrollReveal>
-          <div className="text-center mb-10 sm:mb-16">
-            <span className="text-xs uppercase tracking-[0.25em] text-gold font-medium">
-              Our Products
-            </span>
-            <h2 className="mt-3 font-serif text-3xl md:text-4xl lg:text-5xl text-charcoal">
-              The Catalog
-            </h2>
-          </div>
-        </ScrollReveal>
+      <section className="bg-cream py-14 sm:py-20 lg:py-24">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="max-w-2xl">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sage-dark">
+                Simple ordering
+              </p>
+              <h2 className="mt-2 font-serif text-3xl tracking-tight text-charcoal sm:text-5xl">
+                From idea to finished packaging
+              </h2>
+            </div>
+          </ScrollReveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-8">
-          {products.map((product, index) => (
-            <ProductCard key={product.slug} product={product} index={index} />
-          ))}
+          <div className="mt-9 grid gap-4 md:grid-cols-3 md:gap-6">
+            {steps.map((step, index) => (
+              <ScrollReveal key={step.number} delay={index * 0.08}>
+                <div className="h-full rounded-2xl border border-charcoal/8 bg-warm-white p-6 shadow-[0_14px_40px_rgba(26,26,26,0.05)] sm:p-8">
+                  <span className="font-serif text-3xl text-gold">{step.number}</span>
+                  <h3 className="mt-8 font-serif text-2xl text-charcoal">{step.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-charcoal/62">{step.copy}</p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
         </div>
+      </section>
 
-        <ScrollReveal>
-          <div className="mt-10 sm:mt-16 text-center">
-            <Link
-              href="/catalog"
-              className="inline-block border border-sage text-sage px-10 py-3.5 text-sm font-medium uppercase tracking-[0.15em] hover:bg-sage hover:text-warm-white transition-all duration-300"
-            >
-              View All Products
-            </Link>
-          </div>
-        </ScrollReveal>
-      </Section>
-
-      {/* Why Prima Packages */}
-      <Section className="bg-cream">
-        <ScrollReveal>
-          <div className="text-center mb-10 sm:mb-16">
-            <span className="text-xs uppercase tracking-[0.25em] text-gold font-medium">
-              Why Choose Us
-            </span>
-            <h2 className="mt-3 font-serif text-3xl md:text-4xl text-charcoal">
-              Why Prima Packages
+      <section className="bg-warm-white py-14 sm:py-20 lg:py-24">
+        <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
+          <ScrollReveal>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sage-dark">
+              One supplier, complete look
+            </p>
+            <h2 className="mt-3 font-serif text-4xl leading-tight tracking-tight text-charcoal sm:text-5xl">
+              Don&apos;t order every packaging item from a different vendor.
             </h2>
-          </div>
-        </ScrollReveal>
+            <p className="mt-5 max-w-lg text-base leading-7 text-charcoal/65">
+              Match your labels, tags, cards, bags and shipping materials through one team. It saves coordination time and keeps your branding consistent.
+            </p>
+            <WhatsAppCTA className="mt-7 rounded-full px-7 py-4">
+              Ask for a packaging bundle
+            </WhatsAppCTA>
+          </ScrollReveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10">
-          {siteConfig.valueProps.map((prop, index) => (
-            <ScrollReveal key={prop.title} delay={index * 0.1}>
-              <div className="text-center">
-                <span className="inline-flex items-center justify-center w-14 h-14 text-2xl text-gold mb-5">
-                  {valueIcons[prop.icon] || '✦'}
-                </span>
-                <h3 className="font-serif text-xl text-charcoal mb-3">
-                  {prop.title}
-                </h3>
-                <p className="text-sm text-muted leading-relaxed">
-                  {prop.description}
+          <ScrollReveal delay={0.1}>
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[1.75rem] bg-cream shadow-[0_28px_70px_rgba(26,26,26,0.1)]">
+              <Image
+                src="/images/products/hero-suite.jpg"
+                alt="Complete custom brand packaging set"
+                fill
+                sizes="(max-width: 1024px) 100vw, 55vw"
+                className="object-cover"
+              />
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="border-t border-charcoal/8 bg-cream py-14 sm:py-20 lg:py-24">
+        <div className="mx-auto grid max-w-7xl gap-9 px-5 sm:px-6 lg:grid-cols-[0.7fr_1.3fr] lg:gap-16 lg:px-8">
+          <ScrollReveal>
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sage-dark">
+                Frequently asked questions
+              </p>
+              <h2 className="mt-3 font-serif text-4xl leading-tight tracking-tight text-charcoal sm:text-5xl">
+                Custom packaging in Pakistan, explained simply.
+              </h2>
+            </div>
+          </ScrollReveal>
+
+          <div className="divide-y divide-charcoal/10 border-y border-charcoal/10">
+            {faqs.map((faq) => (
+              <details key={faq.question} className="group py-5 sm:py-6">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-xl text-charcoal sm:text-2xl">
+                  {faq.question}
+                  <span className="text-sage transition-transform group-open:rotate-45">+</span>
+                </summary>
+                <p className="max-w-2xl pr-8 pt-3 text-sm leading-7 text-charcoal/65 sm:text-base">
+                  {faq.answer}
                 </p>
-              </div>
-            </ScrollReveal>
-          ))}
-        </div>
-      </Section>
-
-      {/* Social Proof / Trust */}
-      <Section>
-        <ScrollReveal>
-          <div className="max-w-3xl mx-auto text-center">
-            <HairlineDivider ornament />
-            <blockquote className="font-serif text-xl sm:text-2xl md:text-3xl text-charcoal italic leading-snug">
-              &ldquo;The packaging you choose says everything about the brand you&apos;re building.&rdquo;
-            </blockquote>
-            <p className="mt-6 text-sm text-muted uppercase tracking-[0.2em]">
-              Prima Packages
-            </p>
-            <HairlineDivider ornament />
+              </details>
+            ))}
           </div>
-        </ScrollReveal>
-      </Section>
+        </div>
+      </section>
 
-      {/* Closing CTA */}
-      <Section dark className="bg-dark">
+      <section className="bg-charcoal px-5 py-14 text-center sm:py-20">
         <ScrollReveal>
-          <div className="text-center max-w-2xl mx-auto">
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-cream leading-tight mb-6">
-              Have a product in mind? Let&apos;s build your packaging.
-            </h2>
-            <p className="text-cream/60 mb-8 sm:mb-10 leading-relaxed">
-              Tell us about your brand and we&apos;ll help you create packaging that makes a lasting impression.
+          <div className="mx-auto max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-gold">
+              Planning a new collection?
             </p>
-            <WhatsAppCTA variant="secondary">
-              Let&apos;s Talk on WhatsApp
+            <h2 className="mt-4 font-serif text-4xl leading-tight text-cream sm:text-5xl">
+              Tell us what you need. We&apos;ll help you choose the right packaging.
+            </h2>
+            <p className="mx-auto mt-5 max-w-xl text-sm leading-6 text-cream/60 sm:text-base">
+              Share your product, required quantity and city for a clear custom quote on WhatsApp.
+            </p>
+            <WhatsAppCTA variant="secondary" className="mt-8 rounded-full px-8 py-4">
+              Get a custom quote
             </WhatsAppCTA>
           </div>
         </ScrollReveal>
-      </Section>
+      </section>
     </>
   )
 }

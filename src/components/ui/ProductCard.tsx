@@ -45,7 +45,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
         href={`/products/${product.slug}`}
         className="group block"
       >
-        <div className="relative aspect-[3/4] sm:aspect-[4/5] overflow-hidden bg-cream">
+        <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-cream border border-charcoal/8 shadow-[0_12px_40px_rgba(26,26,26,0.06)]">
           <AnimatePresence initial={false}>
             <motion.div
               key={images[currentImageIndex]}
@@ -93,11 +93,14 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
           )}
 
           <div className="absolute inset-0 bg-charcoal/0 transition-colors duration-300 group-hover:bg-charcoal/10 pointer-events-none" />
+          <div className="absolute right-3 bottom-3 z-20 grid h-9 w-9 place-items-center rounded-full bg-warm-white text-charcoal shadow-md transition-transform duration-300 group-hover:translate-x-1">
+            <span aria-hidden="true">→</span>
+          </div>
         </div>
 
-        <div className="mt-3 sm:mt-5 space-y-1.5 sm:space-y-2">
+        <div className="mt-3 sm:mt-4 space-y-1.5 sm:space-y-2">
           <div className="flex items-center justify-between gap-2">
-            <h3 className="font-serif text-xl text-charcoal group-hover:text-sage transition-colors duration-300">
+            <h3 className="font-serif text-base sm:text-xl leading-tight text-charcoal group-hover:text-sage transition-colors duration-300">
               {product.name}
             </h3>
             {product.discountBadge && (
@@ -106,18 +109,17 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
               </span>
             )}
           </div>
-          <p className="text-sm text-muted leading-relaxed line-clamp-2">
+          <p className="hidden sm:block text-sm text-muted leading-relaxed line-clamp-2">
             {product.shortDescription}
           </p>
           <div className="flex items-baseline gap-2 pt-0.5">
-            {product.sizes[0]?.originalPrice && (
+            {!product.quoteOnly && product.sizes[0]?.originalPrice && (
               <span className="text-xs text-charcoal/40 line-through font-serif">
                 {formatPrice(product.sizes[0].originalPrice)}
               </span>
             )}
-            <p className="text-sm text-gold font-semibold tracking-wide">
-              From {formatPrice(product.sizes[0].price)}
-              {!product.sizes[0]?.quantity && '/pc'}
+            <p className="text-xs sm:text-sm text-sage-dark font-semibold tracking-wide">
+              {product.quoteOnly ? 'Get a custom quote' : `From ${formatPrice(product.sizes[0].price)}${!product.sizes[0]?.quantity ? '/pc' : ''}`}
             </p>
           </div>
         </div>

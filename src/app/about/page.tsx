@@ -5,11 +5,19 @@ import { Section } from '@/components/ui/Section'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
 import { HairlineDivider } from '@/components/ui/HairlineDivider'
 import { WhatsAppCTA } from '@/components/ui/WhatsAppCTA'
-import { PlaceholderImage } from '@/components/ui/PlaceholderImage'
 
 export const metadata: Metadata = {
-  title: 'About',
-  description: 'The story behind Prima Packages: craftsmanship, quality, and a commitment to premium packaging for Pakistani brands.',
+  title: 'About Our Custom Packaging Company Karachi',
+  description: 'Learn about Prima Packages, a Karachi custom packaging supplier serving clothing, retail and ecommerce brands across Pakistan.',
+  keywords: [
+    'custom packaging company Karachi',
+    'packaging supplier Pakistan',
+    'Prima Packages Karachi',
+    'clothing brand packaging supplier',
+  ],
+  alternates: {
+    canonical: '/about',
+  },
 }
 
 const processSteps = [

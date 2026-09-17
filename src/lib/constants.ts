@@ -1,7 +1,7 @@
 export const WHATSAPP_NUMBER = '923233231712'
 export const PHONE_NUMBER = '+92 323 3231712'
 export const ADDRESS = 'Shop # B-52, Ground Floor, Karim Center, Saddar, Karachi'
-export const SITE_URL = 'https://primapackages.pk'
+export const SITE_URL = 'https://www.primapackages.pk'
 export const SITE_NAME = 'Prima Packages'
 export const SITE_TAGLINE = 'Custom Labels. Tags. Print. Packaging.'
 
