@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useScroll, useMotionValueEvent } from 'framer-motion'
 import { cn } from '@/lib/utils'
-import { NAV_ITEMS, SOCIAL_LINKS } from '@/lib/constants'
+import { NAV_ITEMS, SOCIAL_LINKS, PHONE_NUMBER } from '@/lib/constants'
 import { MobileMenu } from './MobileMenu'
 
 export function Header() {
@@ -33,14 +33,15 @@ export function Header() {
     <>
       <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
         {/* 1. Top Announcement Bar */}
-        <div className="w-full bg-charcoal px-3 py-1.5 text-center text-[10px] tracking-wide text-cream sm:px-4 sm:text-xs">
+        <div className="w-full bg-charcoal px-3 py-1.5 text-center text-[10px] tracking-wide text-cream sm:px-4 sm:text-xs flex items-center justify-center gap-2">
           <span>Custom packaging delivered across Pakistan.</span>
-          <Link
-            href="/contact"
-            className="ml-1.5 font-medium text-gold underline underline-offset-2 transition-colors hover:text-gold-light"
+          <span className="text-white/30 hidden sm:inline">|</span>
+          <a
+            href="tel:+923233231712"
+            className="font-medium text-gold hover:text-gold-light transition-colors"
           >
-            Contact us
-          </Link>
+            Call: {PHONE_NUMBER}
+          </a>
         </div>
 
         {/* 2. Main Header */}
@@ -87,7 +88,25 @@ export function Header() {
                 ))}
               </nav>
 
-              <div className="flex items-center gap-2 sm:gap-3">
+              <div className="flex items-center gap-3 sm:gap-4">
+                {/* PakFactory-style Phone / WhatsApp Contact Info */}
+                <div className="hidden lg:flex flex-col items-end text-right">
+                  <span className="text-[10px] font-semibold tracking-wider text-charcoal/60 uppercase">
+                    Call / WhatsApp
+                  </span>
+                  <a
+                    href={SOCIAL_LINKS.whatsapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-serif text-sm font-bold tracking-tight text-charcoal hover:text-sage transition-colors leading-tight"
+                  >
+                    {PHONE_NUMBER}
+                  </a>
+                  <span className="text-[9px] text-charcoal/50 leading-none">
+                    Mon - Sat 10am - 8pm
+                  </span>
+                </div>
+
                 <a
                   href={SOCIAL_LINKS.whatsapp}
                   target="_blank"

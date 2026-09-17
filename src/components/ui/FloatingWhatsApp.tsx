@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { WHATSAPP_NUMBER } from '@/lib/constants'
+import { WHATSAPP_NUMBER, DEFAULT_WHATSAPP_MESSAGE } from '@/lib/constants'
 
 export function FloatingWhatsApp() {
   const [isOpen, setIsOpen] = useState(false)
@@ -16,7 +16,7 @@ export function FloatingWhatsApp() {
   }, [])
 
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-    'Hi Prima Packages, I have an enquiry regarding custom packaging for my brand.'
+    DEFAULT_WHATSAPP_MESSAGE
   )}`
 
   return (

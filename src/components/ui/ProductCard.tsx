@@ -32,29 +32,31 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 25 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{
-        duration: 0.6,
-        delay: index * 0.1,
+        duration: 0.5,
+        delay: index * 0.06,
         ease: [0.22, 1, 0.36, 1],
       }}
+      className="h-full"
     >
       <Link
         href={`/products/${product.slug}`}
-        className="group block"
+        className="group flex flex-col h-full rounded-2xl border border-charcoal/10 bg-warm-white shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 overflow-hidden"
       >
-        <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-cream border border-charcoal/8 shadow-[0_12px_40px_rgba(26,26,26,0.06)]">
+        {/* Top Image Area with light, airy backdrop */}
+        <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#F5F6F8] border-b border-charcoal/6">
           <AnimatePresence initial={false}>
             <motion.div
               key={images[currentImageIndex]}
-              initial={{ opacity: 0, scale: 1.04 }}
+              initial={{ opacity: 0, scale: 1.03 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
               transition={{
-                opacity: { duration: 1.2, ease: [0.22, 1, 0.36, 1] },
-                scale: { duration: 1.8, ease: [0.22, 1, 0.36, 1] },
+                opacity: { duration: 1.0, ease: [0.22, 1, 0.36, 1] },
+                scale: { duration: 1.5, ease: [0.22, 1, 0.36, 1] },
               }}
               className="absolute inset-0"
             >
@@ -62,7 +64,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
                 src={images[currentImageIndex]}
                 alt={`${product.name} - view ${currentImageIndex + 1}`}
                 fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
             </motion.div>
@@ -70,15 +72,15 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
 
           {/* Elegant pagination dots if more than 1 image */}
           {images.length > 1 && (
-            <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5 z-10 pointer-events-none">
+            <div className="absolute bottom-2.5 left-0 right-0 flex justify-center gap-1.5 z-10 pointer-events-none">
               {images.map((_, dotIdx) => (
                 <span
                   key={dotIdx}
                   className={cn(
                     'h-1 rounded-full transition-all duration-500',
                     dotIdx === currentImageIndex
-                      ? 'w-5 bg-warm-white shadow-md'
-                      : 'w-1.5 bg-warm-white/50'
+                      ? 'w-4 bg-charcoal/80 shadow-sm'
+                      : 'w-1 bg-charcoal/30'
                   )}
                 />
               ))}
@@ -87,40 +89,34 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
 
           {/* Discount badge */}
           {product.discountBadge && (
-            <div className="absolute top-3 left-3 z-20 bg-charcoal/90 text-gold text-[10px] font-bold tracking-[0.18em] uppercase px-2.5 py-1 backdrop-blur-sm border border-gold/40 shadow-sm">
+            <div className="absolute top-3 left-3 z-20 bg-charcoal/90 text-gold text-[10px] font-bold tracking-[0.16em] uppercase px-2.5 py-1 backdrop-blur-sm border border-gold/40 shadow-sm rounded-md">
               {product.discountBadge}
             </div>
           )}
-
-          <div className="absolute inset-0 bg-charcoal/0 transition-colors duration-300 group-hover:bg-charcoal/10 pointer-events-none" />
-          <div className="absolute right-3 bottom-3 z-20 grid h-9 w-9 place-items-center rounded-full bg-warm-white text-charcoal shadow-md transition-transform duration-300 group-hover:translate-x-1">
-            <span aria-hidden="true">→</span>
-          </div>
         </div>
 
-        <div className="mt-3 sm:mt-4 space-y-1.5 sm:space-y-2">
-          <div className="flex items-center justify-between gap-2">
-            <h3 className="font-serif text-base sm:text-xl leading-tight text-charcoal group-hover:text-sage transition-colors duration-300">
+        {/* Bottom Content Area */}
+        <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between bg-warm-white">
+          <div>
+            <h3 className="font-bold text-sm sm:text-base leading-snug text-charcoal group-hover:text-sage transition-colors duration-200">
               {product.name}
             </h3>
-            {product.discountBadge && (
-              <span className="text-[10px] font-semibold tracking-wider uppercase px-2 py-0.5 bg-gold/15 text-gold border border-gold/40 shrink-0">
-                {product.discountBadge}
-              </span>
-            )}
-          </div>
-          <p className="hidden sm:block text-sm text-muted leading-relaxed line-clamp-2">
-            {product.shortDescription}
-          </p>
-          <div className="flex items-baseline gap-2 pt-0.5">
-            {!product.quoteOnly && product.sizes[0]?.originalPrice && (
-              <span className="text-xs text-charcoal/40 line-through font-serif">
-                {formatPrice(product.sizes[0].originalPrice)}
-              </span>
-            )}
-            <p className="text-xs sm:text-sm text-sage-dark font-semibold tracking-wide">
-              {product.quoteOnly ? 'Get a custom quote' : `From ${formatPrice(product.sizes[0].price)}${!product.sizes[0]?.quantity ? '/pc' : ''}`}
+            <p className="mt-1.5 text-xs text-charcoal/65 leading-relaxed line-clamp-2">
+              {product.shortDescription}
             </p>
+          </div>
+
+          <div className="mt-3.5 pt-3 border-t border-charcoal/8 flex items-center justify-between">
+            <div className="flex items-baseline gap-1.5">
+              {!product.quoteOnly && product.sizes[0]?.originalPrice && (
+                <span className="text-[11px] text-charcoal/40 line-through">
+                  {formatPrice(product.sizes[0].originalPrice)}
+                </span>
+              )}
+              <span className="text-xs font-semibold text-sage-dark">
+                {product.quoteOnly ? 'Custom quote' : `From ${formatPrice(product.sizes[0].price)}${!product.sizes[0]?.quantity ? '/pc' : ''}`}
+              </span>
+            </div>
           </div>
         </div>
       </Link>

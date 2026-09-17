@@ -5,11 +5,16 @@ export const SITE_URL = 'https://www.primapackages.pk'
 export const SITE_NAME = 'Prima Packages'
 export const SITE_TAGLINE = 'Custom Labels. Tags. Print. Packaging.'
 
+export const DEFAULT_WHATSAPP_MESSAGE = `Hi, I need packaging for my brand.
+Product: 
+Quantity: 
+City: `
+
 export const SOCIAL_LINKS = {
   instagram: 'https://www.instagram.com/primapackages.pk?stkn=MTJybGNheG51d2p2Nw==',
   facebook: 'https://www.facebook.com/share/1LzGth2pcf/',
   tiktok: 'https://www.tiktok.com/@primapackages.pk?_r=1&_t=ZS-99al5tmNmD7',
-  whatsapp: 'https://wa.me/923233231712',
+  whatsapp: `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(DEFAULT_WHATSAPP_MESSAGE)}`,
 }
 
 export const NAV_ITEMS = [

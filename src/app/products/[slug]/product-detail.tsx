@@ -9,6 +9,7 @@ import { SizePriceSelector } from '@/components/ui/SizePriceSelector'
 import { WhatsAppCTA } from '@/components/ui/WhatsAppCTA'
 import { HairlineDivider } from '@/components/ui/HairlineDivider'
 import { RelatedProducts } from '@/components/ui/RelatedProducts'
+import { generateWhatsAppUrl } from '@/lib/utils'
 import type { Product, ProductSize } from '@/data/products'
 
 interface ProductDetailProps {
@@ -90,8 +91,8 @@ export function ProductDetail({ product, allProducts }: ProductDetailProps) {
                     Select Size &amp; Pricing
                   </h2>
                   {product.discountBadge && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-gold/15 border border-gold/40 text-gold text-xs font-bold uppercase tracking-wider rounded-full shadow-sm">
-                      <span>✦</span> {product.discountBadge}
+                    <span className="text-xs font-bold uppercase tracking-wider text-gold">
+                      ✦ {product.discountBadge}
                     </span>
                   )}
                 </div>
@@ -206,7 +207,12 @@ export function ProductDetail({ product, allProducts }: ProductDetailProps) {
             </p>
           </div>
           <a
-            href={`https://wa.me/923233231712?text=${encodeURIComponent(product.quoteOnly ? `Hi Prima Packages, I need a quote for ${product.name}. My required size, quantity, print colors and city are:` : `Hi Prima Packages, I'm interested in ${product.name}, ${selectedSize.sizeCategory || selectedSize.label}${selectedSize.quantity ? ` (${selectedSize.quantity})` : ''} @ Rs. ${selectedSize.price.toLocaleString('en-PK')}. Please share more details.`)}`}
+            href={generateWhatsAppUrl(
+              product.name,
+              product.quoteOnly
+                ? undefined
+                : `${selectedSize.sizeCategory || selectedSize.label}${selectedSize.quantity ? ` (${selectedSize.quantity})` : ''} - Rs. ${selectedSize.price.toLocaleString('en-PK')}`
+            )}
             target="_blank"
             rel="noopener noreferrer"
             className="shrink-0 flex items-center gap-2 bg-[#25D366] hover:bg-[#20ba59] text-white px-5 py-3 text-xs font-semibold uppercase tracking-wider rounded-lg shadow-md transition-all duration-300 active:scale-[0.97]"

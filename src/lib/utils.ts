@@ -14,13 +14,9 @@ export function generateWhatsAppUrl(
   productName?: string,
   size?: string
 ): string {
-  let message = 'Hi, I\'d like to enquire about your packaging products.'
+  let message = 'Hi, I need packaging for my brand.\nProduct: \nQuantity: \nCity: '
   if (productName) {
-    message = `Hi, I'd like to enquire about ${productName}`
-    if (size) {
-      message += `, ${size}`
-    }
-    message += '.'
+    message = `Hi, I need packaging for my brand.\nProduct: ${productName}${size ? ` (${size})` : ''}\nQuantity: \nCity: `
   }
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
 }
