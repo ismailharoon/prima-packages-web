@@ -64,8 +64,12 @@ export const products: Product[] = [
     category: 'Packaging',
     shortDescription: 'Reusable frosted zipper bags printed with your logo for clothing and ecommerce orders.',
     longDescription: 'Give garments and ecommerce products a clean, reusable outer package with custom frosted zipper bags. Available in multiple sizes with your logo printed on the front. Final pricing depends on bag dimensions, material thickness, print colors and order quantity, so share your requirements for an accurate wholesale quote.',
-    heroImage: '/images/products/zipper-bags-hero-v2.webp',
-    gallery: ['/images/products/zipper-bags-hero-v2.webp'],
+    heroImage: '/images/products/zipper-bags-hero-v2.png',
+    gallery: [
+      '/images/products/zipper-bags-hero-v2.png',
+      '/images/products/zipper-bags-1.png',
+      '/images/products/zipper-bags-2.png',
+    ],
     sizes: [
       { label: 'Custom Size', price: 0 },
     ],
@@ -231,6 +235,53 @@ export const products: Product[] = [
     finishes: ['One Color Print', 'Sheet Cut'],
     customizable: true,
     icon: '📜',
+  },
+  {
+    slug: 'ribbon-tags',
+    name: 'Custom Ribbon Tags',
+    category: 'Ribbons',
+    shortDescription: 'Customized satin ribbon rolls with 1 base color and 1 text color, minimum 1 roll (~90 yards).',
+    longDescription: 'Add a luxury touch to your packaging and garment presentation with custom printed satin ribbon rolls. Each roll contains approximately 90 ghaz (yards) of premium satin ribbon, fully customized with your brand logo in 1 base color and 1 text color. Available with minimum order of just 1 roll.',
+    heroImage: '/images/products/ribbin-tag-hero.png',
+    gallery: [
+      '/images/products/ribbin-tag-hero.png',
+      '/images/products/ribbin-tag-1.png',
+      '/images/products/ribbin-tag-2.png',
+    ],
+    sizes: [
+      {
+        label: '1 Roll (~90 Ghaz)',
+        sizeCategory: '~90 Ghaz (Yards) Roll',
+        quantity: '1 Roll (Minimum)',
+        printType: '1 Base Color + 1 Text Color',
+        price: 3500,
+      },
+      {
+        label: '2 Rolls (~180 Ghaz)',
+        sizeCategory: '~90 Ghaz (Yards) Roll',
+        quantity: '2 Rolls',
+        printType: '1 Base Color + 1 Text Color',
+        price: 7000,
+      },
+      {
+        label: '3 Rolls (~270 Ghaz)',
+        sizeCategory: '~90 Ghaz (Yards) Roll',
+        quantity: '3 Rolls',
+        printType: '1 Base Color + 1 Text Color',
+        price: 10500,
+      },
+      {
+        label: '5 Rolls (~450 Ghaz)',
+        sizeCategory: '~90 Ghaz (Yards) Roll',
+        quantity: '5 Rolls',
+        printType: '1 Base Color + 1 Text Color',
+        price: 17500,
+      },
+    ],
+    materials: ['Premium Satin Silk Ribbon', 'Woven Edge Finish'],
+    finishes: ['Custom 1 Base Color + 1 Text Color', 'High-Density Print', 'Roll Packaging (~90 Ghaz)'],
+    customizable: true,
+    icon: '🎀',
   },
 ]
 

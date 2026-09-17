@@ -112,6 +112,18 @@ export const productSeo: Record<string, ProductSeoEntry> = {
       'custom tissue paper Pakistan',
     ],
   },
+  'ribbon-tags': {
+    title: 'Custom Ribbon Tags & Rolls Printing Pakistan',
+    description:
+      'Order custom printed satin ribbon tags and rolls for clothing, gift wrapping, boutiques and ecommerce unboxing. 1 roll minimum order (~90 yards) with Pakistan-wide delivery.',
+    keywords: [
+      'custom ribbon tags Pakistan',
+      'custom printed ribbon Karachi',
+      'satin ribbon printing Pakistan',
+      'branded ribbon rolls',
+      'custom ribbon for packaging',
+    ],
+  },
 }
 
 export const homeSeoKeywords = [
