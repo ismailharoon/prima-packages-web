@@ -8,6 +8,18 @@ export interface ProductSize {
   popular?: boolean
 }
 
+export interface ConfigOption {
+  label: string
+  value: string
+  popular?: boolean
+}
+
+export interface ConfigGroup {
+  key: string
+  label: string
+  options: ConfigOption[]
+}
+
 export interface Product {
   slug: string
   name: string
@@ -23,6 +35,9 @@ export interface Product {
   customizable: boolean
   icon: string
   quoteOnly?: boolean
+  configuratorGroups?: ConfigGroup[]
+  moq?: string
+  dispatchDays?: string
 }
 
 export const products: Product[] = [
@@ -38,6 +53,9 @@ export const products: Product[] = [
       '/images/products/woven-label-hero.jpeg',
       '/images/products/woven-label-1.jpeg',
       '/images/products/woven-label-2.jpeg',
+      '/images/products/woven-label-3.jpg',
+      '/images/products/woven-label-4.jpg',
+      '/images/products/woven-label-5.jpg',
     ],
     sizes: [
       // 0.5 × 2 inch
@@ -57,6 +75,20 @@ export const products: Product[] = [
     finishes: ['Straight Cut', 'Center Fold', 'End Fold', 'Heat Cut'],
     customizable: true,
     icon: '🏷️',
+    moq: 'Min. 100 PCS',
+    dispatchDays: '7-8 Days',
+    configuratorGroups: [
+      {
+        key: 'foldStyle',
+        label: 'Fold Style',
+        options: [
+          { label: 'Center Fold', value: 'Center Fold', popular: true },
+          { label: 'End Fold', value: 'End Fold' },
+          { label: 'Mitre Fold', value: 'Mitre Fold' },
+          { label: 'Flat / Heat Cut', value: 'Flat Cut (Heat-Sealed)' },
+        ],
+      },
+    ],
   },
   {
     slug: 'zipper-bags',
@@ -78,6 +110,36 @@ export const products: Product[] = [
     customizable: true,
     quoteOnly: true,
     icon: '♻️',
+    moq: 'Min. 500 PCS',
+    dispatchDays: '10-12 Days',
+    configuratorGroups: [
+      {
+        key: 'material',
+        label: 'Material Type',
+        options: [
+          { label: 'Frosted Matte', value: 'Frosted Matte (Premium)', popular: true },
+          { label: 'Clear Transparent', value: 'Clear Transparent' },
+        ],
+      },
+      {
+        key: 'closure',
+        label: 'Closure Style',
+        options: [
+          { label: 'Zip Slider Clip', value: 'Zip Slider Clip', popular: true },
+          { label: 'Press-to-Lock', value: 'Press-to-Lock Ziplock' },
+        ],
+      },
+      {
+        key: 'size',
+        label: 'Garment Size',
+        options: [
+          { label: '8×10 in', value: '8x10 in (Accessories)' },
+          { label: '10×12 in', value: '10x12 in (T-Shirts)', popular: true },
+          { label: '12×16 in', value: '12x16 in (Hoodies/Suits)' },
+          { label: '14×18 in', value: '14x18 in (Overcoats)' },
+        ],
+      },
+    ],
   },
   {
     slug: 'hang-tags',
@@ -102,6 +164,39 @@ export const products: Product[] = [
     finishes: ['Matte Lamination', 'Spot UV', 'Foil Stamping', 'Embossing', 'Letterpress'],
     customizable: true,
     icon: '🔖',
+    moq: 'Min. 100 PCS',
+    dispatchDays: '5-7 Days',
+    configuratorGroups: [
+      {
+        key: 'cardStock',
+        label: 'Card Stock',
+        options: [
+          { label: '350 GSM Art Card', value: '350 GSM Art Card', popular: true },
+          { label: 'Kraft Board', value: 'Kraft Rustic Board' },
+          { label: 'Matte Laminated', value: 'Matte Laminated' },
+          { label: 'Velvet Soft-Touch', value: 'Velvet Soft-Touch' },
+        ],
+      },
+      {
+        key: 'finishing',
+        label: 'Finishing / Foiling',
+        options: [
+          { label: 'Standard CMYK', value: 'Standard CMYK Print', popular: true },
+          { label: 'Gold Foil', value: 'Gold Foil Stamping' },
+          { label: 'Silver Foil', value: 'Silver Foil' },
+          { label: 'Embossed Logo', value: 'Embossed Logo' },
+        ],
+      },
+      {
+        key: 'cordType',
+        label: 'Cord / String',
+        options: [
+          { label: 'Nylon Snap Lock', value: 'Pre-Threaded Nylon Snap Lock', popular: true },
+          { label: 'Jute Cord', value: 'Rustic Jute Cord' },
+          { label: 'Without String', value: 'Without String' },
+        ],
+      },
+    ],
   },
   {
     slug: 'thank-you-cards',
@@ -123,6 +218,8 @@ export const products: Product[] = [
     finishes: ['Matte Lamination', 'Gloss Lamination', 'Spot UV', 'Foil Stamping'],
     customizable: true,
     icon: '💌',
+    moq: 'Min. 100 PCS',
+    dispatchDays: '5-7 Days',
   },
   {
     slug: 'business-cards',
@@ -146,6 +243,8 @@ export const products: Product[] = [
     finishes: ['Matte Lamination', 'Gloss Lamination', 'Spot UV', 'Foil Stamping'],
     customizable: true,
     icon: '💼',
+    moq: 'Min. 100 PCS',
+    dispatchDays: '3-5 Days',
   },
   {
     slug: 'courier-flyer-bags',
@@ -169,6 +268,8 @@ export const products: Product[] = [
     finishes: ['Full-color print', 'Single-color print'],
     customizable: true,
     icon: '📦',
+    moq: 'Min. 100 PCS',
+    dispatchDays: '7-10 Days',
   },
   {
     slug: 'carry-bags',
@@ -191,6 +292,8 @@ export const products: Product[] = [
     finishes: ['One Color Printing', 'Matte Lamination', 'Foil Stamping'],
     customizable: true,
     icon: '🛍️',
+    moq: 'Min. 100 PCS',
+    dispatchDays: '10-12 Days',
   },
   {
     slug: 'round-stickers',
@@ -214,6 +317,8 @@ export const products: Product[] = [
     finishes: ['Die-cut Circle', 'Matte', 'Gloss'],
     customizable: true,
     icon: '⭕',
+    moq: 'Min. 100 PCS',
+    dispatchDays: '5-7 Days',
   },
   {
     slug: 'butter-paper',
@@ -235,6 +340,8 @@ export const products: Product[] = [
     finishes: ['One Color Print', 'Sheet Cut'],
     customizable: true,
     icon: '📜',
+    moq: 'Min. 100 Sheets',
+    dispatchDays: '7-10 Days',
   },
   {
     slug: 'ribbon-tags',
@@ -282,6 +389,8 @@ export const products: Product[] = [
     finishes: ['Custom 1 Base Color + 1 Text Color', 'High-Density Print', 'Roll Packaging (~90 Ghaz)'],
     customizable: true,
     icon: '🎀',
+    moq: 'Min. 1 Roll',
+    dispatchDays: '7-10 Days',
   },
 ]
 

@@ -9,25 +9,17 @@ export function Footer() {
   return (
     <footer className="bg-dark text-cream/80">
       <div className="mx-auto max-w-7xl px-6 lg:px-8 py-10 sm:py-16 lg:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-8">
           {/* Brand Column */}
-          <div className="lg:col-span-2 space-y-6">
-            <Link href="/" className="inline-flex items-center gap-3">
+          <div className="sm:col-span-2 lg:col-span-2 space-y-6">
+            <Link href="/" className="inline-flex items-center" aria-label="Prima Packages Home">
               <Image
-                src="/images/logo.png"
+                src="/images/prima-logo-horizontal-light.png"
                 alt="Prima Packages"
-                width={48}
-                height={48}
-                className="h-12 w-auto"
+                width={160}
+                height={56}
+                className="h-12 w-auto object-contain"
               />
-              <div>
-                <span className="block text-sm font-medium uppercase tracking-[0.25em] text-cream">
-                  Prima Packages
-                </span>
-                <span className="block text-xs uppercase tracking-[0.2em] text-cream/40 mt-0.5">
-                  {SITE_TAGLINE}
-                </span>
-              </div>
             </Link>
             <p className="text-sm leading-relaxed text-cream/60 max-w-sm">
               Premium custom packaging & branding solutions crafted for
@@ -100,6 +92,35 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
+            </ul>
+          </div>
+
+          {/* Regional Hubs */}
+          <div>
+            <h3 className="text-xs uppercase tracking-[0.25em] text-gold font-medium mb-6">
+              Regional Hubs
+            </h3>
+            <ul className="space-y-3 text-sm text-cream/60">
+              <li>
+                <Link href="/custom-packaging-karachi" className="hover:text-cream transition-colors duration-200">
+                  Karachi
+                </Link>
+              </li>
+              <li>
+                <Link href="/custom-packaging-lahore" className="hover:text-cream transition-colors duration-200">
+                  Lahore
+                </Link>
+              </li>
+              <li>
+                <Link href="/custom-packaging-faisalabad" className="hover:text-cream transition-colors duration-200">
+                  Faisalabad
+                </Link>
+              </li>
+              <li>
+                <Link href="/custom-packaging-sialkot" className="hover:text-cream transition-colors duration-200">
+                  Sialkot
+                </Link>
+              </li>
             </ul>
           </div>
 

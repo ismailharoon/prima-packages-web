@@ -6,9 +6,9 @@ export interface ProductSeoEntry {
 
 export const productSeo: Record<string, ProductSeoEntry> = {
   'woven-labels': {
-    title: 'Custom Woven Labels Pakistan',
+    title: 'Custom Woven Labels Pakistan | Damask Neck Tags & Fabric Labels | Prima Packages',
     description:
-      'Order custom polyester woven labels for clothing and textile brands in Pakistan. Multiple sizes, fold options, bulk quantities and nationwide delivery.',
+      'Custom damask woven neck labels for clothing brands in Pakistan. Laser-cut borders, zero-fray center-fold finishes, and low MOQs starting from 100 PCS. Delivery across Karachi, Lahore, and nationwide. Get your instant WhatsApp quote!',
     keywords: [
       'custom woven labels Pakistan',
       'polyester woven labels',
@@ -16,30 +16,43 @@ export const productSeo: Record<string, ProductSeoEntry> = {
       'garment labels Karachi',
       'custom fabric labels',
       'woven brand labels',
+      'damask woven labels',
+      'neck labels Pakistan',
+      'fabric labels Karachi',
+      'center fold labels',
+      'clothing brand labels'
     ],
   },
   'zipper-bags': {
-    title: 'Custom Printed Zipper Bags Pakistan',
+    title: 'Custom Zipper Bags for Clothing Brands Pakistan | Frosted Ziplock Bags | Prima Packages',
     description:
-      'Get custom frosted zipper bags with your logo for clothing and ecommerce packaging. Custom sizes, bulk quantities and delivery across Pakistan.',
+      'Order custom printed frosted and clear ziplock slider packaging bags in Pakistan. Custom sizes for suits, shirts, and hoodies. Factory rates and nationwide shipping. Inquire on WhatsApp!',
     keywords: [
       'custom zipper bags Pakistan',
       'printed zipper bags',
       'frosted zipper bags',
       'clothing packaging bags',
       'logo zipper bags Karachi',
+      'frosted ziplock bags Pakistan',
+      'garment packaging bags',
+      'clothing zipper bags Karachi',
+      'custom poly bags'
     ],
   },
   'hang-tags': {
-    title: 'Custom Hang Tags Printing Pakistan',
+    title: 'Custom Hang Tags Printing Pakistan | Art Card & Kraft Tags | Prima Packages',
     description:
-      'Custom printed hang tags for clothing brands, boutiques and retail products. Choose single or double-sided printing with bulk delivery across Pakistan.',
+      'Premium custom hang tags for clothing brands in Pakistan. 350 GSM art card, kraft board, gold foil stamping, and embossed options. MOQ 100 PCS with nationwide delivery.',
     keywords: [
       'custom hang tags Pakistan',
       'hang tag printing Karachi',
       'clothing tags Pakistan',
       'brand tags printing',
       'garment hang tags',
+      'kraft hang tags',
+      'gold foil hang tags',
+      'embossed clothing tags',
+      'garment price tags Karachi'
     ],
   },
   'thank-you-cards': {

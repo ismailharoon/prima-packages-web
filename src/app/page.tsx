@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ProductCard } from '@/components/ui/ProductCard'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
+import { HomeHeroSlider } from '@/components/ui/HomeHeroSlider'
 import { products } from '@/data/products'
 import { SOCIAL_LINKS } from '@/lib/constants'
 
@@ -41,125 +42,8 @@ const faqs = [
 export default function HomePage() {
   return (
     <>
-      <section className="relative overflow-hidden bg-[#F6E7D5] pt-[96px] sm:pt-[105px]">
-        {/* DESKTOP & LAPTOP LAYOUT (lg: and up): Natural aspect ratio (1916/821) with zero crop, edge-to-edge fitting */}
-        <div className="hidden lg:block relative w-full aspect-[1916/821]">
-          {/* Full Panoramic Image: 100% visible, zero cropping on any edge, flush with edges */}
-          <Image
-            src="/images/products/new-hero-2.png"
-            alt="Prima Packages - Custom packaging suite in Pakistan"
-            fill
-            priority
-            quality={95}
-            sizes="100vw"
-            className="object-cover object-center"
-          />
-
-          {/* Text positioned strictly over the left empty space (0% to 39% width) */}
-          <div className="absolute inset-0 z-10 w-full flex items-center pl-8 sm:pl-12 lg:pl-16 xl:pl-20 2xl:pl-28">
-            <div className="w-full max-w-[38%] xl:max-w-[39%] 2xl:max-w-[40%] flex flex-col justify-center">
-              <ScrollReveal>
-                <h1 className="font-serif font-bold text-[2.1rem] xl:text-[2.65rem] 2xl:text-[3.15rem] leading-[1.1] tracking-[-0.02em] text-charcoal">
-                  Custom packaging that makes your brand look established.
-                </h1>
-              </ScrollReveal>
-
-              <ScrollReveal delay={0.08}>
-                <p className="mt-3 xl:mt-4 text-[13.5px] xl:text-[15.5px] 2xl:text-[17px] leading-relaxed text-charcoal/85 font-normal">
-                  Custom polyester woven labels, hang tags, zipper bags, courier flyers and print essentials for clothing and ecommerce businesses.
-                </p>
-              </ScrollReveal>
-
-              <ScrollReveal delay={0.15}>
-                <div className="mt-5 xl:mt-6 flex flex-wrap gap-3">
-                  <Link
-                    href="/catalog"
-                    className="inline-flex min-h-11 xl:min-h-12 items-center justify-center rounded-full bg-charcoal px-6 xl:px-7 text-xs xl:text-sm font-semibold uppercase tracking-[0.14em] text-cream transition-transform hover:-translate-y-0.5 shadow-md shadow-charcoal/15"
-                  >
-                    Explore products
-                  </Link>
-                  <a
-                    href={SOCIAL_LINKS.whatsapp}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex min-h-11 xl:min-h-12 items-center justify-center gap-2 rounded-full border border-charcoal/20 bg-warm-white/95 backdrop-blur-sm px-6 xl:px-7 text-xs xl:text-sm font-semibold uppercase tracking-[0.14em] text-charcoal transition-all hover:bg-charcoal hover:text-white shadow-sm"
-                  >
-                    Get WhatsApp quote
-                  </a>
-                </div>
-              </ScrollReveal>
-
-              <ScrollReveal delay={0.2}>
-                <div className="mt-4 xl:mt-5 flex flex-wrap gap-x-4 gap-y-1.5 border-t border-charcoal/15 pt-3.5 xl:pt-4 text-[11px] xl:text-xs font-medium text-charcoal/80">
-                  <span>✓ Custom sizes</span>
-                  <span>✓ Bulk quantities</span>
-                  <span>✓ Delivery across Pakistan</span>
-                </div>
-              </ScrollReveal>
-            </div>
-          </div>
-        </div>
-
-        {/* MOBILE & TABLET LAYOUT (< lg): Cropped right-side products + text below */}
-        <div className="lg:hidden flex flex-col">
-          {/* Hero Image — show right-side products clearly, no blur */}
-          <div className="relative w-full aspect-[4/3] sm:aspect-[3/2] overflow-hidden bg-[#F6E7D5]">
-            <Image
-              src="/images/products/new-hero-2.png"
-              alt="Prima Packages - Custom packaging suite in Pakistan"
-              fill
-              priority
-              quality={95}
-              sizes="100vw"
-              className="object-cover object-right"
-            />
-          </div>
-
-          {/* Text + CTAs below the image */}
-          <div className="px-5 pt-6 pb-8 sm:px-8 sm:pt-8 sm:pb-10 bg-[#F6E7D5]">
-            <div className="mx-auto max-w-xl">
-              <ScrollReveal>
-                <h1 className="font-serif font-bold text-[26px] sm:text-4xl leading-[1.12] tracking-[-0.02em] text-charcoal">
-                  Custom packaging that makes your brand look established.
-                </h1>
-              </ScrollReveal>
-
-              <ScrollReveal delay={0.08}>
-                <p className="mt-3 text-[13px] sm:text-base leading-relaxed text-charcoal/75">
-                  Custom polyester woven labels, hang tags, zipper bags, courier flyers and print essentials for clothing and ecommerce businesses.
-                </p>
-              </ScrollReveal>
-
-              <ScrollReveal delay={0.12}>
-                <div className="mt-5 flex flex-col sm:flex-row gap-2.5 sm:gap-3">
-                  <Link
-                    href="/catalog"
-                    className="inline-flex min-h-[46px] w-full sm:w-auto items-center justify-center rounded-full bg-charcoal px-6 text-xs font-semibold uppercase tracking-[0.15em] text-cream shadow-md shadow-charcoal/15 active:scale-[0.97] transition-transform"
-                  >
-                    Explore products
-                  </Link>
-                  <a
-                    href={SOCIAL_LINKS.whatsapp}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex min-h-[46px] w-full sm:w-auto items-center justify-center gap-2 rounded-full border border-charcoal/20 bg-warm-white/95 px-6 text-xs font-semibold uppercase tracking-[0.15em] text-charcoal active:scale-[0.97] transition-transform"
-                  >
-                    Get a WhatsApp quote
-                  </a>
-                </div>
-              </ScrollReveal>
-
-              <ScrollReveal delay={0.16}>
-                <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1.5 border-t border-charcoal/15 pt-3.5 text-[11px] font-medium text-charcoal/75">
-                  <span>✓ Custom sizes</span>
-                  <span>✓ Bulk quantities</span>
-                  <span>✓ Delivery across Pakistan</span>
-                </div>
-              </ScrollReveal>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* HERO SLIDER SECTION (4 Auto-Playing Slides with Touch Swipe) */}
+      <HomeHeroSlider />
 
       {/* 1. TRUST STRIP */}
       <section className="border-y border-charcoal/10 bg-charcoal text-cream">

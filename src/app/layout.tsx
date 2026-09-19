@@ -85,7 +85,7 @@ const localBusinessJsonLd = {
   "@id": "https://www.primapackages.pk/#business",
   name: "Prima Packages",
   url: "https://www.primapackages.pk",
-  logo: "https://www.primapackages.pk/images/prima-logo-sage-transparent.png",
+  logo: "https://www.primapackages.pk/images/prima-logo-horizontal.png",
   image: "https://www.primapackages.pk/images/products/hero-suite.jpg",
   description:
     "Custom packaging supplier in Karachi for polyester woven labels, hang tags, zipper bags, courier flyers, butter paper, cards, stickers and carry bags.",

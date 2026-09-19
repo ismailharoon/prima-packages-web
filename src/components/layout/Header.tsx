@@ -56,23 +56,15 @@ export function Header() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex h-[68px] items-center justify-between gap-4 sm:h-[76px]">
               {/* Logo */}
-              <Link href="/" className="relative z-10 flex items-center gap-3 sm:gap-3.5 group shrink-0">
+              <Link href="/" className="relative z-10 flex items-center group shrink-0" aria-label="Prima Packages Home">
                 <Image
-                  src="/images/prima-logo-sage-transparent.png"
-                  alt="Prima Packages"
-                  width={56}
-                  height={56}
+                  src="/images/prima-logo-horizontal.png"
+                  alt="Prima Packages - Custom Print &amp; Packaging"
+                  width={155}
+                  height={54}
                   priority
-                  className="h-10 w-auto object-contain drop-shadow-sm transition-transform duration-300 group-hover:scale-105 sm:h-12"
+                  className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02] sm:h-12"
                 />
-                <div className="flex flex-col">
-                  <span className="font-serif text-[15px] font-medium uppercase leading-none tracking-[0.14em] text-charcoal transition-colors duration-300 group-hover:text-sage sm:text-lg sm:tracking-[0.2em]">
-                    Prima Packages
-                  </span>
-                  <span className="mt-1 hidden text-[9px] font-medium uppercase tracking-[0.22em] text-muted sm:block">
-                    Custom Print &amp; Packaging
-                  </span>
-                </div>
               </Link>
 
               {/* Desktop Navigation */}

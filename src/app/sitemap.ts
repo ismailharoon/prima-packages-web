@@ -40,5 +40,32 @@ export default function sitemap(): MetadataRoute.Sitemap {
     images: product.gallery.map((image) => `${SITE_URL}${image}`),
   }))
 
-  return [...corePages, ...productPages]
+  const regionalPages: MetadataRoute.Sitemap = [
+    {
+      url: `${SITE_URL}/custom-packaging-karachi`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    },
+    {
+      url: `${SITE_URL}/custom-packaging-lahore`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    },
+    {
+      url: `${SITE_URL}/custom-packaging-faisalabad`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/custom-packaging-sialkot`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+  ]
+
+  return [...corePages, ...productPages, ...regionalPages]
 }
