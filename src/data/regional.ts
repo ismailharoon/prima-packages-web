@@ -28,7 +28,7 @@ export const REGIONAL_CITIES: Record<string, RegionalCity> = {
     province: 'Sindh',
     heroBadge: 'Direct Factory & Shop in Saddar, Karachi',
     title: 'Custom Packaging & Woven Labels in Karachi',
-    metaTitle: 'Custom Packaging & Woven Labels Karachi | Factory Direct | Prima Packages',
+    metaTitle: 'Custom Packaging & Woven Labels Karachi',
     metaDescription: 'Direct packaging manufacturer in Saddar, Karachi. Custom woven neck labels, frosted zipper bags, hang tags & luxury boxes for Karachi garment exporters & DHA/Clifton boutiques. Instant WhatsApp quote!',
     keywords: [
       'custom packaging Karachi',
@@ -77,7 +77,7 @@ export const REGIONAL_CITIES: Record<string, RegionalCity> = {
     province: 'Punjab',
     heroBadge: 'Express Cargo Dispatch to Lahore',
     title: 'Custom Packaging & Apparel Labels in Lahore',
-    metaTitle: 'Custom Packaging & Clothing Labels Lahore | Pret & Apparel | Prima Packages',
+    metaTitle: 'Custom Packaging & Clothing Labels Lahore',
     metaDescription: 'Premium packaging solutions for Lahore fashion designers, Pret brands, Shah Alam Market wholesalers & Gulberg boutiques. Custom woven labels, hang tags, and printed zipper bags.',
     keywords: [
       'custom packaging Lahore',
@@ -126,7 +126,7 @@ export const REGIONAL_CITIES: Record<string, RegionalCity> = {
     province: 'Punjab',
     heroBadge: 'Bulk Wholesale Factory Pricing',
     title: 'Wholesale Custom Packaging & Textile Labels in Faisalabad',
-    metaTitle: 'Custom Packaging & Textile Labels Faisalabad | Wholesale Rates | Prima Packages',
+    metaTitle: 'Custom Packaging & Textile Labels Faisalabad',
     metaDescription: 'High-volume custom packaging for Faisalabad textile mills, lawn suit brands, wholesale bedding, and garment factories. Courier mailer flyers, zipper bags & bulk woven tags. Get wholesale quote!',
     keywords: [
       'custom packaging Faisalabad',
@@ -174,7 +174,7 @@ export const REGIONAL_CITIES: Record<string, RegionalCity> = {
     province: 'Punjab',
     heroBadge: 'Export-Quality Standards',
     title: 'Export-Grade Custom Labels & Packaging in Sialkot',
-    metaTitle: 'Custom Packaging & Sportswear Labels Sialkot | Export Quality | Prima Packages',
+    metaTitle: 'Custom Packaging & Sportswear Labels Sialkot',
     metaDescription: 'Export-grade woven labels, sublimation tags, and poly mailer bags for Sialkot sportswear, gym wear, martial arts & apparel exporters. Zero-fray laser-cut edges. WhatsApp quotation!',
     keywords: [
       'custom packaging Sialkot',

@@ -6,9 +6,9 @@ export interface ProductSeoEntry {
 
 export const productSeo: Record<string, ProductSeoEntry> = {
   'woven-labels': {
-    title: 'Custom Woven Labels Pakistan | Damask Neck Tags & Fabric Labels | Prima Packages',
+    title: 'Custom Woven Labels Pakistan',
     description:
-      'Custom damask woven neck labels for clothing brands in Pakistan. Laser-cut borders, zero-fray center-fold finishes, and low MOQs starting from 100 PCS. Delivery across Karachi, Lahore, and nationwide. Get your instant WhatsApp quote!',
+      'Order custom woven labels for clothing brands in Pakistan. Choose sizes and fold styles, starting from 100 pieces. Get a quote with nationwide delivery.',
     keywords: [
       'custom woven labels Pakistan',
       'polyester woven labels',
@@ -24,9 +24,9 @@ export const productSeo: Record<string, ProductSeoEntry> = {
     ],
   },
   'zipper-bags': {
-    title: 'Custom Zipper Bags for Clothing Brands Pakistan | Frosted Ziplock Bags | Prima Packages',
+    title: 'Custom Printed Zipper Bags Pakistan',
     description:
-      'Order custom printed frosted and clear ziplock slider packaging bags in Pakistan. Custom sizes for suits, shirts, and hoodies. Factory rates and nationwide shipping. Inquire on WhatsApp!',
+      'Custom printed frosted zipper bags for clothing and ecommerce brands in Pakistan. Request your size, logo printing and a bulk quote with nationwide delivery.',
     keywords: [
       'custom zipper bags Pakistan',
       'printed zipper bags',
@@ -40,7 +40,7 @@ export const productSeo: Record<string, ProductSeoEntry> = {
     ],
   },
   'hang-tags': {
-    title: 'Custom Hang Tags Printing Pakistan | Art Card & Kraft Tags | Prima Packages',
+    title: 'Custom Hang Tags Printing Pakistan',
     description:
       'Premium custom hang tags for clothing brands in Pakistan. 350 GSM art card, kraft board, gold foil stamping, and embossed options. MOQ 100 PCS with nationwide delivery.',
     keywords: [

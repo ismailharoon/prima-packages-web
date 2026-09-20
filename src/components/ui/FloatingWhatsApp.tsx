@@ -20,7 +20,7 @@ export function FloatingWhatsApp() {
   )}`
 
   return (
-    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end">
+    <div className="whatsapp-widget fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end">
       {/* Popup Chat Card */}
       <AnimatePresence>
         {isOpen && (
@@ -29,7 +29,7 @@ export function FloatingWhatsApp() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.94 }}
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-3 w-[calc(100vw-48px)] sm:w-80 rounded-2xl bg-warm-white shadow-2xl border border-stone-200/80 overflow-hidden text-left"
+            id="whatsapp-help-card" className="absolute bottom-full right-0 mb-3 w-[calc(100vw-48px)] sm:w-80 rounded-2xl bg-warm-white shadow-2xl border border-stone-200/80 overflow-hidden text-left"
           >
             {/* Card Header */}
             <div className="bg-charcoal px-4 py-3.5 flex items-center justify-between text-warm-white">
@@ -52,7 +52,7 @@ export function FloatingWhatsApp() {
                   </h4>
                   <div className="flex items-center gap-1.5 text-[11px] text-cream/70">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#25D366] animate-pulse" />
-                    <span>Typically replies in minutes</span>
+                    <span>Custom packaging support</span>
                   </div>
                 </div>
               </div>
@@ -101,7 +101,9 @@ export function FloatingWhatsApp() {
 
         <button
           onClick={() => setIsOpen(!isOpen)}
-          aria-label="Open WhatsApp chat popup"
+          aria-label={isOpen ? "Close WhatsApp chat popup" : "Open WhatsApp chat popup"}
+          aria-expanded={isOpen}
+          aria-controls="whatsapp-help-card"
           className="relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white shadow-xl shadow-green-900/25 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
         >
           {/* Notification online dot */}

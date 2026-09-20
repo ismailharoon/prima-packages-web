@@ -53,10 +53,10 @@ export function ProductMediaCarousel({ images, productName, moq, dispatchDays }:
               src={src}
               alt={`${productName} - view ${idx + 1}`}
               fill
-              priority={idx === 0}
+              preload={idx === 0}
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
-              quality={90}
+              quality={75}
             />
           </div>
         ))}

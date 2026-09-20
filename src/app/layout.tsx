@@ -6,6 +6,7 @@ import { FloatingWhatsApp } from "@/components/ui/FloatingWhatsApp";
 import { homeSeoKeywords } from "@/data/seo";
 import { SOCIAL_LINKS } from "@/lib/constants";
 import "./globals.css";
+import { CartProvider } from '@/components/store/CartProvider';
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-heading",
@@ -132,10 +133,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             __html: JSON.stringify(localBusinessJsonLd).replace(/</g, "\\u003c"),
           }}
         />
+        <CartProvider>
+        <a className="skip-link" href="#main-content">Skip to content</a>
         <Header />
-        <main className="flex-1">{children}</main>
+        <main id="main-content" className="flex-1">{children}</main>
         <Footer />
         <FloatingWhatsApp />
+        </CartProvider>
       </body>
     </html>
   );

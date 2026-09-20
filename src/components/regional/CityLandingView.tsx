@@ -6,7 +6,7 @@ import { Section } from '@/components/ui/Section'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
 import { HairlineDivider } from '@/components/ui/HairlineDivider'
 import { ProductCard } from '@/components/ui/ProductCard'
-import { SOCIAL_LINKS, PHONE_NUMBER } from '@/lib/constants'
+import { SOCIAL_LINKS, PHONE_NUMBER, SITE_URL } from '@/lib/constants'
 import type { RegionalCity } from '@/data/regional'
 import type { Product } from '@/data/products'
 
@@ -20,8 +20,83 @@ export function CityLandingView({ city, products }: CityLandingViewProps) {
     `Salam Prima Packages team,\nI am reaching out from ${city.cityName} regarding custom packaging and labels for my business.\n\nPlease share your product catalog, minimum order quantities, and delivery times for ${city.cityName}.`
   )}`
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": SITE_URL
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Catalog",
+        "item": `${SITE_URL}/catalog`
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": city.cityName,
+        "item": `${SITE_URL}/${city.slug}`
+      }
+    ]
+  };
+
+  const isKarachi = city.cityName.toLowerCase() === 'karachi';
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": `What is the delivery time to ${city.cityName}?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `We offer ${city.localDeliveryTime.toLowerCase()} to ${city.cityName}. Please confirm your exact location when placing the order for accurate tracking.`
+        }
+      },
+      {
+        "@type": "Question",
+        "name": `What products can I order for my ${city.cityName} brand?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `You can order our complete range of packaging products including custom woven labels, zipper bags, hang tags, butter paper, carry bags, and more. All are customized for ${city.cityName} based businesses.`
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the minimum order quantity?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Our minimum order quantity starts from just 100 pieces for most labels and tags, designed specifically to support emerging and growing brands."
+        }
+      },
+      isKarachi ? {
+        "@type": "Question",
+        "name": "Can I visit your shop in Karachi?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes! You can visit our shop at Karim Center, Saddar, Karachi to check physical samples and discuss your packaging requirements."
+        }
+      } : {
+        "@type": "Question",
+        "name": `Do you deliver to ${city.cityName}?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `Yes, we provide secure and fast delivery to ${city.cityName} using reliable nationwide courier services.`
+        }
+      }
+    ]
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       {/* 1. Regional Hero */}
       <section className="pt-24 sm:pt-32 pb-12 sm:pb-16 bg-[#F6E7D5] border-b border-charcoal/10">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
@@ -153,7 +228,7 @@ export function CityLandingView({ city, products }: CityLandingViewProps) {
             href="/catalog"
             className="text-xs font-semibold uppercase tracking-wider text-sage-dark hover:text-sage transition-colors"
           >
-            View all 10 products →
+            View all 10 products
           </Link>
         </div>
 

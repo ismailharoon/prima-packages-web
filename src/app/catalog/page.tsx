@@ -23,7 +23,61 @@ export const metadata: Metadata = {
   },
 }
 
-export default function CatalogPage() {
+export default async function CatalogPage({ searchParams }: PageProps<'/catalog'>) {
   const categories = getAllCategories()
-  return <CatalogClient products={products} categories={categories} />
+  const { category, q } = await searchParams
+  const query = typeof q === 'string' ? q.trim().slice(0, 80) : ''
+  const activeCategory = typeof category === 'string' && categories.includes(category)
+    ? category
+    : null
+  const filteredProducts = products.filter(product =>
+    (!activeCategory || product.category === activeCategory) &&
+    (!query || `${product.name} ${product.category} ${product.shortDescription}`.toLowerCase().includes(query.toLowerCase()))
+  )
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://www.primapackages.pk/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Catalog',
+        item: 'https://www.primapackages.pk/catalog'
+      }
+    ]
+  }
+
+  const itemListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Custom Packaging Products',
+    numberOfItems: filteredProducts.length,
+    itemListElement: filteredProducts.map((product, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      url: `https://www.primapackages.pk/products/${product.slug}`,
+      name: product.name
+    }))
+  }
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema).replace(/</g, '\\u003c') }}
+      />
+      <CatalogClient products={filteredProducts} categories={categories} activeCategory={activeCategory} query={query} />
+    </>
+  )
 }

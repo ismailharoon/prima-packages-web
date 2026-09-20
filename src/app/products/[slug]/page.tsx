@@ -3,6 +3,9 @@ import { products, getProductBySlug } from '@/data/products'
 import { notFound } from 'next/navigation'
 import { ProductDetail } from './product-detail'
 import { productSeo } from '@/data/seo'
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
+import { FAQSection } from '@/components/ui/FAQSection'
+import { productFaqs } from '@/data/faqs'
 
 const SITE_URL = 'https://www.primapackages.pk'
 
@@ -58,7 +61,7 @@ export default async function ProductPage(
     notFound()
   }
 
-  const pricedSizes = product.sizes.filter((size) => size.price > 0)
+  const pricedSizes = product.quoteOnly ? [] : product.sizes.filter((size) => size.price > 0)
   const prices = pricedSizes.map((size) => size.price)
   const productJsonLd = {
     '@context': 'https://schema.org',
@@ -72,13 +75,6 @@ export default async function ProductPage(
     },
     category: product.category,
     url: `${SITE_URL}/products/${product.slug}`,
-    ...(product.sizes.length > 0 && !product.quoteOnly && {
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: '4.9',
-        reviewCount: '89',
-      },
-    }),
     ...(prices.length > 0
       ? {
           offers: {
@@ -89,12 +85,13 @@ export default async function ProductPage(
             offerCount: pricedSizes.length,
             availability: 'https://schema.org/InStock',
             itemCondition: 'https://schema.org/NewCondition',
-            priceValidUntil: '2027-12-31',
             url: `${SITE_URL}/products/${product.slug}`,
           },
         }
       : {}),
   }
+
+  const faqs = productFaqs[slug] || []
 
   return (
     <>
@@ -104,7 +101,26 @@ export default async function ProductPage(
           __html: JSON.stringify(productJsonLd).replace(/</g, '\\u003c'),
         }}
       />
+
+      <div className="store-shell product-breadcrumb">
+        <Breadcrumbs
+          items={[
+            { label: 'Home', href: '/' },
+            { label: 'Catalog', href: '/catalog' },
+            { label: product.category, href: `/catalog?category=${encodeURIComponent(product.category)}` },
+            { label: product.name }
+          ]}
+        />
+      </div>
+
       <ProductDetail product={product} allProducts={products} />
+
+      {faqs.length > 0 && (
+        <FAQSection
+          faqs={faqs}
+          heading={`Frequently Asked Questions about ${product.name}`}
+        />
+      )}
     </>
   )
 }

@@ -9,7 +9,7 @@ export function Footer() {
   return (
     <footer className="bg-dark text-cream/80">
       <div className="mx-auto max-w-7xl px-6 lg:px-8 py-10 sm:py-16 lg:py-20">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-8 lg:gap-8">
           {/* Brand Column */}
           <div className="sm:col-span-2 lg:col-span-2 space-y-6">
             <Link href="/" className="inline-flex items-center" aria-label="Prima Packages Home">
@@ -74,6 +74,45 @@ export function Footer() {
                 </svg>
               </a>
             </div>
+          </div>
+
+          {/* Popular Products */}
+          <div>
+            <h3 className="text-xs uppercase tracking-[0.25em] text-gold font-medium mb-6">
+              Popular Products
+            </h3>
+            <ul className="space-y-3 text-sm text-cream/60">
+              <li>
+                <Link href="/products/woven-labels" className="hover:text-cream transition-colors duration-200">
+                  Woven Labels
+                </Link>
+              </li>
+              <li>
+                <Link href="/products/hang-tags" className="hover:text-cream transition-colors duration-200">
+                  Hang Tags
+                </Link>
+              </li>
+              <li>
+                <Link href="/products/zipper-bags" className="hover:text-cream transition-colors duration-200">
+                  Zipper Bags
+                </Link>
+              </li>
+              <li>
+                <Link href="/products/carry-bags" className="hover:text-cream transition-colors duration-200">
+                  Carry Bags
+                </Link>
+              </li>
+              <li>
+                <Link href="/products/courier-flyer-bags" className="hover:text-cream transition-colors duration-200">
+                  Courier Bags
+                </Link>
+              </li>
+              <li>
+                <Link href="/products/butter-paper" className="hover:text-cream transition-colors duration-200">
+                  Butter Paper
+                </Link>
+              </li>
+            </ul>
           </div>
 
           {/* Navigation */}

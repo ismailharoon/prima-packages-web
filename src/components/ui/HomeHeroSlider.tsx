@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { SOCIAL_LINKS } from '@/lib/constants'
+import { SOCIAL_LINKS, WHATSAPP_NUMBER } from '@/lib/constants'
 
 export interface HeroSlide {
   id: string
@@ -70,11 +70,10 @@ const SLIDES: HeroSlide[] = [
   },
 ]
 
-const AUTOPLAY_INTERVAL = 5500
+
 
 export function HomeHeroSlider() {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [isPaused, setIsPaused] = useState(false)
   const touchStartX = useRef<number | null>(null)
 
   const goToNext = useCallback(() => {
@@ -89,25 +88,11 @@ export function HomeHeroSlider() {
     setCurrentIndex(index)
   }
 
-  // Auto-play timer
-  useEffect(() => {
-    if (isPaused) return
-
-    const timer = setInterval(() => {
-      goToNext()
-    }, AUTOPLAY_INTERVAL)
-
-    return () => clearInterval(timer)
-  }, [isPaused, goToNext])
-
-  // Touch Swipe Handlers for mobile
   const handleTouchStart = (e: React.TouchEvent) => {
-    setIsPaused(true)
     touchStartX.current = e.touches[0].clientX
   }
 
   const handleTouchEnd = (e: React.TouchEvent) => {
-    setIsPaused(false)
     if (touchStartX.current === null) return
     const diff = touchStartX.current - e.changedTouches[0].clientX
     if (Math.abs(diff) > 45) {
@@ -121,13 +106,11 @@ export function HomeHeroSlider() {
   }
 
   const currentSlide = SLIDES[currentIndex]
-  const whatsappUrl = `${SOCIAL_LINKS.whatsapp}?text=${encodeURIComponent(currentSlide.whatsappText)}`
+  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(currentSlide.whatsappText)}`
 
   return (
     <section
-      className="relative overflow-hidden bg-[#F6E7D5] pt-[96px] sm:pt-[105px]"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+      className="relative overflow-hidden bg-[#F6E7D5]"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       aria-label="Featured Packaging Showcase"
@@ -141,8 +124,9 @@ export function HomeHeroSlider() {
           src="/images/products/new-hero-2.png"
           alt="Prima Packages - Custom packaging suite in Pakistan"
           fill
-          priority
-          quality={95}
+          fetchPriority="high"
+          loading="eager"
+          quality={75}
           sizes="100vw"
           className="object-cover object-center"
         />
@@ -190,7 +174,7 @@ export function HomeHeroSlider() {
       <div className="lg:hidden flex flex-col">
         {/* Mobile Slide Image View */}
         <div className="relative w-full aspect-[4/3] overflow-hidden bg-[#F6E7D5]">
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={currentSlide.id}
               initial={{ opacity: 0 }}
@@ -203,8 +187,9 @@ export function HomeHeroSlider() {
                 src={currentSlide.image}
                 alt={currentSlide.title}
                 fill
-                priority
-                quality={92}
+                fetchPriority={currentIndex === 0 ? 'high' : 'auto'}
+                loading={currentIndex === 0 ? 'eager' : 'lazy'}
+                quality={75}
                 sizes="100vw"
                 className="object-cover"
                 style={{ objectPosition: currentSlide.objectPositionMobile || 'center' }}
@@ -221,7 +206,7 @@ export function HomeHeroSlider() {
         {/* Mobile Content + CTAs */}
         <div className="px-5 pt-5 pb-8 sm:px-8 sm:pt-7 sm:pb-10 bg-[#F6E7D5]">
           <div className="mx-auto max-w-xl">
-            <AnimatePresence mode="wait">
+            <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={currentSlide.id}
                 initial={{ opacity: 0, y: 10 }}
@@ -235,9 +220,9 @@ export function HomeHeroSlider() {
                 </span>
 
                 {/* Heading */}
-                <h1 className="mt-2.5 font-serif font-bold text-[24px] sm:text-3xl leading-[1.14] tracking-[-0.01em] text-charcoal">
+                <p className="mt-2.5 font-serif font-bold text-[24px] sm:text-3xl leading-[1.14] tracking-[-0.01em] text-charcoal">
                   {currentSlide.title}
-                </h1>
+                </p>
 
                 {/* Description */}
                 <p className="mt-2 text-[13px] sm:text-sm leading-relaxed text-charcoal/75">
@@ -293,16 +278,16 @@ export function HomeHeroSlider() {
                 <button
                   onClick={goToPrev}
                   aria-label="Previous"
-                  className="grid h-8 w-8 place-items-center rounded-full border border-charcoal/20 bg-white/60 text-charcoal text-xs"
+                  className="grid h-11 w-12 place-items-center rounded-full border border-charcoal/20 bg-white/60 text-charcoal text-xs"
                 >
-                  ←
+                  Prev
                 </button>
                 <button
                   onClick={goToNext}
                   aria-label="Next"
                   className="grid h-8 w-8 place-items-center rounded-full border border-charcoal/20 bg-white/60 text-charcoal text-xs"
                 >
-                  →
+                  Next
                 </button>
               </div>
             </div>
