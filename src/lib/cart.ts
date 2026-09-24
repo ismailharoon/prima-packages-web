@@ -7,7 +7,8 @@ export interface CartLine {
   options: Record<string, string>
 }
 
-export const CART_KEY = 'prima-cart-v1'
+// Variant indexes changed with the September rate list; do not reuse old selections.
+export const CART_KEY = 'prima-cart-v2'
 export function minimumQuantity(product: Product, sizeIndex: number) {
   if (product.sizes[sizeIndex]?.quantity) return 1
   return Number(product.moq?.match(/[\d,]+/)?.[0].replace(/,/g, '')) || 1

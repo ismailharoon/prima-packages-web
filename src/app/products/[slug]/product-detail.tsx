@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState } from 'react'
 import Image from 'next/image'
@@ -20,7 +20,8 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
   const size = product.sizes[sizeIndex]
   const sizeCategory = size.sizeCategory || size.label
   const categories = [...new Set(product.sizes.map(item => item.sizeCategory || item.label))]
-  const tiers = product.sizes.map((item, index) => ({ ...item, index })).filter(item => (item.sizeCategory || item.label) === sizeCategory)
+  const colors = [...new Set(product.sizes.map(item => item.color).filter(Boolean))]
+  const tiers = product.sizes.map((item, index) => ({ ...item, index })).filter(item => (item.sizeCategory || item.label) === sizeCategory && item.color === size.color)
   const min = minimumQuantity(product, sizeIndex)
   const count = Number(quantity)
   const valid = Number.isInteger(count) && count >= min && count <= 100000
@@ -39,8 +40,9 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
         <div className="product-price">{product.quoteOnly ? <strong>Made to your specification</strong> : <><strong>{formatPrice(total)}</strong><span>{size.quantity ? `${count || 1} × ${size.quantity}` : `for ${valid ? count : min} pieces`}</span></>}</div>
         <p className="product-price-note">{product.quoteOnly ? 'Our team will confirm your price on WhatsApp.' : 'Estimated price. Final artwork, options and delivery confirmed on WhatsApp.'}</p>
         <div className="product-trust"><span><Icon name="check" />{product.moq}</span><span><Icon name="box" />{product.dispatchDays} production*</span></div>
-        {!product.quoteOnly && <div className="option-block"><label htmlFor="product-size">1. Choose your size</label><select id="product-size" value={sizeCategory} onChange={event => selectSize(product.sizes.findIndex(item => (item.sizeCategory || item.label) === event.target.value))}>{categories.map(category => <option key={category}>{category}</option>)}</select></div>}
-        {!product.quoteOnly && size.quantity && <fieldset className="option-block"><legend>2. Choose your pack</legend><div className="pack-options">{tiers.map(tier => <button type="button" key={tier.index} aria-pressed={tier.index === sizeIndex} onClick={() => selectSize(tier.index)}><strong>{tier.quantity}</strong>{tier.printType && <span>{tier.printType}</span>}<b>{formatPrice(tier.price)}</b></button>)}</div></fieldset>}
+        {colors.length > 0 && <div className="option-block"><label htmlFor="flyer-color">Flyer color</label><select id="flyer-color" value={size.color} onChange={event => selectSize(product.sizes.findIndex(item => item.color === event.target.value && item.sizeCategory === size.sizeCategory && item.quantity === size.quantity))}>{colors.map(color => <option key={color} value={color}>{color}{color === 'Gray' ? ' — standard rate' : ' — +Rs. 3 / piece'}</option>)}</select><p className="product-price-note">Gray uses standard rates. White, pink and black include Rs. 3 extra per piece.</p></div>}
+        {!product.quoteOnly && <div className="option-block"><label htmlFor="product-size">{product.slug === 'zipper-bags' ? '1. Choose color & size' : '1. Choose your size'}</label><select id="product-size" value={sizeCategory} onChange={event => selectSize(product.sizes.findIndex(item => (item.sizeCategory || item.label) === event.target.value && item.color === size.color))}>{categories.map(category => <option key={category}>{category}</option>)}</select></div>}
+        {!product.quoteOnly && size.quantity && <fieldset className="option-block"><legend>2. Choose your pack</legend><div className="pack-options">{tiers.map(tier => <button type="button" key={tier.index} aria-pressed={tier.index === sizeIndex} onClick={() => selectSize(tier.index)}><strong>{tier.quantity}</strong>{tier.printType && <span>{tier.printType}</span>}<b>{formatPrice(tier.price)}</b>{tier.unitPrice !== undefined && <span>{formatPrice(tier.unitPrice)} / piece</span>}</button>)}</div></fieldset>}
         {(product.configuratorGroups || []).map(group => <fieldset key={group.key} className="option-block"><legend>{group.label}</legend><div className="choice-chips">{group.options.map(option => <button type="button" key={option.value} aria-pressed={options[group.key] === option.value} onClick={() => { setOptions(current => ({ ...current, [group.key]: option.value })); setAdded(false) }}>{option.label}</button>)}</div></fieldset>)}
         <div className="option-block quantity-block"><label htmlFor="product-quantity">{size.quantity ? 'Number of packs' : `Quantity (minimum ${min} pieces)`}</label><input id="product-quantity" type="number" inputMode="numeric" min={min} max={100000} step={1} value={quantity} onChange={event => { setQuantity(event.target.value); setAdded(false) }} aria-invalid={!valid} aria-describedby={!valid ? 'quantity-error' : undefined} />{!valid && <p id="quantity-error" className="form-error">Enter a whole number from {min} to 100,000.</p>}</div>
         <button className="store-button add-cart-button" type="button" disabled={!valid || !ready} onClick={addItem}><Icon name={added ? 'check' : 'bag'} />{!ready ? 'Loading cart…' : added ? 'Add another selection' : product.quoteOnly ? 'Add quote request to cart' : 'Add to cart'}</button>
@@ -53,3 +55,5 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
     <div className="mobile-buy-bar"><div><strong>{product.quoteOnly ? 'Custom quote' : formatPrice(total)}</strong><span>{size.quantity ? `${count || 1} × ${size.quantity}` : `${valid ? count : min} pieces`}</span></div><button type="button" className="store-button" onClick={addItem} disabled={!valid || !ready}><Icon name="bag" />Add to cart</button></div>
   </>
 }
+
+

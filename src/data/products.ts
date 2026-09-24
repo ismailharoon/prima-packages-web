@@ -1,6 +1,8 @@
 export interface ProductSize {
   label: string
   price: number
+  unitPrice?: number
+  color?: string
   originalPrice?: number
   quantity?: string
   printType?: string
@@ -46,7 +48,6 @@ export const products: Product[] = [
     slug: 'woven-labels',
     name: 'Polyester Woven Labels',
     category: 'Labels',
-    discountBadge: '15% OFF',
     shortDescription: 'Durable custom polyester labels woven with your logo for clothing, apparel and textile brands.',
     longDescription: 'Our premium polyester woven labels are the ultimate choice for everyday garment branding, tailored specifically for clothing brands across Pakistan. Using advanced damask weaving techniques, your logo, sizing, and brand details are woven directly into the high-density polyester yarn, ensuring a crisp, luxurious, and highly durable finish. These labels are designed to withstand regular wear and intense washing without fading or fraying. We offer multiple fold styles including center fold, end fold, mitre fold, and heat cut to suit your specific stitching requirements. Whether you are a startup boutique in Karachi or a nationwide retail brand, Prima Packages provides top-quality labels with precise detailing. Our custom woven labels offer exceptional value with minimum order quantities designed to support growing businesses. Experience fast production and seamless nationwide delivery across Pakistan. Send us your artwork on WhatsApp, and our design team will guide you through the process, from selecting the right dimensions to confirming the final digital proof before production.',
     seoContentBlock: 'Looking for the best custom clothing brand labels in Pakistan? Our high-density polyester damask woven labels provide a professional finishing touch to garments, apparel, and textiles. Technical specifications include custom sizing, standard 50-denier high-definition yarn, and durable heat-sealed edges to prevent unravelling. Available with center fold, end fold, or flat cut options for easy sewing. The ordering process is simple: share your vector logo on WhatsApp, choose your required dimensions and fold type, and we\'ll provide a digital proof and wholesale quote. We manufacture and supply premium woven tags in Karachi, Lahore, Islamabad, and deliver nationwide. Perfect for neck labels, hem tags, and care labels with fast 7-8 days dispatch.',
@@ -60,24 +61,132 @@ export const products: Product[] = [
       '/images/products/woven-label-5.jpg',
     ],
     sizes: [
-      // 0.5 × 2 inch
-      { label: '0.5 × 2 in', sizeCategory: '0.5 × 2 inch', quantity: '100 PCS', originalPrice: 2000, price: 1700 },
-      { label: '0.5 × 2 in', sizeCategory: '0.5 × 2 inch', quantity: '500 PCS', originalPrice: 2500, price: 2125 },
-      { label: '0.5 × 2 in', sizeCategory: '0.5 × 2 inch', quantity: '1,000 PCS', originalPrice: 3000, price: 2550 },
-      // 0.75 × 2.0 inch (Most Popular)
-      { label: '0.75 × 2.0 in', sizeCategory: '0.75 × 2.0 inch (Most Popular)', quantity: '100 PCS', originalPrice: 2200, price: 1870, popular: true },
-      { label: '0.75 × 2.0 in', sizeCategory: '0.75 × 2.0 inch (Most Popular)', quantity: '500 PCS', originalPrice: 3000, price: 2550, popular: true },
-      { label: '0.75 × 2.0 in', sizeCategory: '0.75 × 2.0 inch (Most Popular)', quantity: '1,000 PCS', originalPrice: 3500, price: 2975, popular: true },
-      // 1.0 × 2.5 inch
-      { label: '1.0 × 2.5 in', sizeCategory: '1.0 × 2.5 inch', quantity: '100 PCS', originalPrice: 2300, price: 1955 },
-      { label: '1.0 × 2.5 in', sizeCategory: '1.0 × 2.5 inch', quantity: '500 PCS', originalPrice: 3300, price: 2805 },
-      { label: '1.0 × 2.5 in', sizeCategory: '1.0 × 2.5 inch', quantity: '1,000 PCS', originalPrice: 4000, price: 3400 },
+      {
+        "label": "0.5 × 2 in",
+        "sizeCategory": "0.5 × 2 in",
+        "quantity": "50 pcs",
+        "price": 1300
+      },
+      {
+        "label": "0.5 × 2 in",
+        "sizeCategory": "0.5 × 2 in",
+        "quantity": "100 pcs",
+        "price": 1800
+      },
+      {
+        "label": "0.5 × 2 in",
+        "sizeCategory": "0.5 × 2 in",
+        "quantity": "500 pcs",
+        "price": 2500
+      },
+      {
+        "label": "0.5 × 2 in",
+        "sizeCategory": "0.5 × 2 in",
+        "quantity": "1,000 pcs",
+        "price": 3000
+      },
+      {
+        "label": "0.5 × 2 in",
+        "sizeCategory": "0.5 × 2 in",
+        "quantity": "2,000 pcs",
+        "price": 5000
+      },
+      {
+        "label": "0.75 × 2 in",
+        "sizeCategory": "0.75 × 2 in",
+        "quantity": "50 pcs",
+        "price": 1400
+      },
+      {
+        "label": "0.75 × 2 in",
+        "sizeCategory": "0.75 × 2 in",
+        "quantity": "100 pcs",
+        "price": 1850
+      },
+      {
+        "label": "0.75 × 2 in",
+        "sizeCategory": "0.75 × 2 in",
+        "quantity": "500 pcs",
+        "price": 3000
+      },
+      {
+        "label": "0.75 × 2 in",
+        "sizeCategory": "0.75 × 2 in",
+        "quantity": "1,000 pcs",
+        "price": 3500
+      },
+      {
+        "label": "0.75 × 2 in",
+        "sizeCategory": "0.75 × 2 in",
+        "quantity": "2,000 pcs",
+        "price": 6000
+      },
+      {
+        "label": "1 × 2 in",
+        "sizeCategory": "1 × 2 in",
+        "quantity": "50 pcs",
+        "price": 1500
+      },
+      {
+        "label": "1 × 2 in",
+        "sizeCategory": "1 × 2 in",
+        "quantity": "100 pcs",
+        "price": 1900
+      },
+      {
+        "label": "1 × 2 in",
+        "sizeCategory": "1 × 2 in",
+        "quantity": "500 pcs",
+        "price": 3200
+      },
+      {
+        "label": "1 × 2 in",
+        "sizeCategory": "1 × 2 in",
+        "quantity": "1,000 pcs",
+        "price": 3800
+      },
+      {
+        "label": "1 × 2 in",
+        "sizeCategory": "1 × 2 in",
+        "quantity": "2,000 pcs",
+        "price": 7000
+      },
+      {
+        "label": "1 × 2.5 in",
+        "sizeCategory": "1 × 2.5 in",
+        "quantity": "50 pcs",
+        "price": 1550
+      },
+      {
+        "label": "1 × 2.5 in",
+        "sizeCategory": "1 × 2.5 in",
+        "quantity": "100 pcs",
+        "price": 2000
+      },
+      {
+        "label": "1 × 2.5 in",
+        "sizeCategory": "1 × 2.5 in",
+        "quantity": "500 pcs",
+        "price": 3300
+      },
+      {
+        "label": "1 × 2.5 in",
+        "sizeCategory": "1 × 2.5 in",
+        "quantity": "1,000 pcs",
+        "price": 4000
+      },
+      {
+        "label": "1 × 2.5 in",
+        "sizeCategory": "1 × 2.5 in",
+        "quantity": "2,000 pcs",
+        "price": 7500
+      }
     ],
     materials: ['Durable Polyester Yarn'],
     finishes: ['Straight Cut', 'Center Fold', 'End Fold', 'Heat Cut'],
     customizable: true,
     icon: '🏷️',
-    moq: 'Min. 100 PCS',
+    moq: 'Min. 50 PCS',
     dispatchDays: '7-8 Days',
     configuratorGroups: [
       {
@@ -96,7 +205,7 @@ export const products: Product[] = [
     slug: 'zipper-bags',
     name: 'Custom Zipper Bags',
     category: 'Packaging',
-    shortDescription: 'Reusable frosted zipper bags printed with your logo for clothing and ecommerce orders.',
+    shortDescription: 'White and black zipper bags with single-side, one-color printing. Choose your color, size and pack quantity.',
     longDescription: 'Give your garments and ecommerce products a clean, professional, and reusable outer package with our custom frosted zipper bags. Made from premium frosted PE (Polyethylene) and PEVA materials, these bags offer a luxurious semi-transparent matte finish that elevates the unboxing experience. Featuring a smooth slider zip closure, they provide secure, airtight protection against dust and moisture during transit. These versatile packaging bags are ideal for clothing, accessories, cosmetics, and retail items. At Prima Packages, we customize every detail to align with your brand identity. We offer customized sizing and high-quality screen printing of your brand logo and details directly on the front. As a leading packaging supplier in Karachi, we ensure top-notch quality and offer reliable nationwide delivery across Pakistan. Enhance your brand\'s perceived value and promote sustainability, as customers love to repurpose these durable zipper bags for travel and storage. Contact our team to discuss your dimensions, material thickness, and print colors for a tailored wholesale quote.',
     seoContentBlock: 'Custom printed frosted zipper bags are essential for premium garment packaging and ecommerce shipping in Pakistan. Our frosted PE and PEVA bags feature a durable slider zip closure, providing a reusable and stylish storage solution for shirts, hoodies, suits, and accessories. Technical specs include flexible micron thickness, waterproof matte finish, and high-quality single or multi-color logo printing. To place an order, send us your bag dimensions (e.g., 10x12 or 12x16 inches) and artwork via WhatsApp. We cater to wholesale packaging needs for clothing brands in Karachi and nationwide. Upgrade your retail presentation with high-quality ziplock slider bags designed to protect products and leave a lasting brand impression.',
     heroImage: '/images/products/zipper-bags-hero-v2.png',
@@ -106,49 +215,378 @@ export const products: Product[] = [
       '/images/products/zipper-bags-2.png',
     ],
     sizes: [
-      { label: 'Custom Size', price: 0 },
+      {
+        "label": "White · 6 × 8 in",
+        "sizeCategory": "White · 6 × 8 in",
+        "quantity": "50 pcs",
+        "price": 2250,
+        "unitPrice": 45,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 6 × 8 in",
+        "sizeCategory": "White · 6 × 8 in",
+        "quantity": "100 pcs",
+        "price": 3500,
+        "unitPrice": 35,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 6 × 8 in",
+        "sizeCategory": "White · 6 × 8 in",
+        "quantity": "500 pcs",
+        "price": 8500,
+        "unitPrice": 17,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 7 × 9 in",
+        "sizeCategory": "White · 7 × 9 in",
+        "quantity": "50 pcs",
+        "price": 2300,
+        "unitPrice": 46,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 7 × 9 in",
+        "sizeCategory": "White · 7 × 9 in",
+        "quantity": "100 pcs",
+        "price": 3600,
+        "unitPrice": 36,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 7 × 9 in",
+        "sizeCategory": "White · 7 × 9 in",
+        "quantity": "500 pcs",
+        "price": 9000,
+        "unitPrice": 18,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 8 × 10 in",
+        "sizeCategory": "White · 8 × 10 in",
+        "quantity": "50 pcs",
+        "price": 2500,
+        "unitPrice": 50,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 8 × 10 in",
+        "sizeCategory": "White · 8 × 10 in",
+        "quantity": "100 pcs",
+        "price": 4000,
+        "unitPrice": 40,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 8 × 10 in",
+        "sizeCategory": "White · 8 × 10 in",
+        "quantity": "500 pcs",
+        "price": 11000,
+        "unitPrice": 22,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 10 × 12 in",
+        "sizeCategory": "White · 10 × 12 in",
+        "quantity": "50 pcs",
+        "price": 2550,
+        "unitPrice": 51,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 10 × 12 in",
+        "sizeCategory": "White · 10 × 12 in",
+        "quantity": "100 pcs",
+        "price": 4100,
+        "unitPrice": 41,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 10 × 12 in",
+        "sizeCategory": "White · 10 × 12 in",
+        "quantity": "500 pcs",
+        "price": 11500,
+        "unitPrice": 23,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 11 × 12 in",
+        "sizeCategory": "White · 11 × 12 in",
+        "quantity": "50 pcs",
+        "price": 2600,
+        "unitPrice": 52,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 11 × 12 in",
+        "sizeCategory": "White · 11 × 12 in",
+        "quantity": "100 pcs",
+        "price": 4200,
+        "unitPrice": 42,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 11 × 12 in",
+        "sizeCategory": "White · 11 × 12 in",
+        "quantity": "500 pcs",
+        "price": 12000,
+        "unitPrice": 24,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 11.5 × 13 in",
+        "sizeCategory": "White · 11.5 × 13 in",
+        "quantity": "50 pcs",
+        "price": 2700,
+        "unitPrice": 54,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 11.5 × 13 in",
+        "sizeCategory": "White · 11.5 × 13 in",
+        "quantity": "100 pcs",
+        "price": 4400,
+        "unitPrice": 44,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 11.5 × 13 in",
+        "sizeCategory": "White · 11.5 × 13 in",
+        "quantity": "500 pcs",
+        "price": 13000,
+        "unitPrice": 26,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 12 × 14 in",
+        "sizeCategory": "White · 12 × 14 in",
+        "quantity": "50 pcs",
+        "price": 2750,
+        "unitPrice": 55,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 12 × 14 in",
+        "sizeCategory": "White · 12 × 14 in",
+        "quantity": "100 pcs",
+        "price": 4500,
+        "unitPrice": 45,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 12 × 14 in",
+        "sizeCategory": "White · 12 × 14 in",
+        "quantity": "500 pcs",
+        "price": 14000,
+        "unitPrice": 28,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 12 × 16 in",
+        "sizeCategory": "White · 12 × 16 in",
+        "quantity": "50 pcs",
+        "price": 2850,
+        "unitPrice": 57,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 12 × 16 in",
+        "sizeCategory": "White · 12 × 16 in",
+        "quantity": "100 pcs",
+        "price": 4700,
+        "unitPrice": 47,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 12 × 16 in",
+        "sizeCategory": "White · 12 × 16 in",
+        "quantity": "500 pcs",
+        "price": 15000,
+        "unitPrice": 30,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 14 × 16 in",
+        "sizeCategory": "White · 14 × 16 in",
+        "quantity": "50 pcs",
+        "price": 3000,
+        "unitPrice": 60,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 14 × 16 in",
+        "sizeCategory": "White · 14 × 16 in",
+        "quantity": "100 pcs",
+        "price": 5000,
+        "unitPrice": 50,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 14 × 16 in",
+        "sizeCategory": "White · 14 × 16 in",
+        "quantity": "500 pcs",
+        "price": 16500,
+        "unitPrice": 33,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 14 × 18 in",
+        "sizeCategory": "White · 14 × 18 in",
+        "quantity": "50 pcs",
+        "price": 3250,
+        "unitPrice": 65,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 14 × 18 in",
+        "sizeCategory": "White · 14 × 18 in",
+        "quantity": "100 pcs",
+        "price": 5500,
+        "unitPrice": 55,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "White · 14 × 18 in",
+        "sizeCategory": "White · 14 × 18 in",
+        "quantity": "500 pcs",
+        "price": 18500,
+        "unitPrice": 37,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "Black · 10 × 12 in",
+        "sizeCategory": "Black · 10 × 12 in",
+        "quantity": "50 pcs",
+        "price": 2800,
+        "unitPrice": 56,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "Black · 10 × 12 in",
+        "sizeCategory": "Black · 10 × 12 in",
+        "quantity": "100 pcs",
+        "price": 4600,
+        "unitPrice": 46,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "Black · 10 × 12 in",
+        "sizeCategory": "Black · 10 × 12 in",
+        "quantity": "500 pcs",
+        "price": 14000,
+        "unitPrice": 28,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "Black · 11.5 × 13 in",
+        "sizeCategory": "Black · 11.5 × 13 in",
+        "quantity": "50 pcs",
+        "price": 2950,
+        "unitPrice": 59,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "Black · 11.5 × 13 in",
+        "sizeCategory": "Black · 11.5 × 13 in",
+        "quantity": "100 pcs",
+        "price": 4900,
+        "unitPrice": 49,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "Black · 11.5 × 13 in",
+        "sizeCategory": "Black · 11.5 × 13 in",
+        "quantity": "500 pcs",
+        "price": 15500,
+        "unitPrice": 31,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "Black · 12 × 14 in",
+        "sizeCategory": "Black · 12 × 14 in",
+        "quantity": "50 pcs",
+        "price": 3000,
+        "unitPrice": 60,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "Black · 12 × 14 in",
+        "sizeCategory": "Black · 12 × 14 in",
+        "quantity": "100 pcs",
+        "price": 5000,
+        "unitPrice": 50,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "Black · 12 × 14 in",
+        "sizeCategory": "Black · 12 × 14 in",
+        "quantity": "500 pcs",
+        "price": 16500,
+        "unitPrice": 33,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "Black · 14 × 16 in",
+        "sizeCategory": "Black · 14 × 16 in",
+        "quantity": "50 pcs",
+        "price": 3250,
+        "unitPrice": 65,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "Black · 14 × 16 in",
+        "sizeCategory": "Black · 14 × 16 in",
+        "quantity": "100 pcs",
+        "price": 5500,
+        "unitPrice": 55,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "Black · 14 × 16 in",
+        "sizeCategory": "Black · 14 × 16 in",
+        "quantity": "500 pcs",
+        "price": 19000,
+        "unitPrice": 38,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "Black · 14 × 18 in",
+        "sizeCategory": "Black · 14 × 18 in",
+        "quantity": "50 pcs",
+        "price": 3500,
+        "unitPrice": 70,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "Black · 14 × 18 in",
+        "sizeCategory": "Black · 14 × 18 in",
+        "quantity": "100 pcs",
+        "price": 6000,
+        "unitPrice": 60,
+        "printType": "Single side · 1 color"
+      },
+      {
+        "label": "Black · 14 × 18 in",
+        "sizeCategory": "Black · 14 × 18 in",
+        "quantity": "500 pcs",
+        "price": 21000,
+        "unitPrice": 42,
+        "printType": "Single side · 1 color"
+      }
     ],
-    materials: ['Frosted PE / PEVA'],
+    materials: ['White / Black Zipper Bags'],
     finishes: ['Custom Logo Print', 'Slider Zip Closure', 'Multiple Sizes'],
     customizable: true,
-    quoteOnly: true,
     icon: '♻️',
-    moq: 'Min. 500 PCS',
+    moq: 'Min. 50 PCS',
     dispatchDays: '10-12 Days',
-    configuratorGroups: [
-      {
-        key: 'material',
-        label: 'Material Type',
-        options: [
-          { label: 'Frosted Matte', value: 'Frosted Matte (Premium)', popular: true },
-          { label: 'Clear Transparent', value: 'Clear Transparent' },
-        ],
-      },
-      {
-        key: 'closure',
-        label: 'Closure Style',
-        options: [
-          { label: 'Zip Slider Clip', value: 'Zip Slider Clip', popular: true },
-          { label: 'Press-to-Lock', value: 'Press-to-Lock Ziplock' },
-        ],
-      },
-      {
-        key: 'size',
-        label: 'Garment Size',
-        options: [
-          { label: '8×10 in', value: '8x10 in (Accessories)' },
-          { label: '10×12 in', value: '10x12 in (T-Shirts)', popular: true },
-          { label: '12×16 in', value: '12x16 in (Hoodies/Suits)' },
-          { label: '14×18 in', value: '14x18 in (Overcoats)' },
-        ],
-      },
-    ],
   },
   {
     slug: 'hang-tags',
     name: 'Custom Hang Tags',
     category: 'Tags',
-    discountBadge: '15% OFF',
     shortDescription: 'Custom hang tags that tell your brand story before the product is even unboxed.',
     longDescription: 'Custom hang tags are more than just price labels; they are a vital branding tool that tells your story before the product is even unboxed. At Prima Packages, we craft high-quality hang tags printed on premium card stock, ranging from sturdy 350 GSM art card to rustic kraft and luxurious cotton boards. Elevate your clothing tags with our sophisticated finishing options, including eye-catching metallic foil stamping, elegant embossing, spot UV, and classic letterpress textures. Perfect for apparel, accessories, and boutique items, these tags convey quality and attention to detail. We offer complete customization in shape, size, and printing—available in single or double-sided designs. Pair your tags with custom grommets, nylon snap locks, or rustic jute cords for an extra tactile element. Trusted by clothing brands in Karachi and nationwide, Prima Packages delivers unmatched print quality, affordable pricing, and fast delivery across Pakistan. Let our beautifully crafted hang tags serve as a premium finishing touch for your fashion line or retail products.',
     seoContentBlock: 'Order custom printed hang tags for clothing brands in Pakistan. We specialize in manufacturing high-quality apparel tags, swing tags, and price tags using premium 350 GSM art card, kraft paper, and textured materials. Technical features include custom die-cut shapes, matte or gloss lamination, and premium add-ons like gold foil stamping, embossing, and spot UV. Ordering is easy: share your design on WhatsApp, select your preferred card stock, finishing, and cord type (nylon snap lock or cotton string), and receive a competitive quote. Based in Karachi, we supply bulk custom clothing tags and retail labeling solutions with fast nationwide delivery to help your brand stand out on the racks.',
@@ -159,10 +597,62 @@ export const products: Product[] = [
       '/images/products/hang-tag-2.jpeg',
     ],
     sizes: [
-      { label: '2 × 3.5 in', sizeCategory: '2 × 3.5 Inch', quantity: '100 pcs', printType: 'Single Side Print', originalPrice: 3000, price: 2550 },
-      { label: '2 × 3.5 in', sizeCategory: '2 × 3.5 Inch', quantity: '500 pcs', printType: 'Single Side Print', originalPrice: 3600, price: 3060 },
-      { label: '2 × 3.5 in', sizeCategory: '2 × 3.5 Inch', quantity: '1,000 pcs', printType: 'Single Side Print', originalPrice: 4000, price: 3400 },
-      { label: '2 × 3.5 in', sizeCategory: '2 × 3.5 Inch', quantity: '1,000 pcs', printType: 'Double Side Print', originalPrice: 5200, price: 4420 },
+      {
+        "label": "2 × 3.5 in",
+        "sizeCategory": "2 × 3.5 in",
+        "quantity": "100 pcs",
+        "printType": "350 GSM · Single side color print",
+        "price": 2600
+      },
+      {
+        "label": "2 × 3.5 in",
+        "sizeCategory": "2 × 3.5 in",
+        "quantity": "500 pcs",
+        "printType": "350 GSM · Single side color print",
+        "price": 3200
+      },
+      {
+        "label": "2 × 3.5 in",
+        "sizeCategory": "2 × 3.5 in",
+        "quantity": "1000 pcs",
+        "printType": "350 GSM · Single side color print",
+        "price": 3800
+      },
+      {
+        "label": "2 × 3.5 in",
+        "sizeCategory": "2 × 3.5 in",
+        "quantity": "2000 pcs",
+        "printType": "350 GSM · Single side color print",
+        "price": 6000
+      },
+      {
+        "label": "2 × 3.5 in",
+        "sizeCategory": "2 × 3.5 in",
+        "quantity": "100 pcs",
+        "printType": "350 GSM · Double side color print",
+        "price": 3600
+      },
+      {
+        "label": "2 × 3.5 in",
+        "sizeCategory": "2 × 3.5 in",
+        "quantity": "500 pcs",
+        "printType": "350 GSM · Double side color print",
+        "price": 4200
+      },
+      {
+        "label": "2 × 3.5 in",
+        "sizeCategory": "2 × 3.5 in",
+        "quantity": "1000 pcs",
+        "printType": "350 GSM · Double side color print",
+        "price": 4800
+      },
+      {
+        "label": "2 × 3.5 in",
+        "sizeCategory": "2 × 3.5 in",
+        "quantity": "2000 pcs",
+        "printType": "350 GSM · Double side color print",
+        "price": 7800
+      }
     ],
     materials: ['350 GSM Art Card', '300 GSM Kraft', '400 GSM Cotton'],
     finishes: ['Matte Lamination', 'Spot UV', 'Foil Stamping', 'Embossing', 'Letterpress'],
@@ -266,16 +756,138 @@ export const products: Product[] = [
       '/images/products/courier-bag-2.jpeg',
     ],
     sizes: [
-      { label: '6 x 9 in', price: 12 },
-      { label: '9 x 12 in', price: 16 },
-      { label: '10 x 14 in', price: 20 },
-      { label: '12 x 16 in', price: 25 },
+      {
+        "label": "6x9+2 in",
+        "sizeCategory": "6x9+2 in",
+        "quantity": "50 pcs",
+        "price": 2100,
+        "unitPrice": 42
+      },
+      {
+        "label": "6x9+2 in",
+        "sizeCategory": "6x9+2 in",
+        "quantity": "100 pcs",
+        "price": 3200,
+        "unitPrice": 32
+      },
+      {
+        "label": "6x9+2 in",
+        "sizeCategory": "6x9+2 in",
+        "quantity": "500 pcs",
+        "price": 6500,
+        "unitPrice": 13
+      },
+      {
+        "label": "8x11+2 in",
+        "sizeCategory": "8x11+2 in",
+        "quantity": "50 pcs",
+        "price": 2250,
+        "unitPrice": 45
+      },
+      {
+        "label": "8x11+2 in",
+        "sizeCategory": "8x11+2 in",
+        "quantity": "100 pcs",
+        "price": 3500,
+        "unitPrice": 35
+      },
+      {
+        "label": "8x11+2 in",
+        "sizeCategory": "8x11+2 in",
+        "quantity": "500 pcs",
+        "price": 8000,
+        "unitPrice": 16
+      },
+      {
+        "label": "10x12+2 in",
+        "sizeCategory": "10x12+2 in",
+        "quantity": "50 pcs",
+        "price": 2350,
+        "unitPrice": 47
+      },
+      {
+        "label": "10x12+2 in",
+        "sizeCategory": "10x12+2 in",
+        "quantity": "100 pcs",
+        "price": 3700,
+        "unitPrice": 37
+      },
+      {
+        "label": "10x12+2 in",
+        "sizeCategory": "10x12+2 in",
+        "quantity": "500 pcs",
+        "price": 9000,
+        "unitPrice": 18
+      },
+      {
+        "label": "10x14+2 in",
+        "sizeCategory": "10x14+2 in",
+        "quantity": "50 pcs",
+        "price": 2500,
+        "unitPrice": 50
+      },
+      {
+        "label": "10x14+2 in",
+        "sizeCategory": "10x14+2 in",
+        "quantity": "100 pcs",
+        "price": 4000,
+        "unitPrice": 40
+      },
+      {
+        "label": "10x14+2 in",
+        "sizeCategory": "10x14+2 in",
+        "quantity": "500 pcs",
+        "price": 11000,
+        "unitPrice": 22
+      },
+      {
+        "label": "12x16+2 in",
+        "sizeCategory": "12x16+2 in",
+        "quantity": "50 pcs",
+        "price": 2750,
+        "unitPrice": 55
+      },
+      {
+        "label": "12x16+2 in",
+        "sizeCategory": "12x16+2 in",
+        "quantity": "100 pcs",
+        "price": 4500,
+        "unitPrice": 45
+      },
+      {
+        "label": "12x16+2 in",
+        "sizeCategory": "12x16+2 in",
+        "quantity": "500 pcs",
+        "price": 12500,
+        "unitPrice": 25
+      },
+      {
+        "label": "14x19+2 in",
+        "sizeCategory": "14x19+2 in",
+        "quantity": "50 pcs",
+        "price": 3000,
+        "unitPrice": 60
+      },
+      {
+        "label": "14x19+2 in",
+        "sizeCategory": "14x19+2 in",
+        "quantity": "100 pcs",
+        "price": 5500,
+        "unitPrice": 55
+      },
+      {
+        "label": "14x19+2 in",
+        "sizeCategory": "14x19+2 in",
+        "quantity": "500 pcs",
+        "price": 15500,
+        "unitPrice": 31
+      }
     ],
     materials: ['60 Micron Poly', '80 Micron Poly'],
     finishes: ['Full-color print', 'Single-color print'],
     customizable: true,
     icon: '📦',
-    moq: 'Min. 100 PCS',
+    moq: 'Min. 50 PCS',
     dispatchDays: '7-10 Days',
   },
   {
@@ -404,6 +1016,15 @@ export const products: Product[] = [
     dispatchDays: '7-10 Days',
   },
 ]
+
+// Sheet prices apply to gray flyers; colored stock adds Rs. 3 per piece.
+// Keep gray variants first so existing cart size indexes remain valid.
+const flyers = products.find(product => product.slug === 'courier-flyer-bags')!
+const grayFlyers = flyers.sizes.map(size => ({ ...size, color: 'Gray', printType: 'Gray flyer' }))
+flyers.sizes = [...grayFlyers, ...['White', 'Pink', 'Black'].flatMap(color => grayFlyers.map(size => {
+  const pieces = Number(size.quantity!.replace(/[^0-9]/g, ''))
+  return { ...size, color, printType: `${color} flyer`, unitPrice: size.unitPrice! + 3, price: size.price + pieces * 3 }
+}))]
 
 export function getProductBySlug(slug: string): Product | undefined {
   return products.find((p) => p.slug === slug)
