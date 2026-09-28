@@ -1,4 +1,4 @@
-﻿import { PackagingHero } from '@/components/store/PackagingHero'
+import { PackagingHero } from '@/components/store/PackagingHero'
 import { RecentWork } from '@/components/store/RecentWork'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
 import Link from 'next/link'

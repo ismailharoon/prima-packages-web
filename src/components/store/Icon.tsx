@@ -1,5 +1,7 @@
-export function Icon({ name, className = '' }: { name: 'bag' | 'search' | 'arrow' | 'check' | 'box' | 'menu' | 'close'; className?: string }) {
+export function Icon({ name, className = '' }: { name: 'home' | 'help' | 'bag' | 'search' | 'arrow' | 'check' | 'box' | 'menu' | 'close'; className?: string }) {
   const paths = {
+    home: 'm3 10 9-7 9 7v11h-6v-7H9v7H3V10Z',
+    help: 'M4 4h16v13H9l-5 4V4Zm4 5h8M8 12h5',
     bag: 'M5 7h14l1 14H4L5 7Zm3 0V6a4 4 0 0 1 8 0v1',
     search: 'm21 21-5-5M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0',
     arrow: 'M4 12h16m-6-6 6 6-6 6',
