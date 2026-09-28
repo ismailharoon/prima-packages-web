@@ -232,7 +232,7 @@ export function CityLandingView({ city, products }: CityLandingViewProps) {
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 gap-3.5 sm:gap-6 lg:grid-cols-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-6">
           {products.map((product, idx) => (
             <ProductCard key={product.slug} product={product} index={idx} />
           ))}

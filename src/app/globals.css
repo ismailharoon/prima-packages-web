@@ -315,9 +315,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .section-heading > a { font-size: 10px; gap: 4px; }
   .category-tiles { display: flex; overflow-x: auto; gap: 16px; padding: 18px 16px; scrollbar-width: none; border-radius: 14px; }
   .category-tiles a { flex: 0 0 90px; min-width: 90px; width: 90px; font-size: 10px; }
-  .category-tiles a div { aspect-ratio: 1; margin-bottom: 9px; border-radius: 50%; }
-  .store-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px 11px; }
-  .shop-card-body { padding: 12px; }
+  .store-grid { grid-template-columns: 1fr; gap: 32px; }
   .shop-card h3 { font-size: 12px; }
   .card-moq { font-size: 10px; margin-bottom: 10px; }
   .card-price { font-size: 13px; }
@@ -606,7 +604,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
  .category-tiles>a { flex:0 0 96px; scroll-snap-align:start; padding:8px 4px; text-align:center; }
  .category-tiles>a>div { width:74px; height:74px; margin-inline:auto; border-radius:50%; border:3px solid #fff; box-shadow:0 4px 12px #192d1e0f; }
  .category-tiles span { font-size:11px; color:#213725; font-weight:700; margin-top:8px; display:block; }
- .store-grid { gap:12px; }
+ .store-grid { grid-template-columns: 1fr; gap: 32px; }
  .shop-card { border:1px solid #e3e7db; border-radius:19px; background:#fff; overflow:hidden; }
  .shop-card-photo { border-radius:0; aspect-ratio:1 / 1.12; }
  .shop-card-body { padding:13px 11px 12px; }
@@ -677,6 +675,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
  .card-custom-mark { left:8px; bottom:8px; font-size:9px; padding:6px 9px; }
  .boutique-card .card-price strong { font-size:18px; }
  .boutique-card .card-button { font-size:11px; }
- .store-grid { row-gap:32px; column-gap:16px; }
+ .store-grid { grid-template-columns: 1fr; row-gap: 36px; column-gap: 0; }
 }
 @media(prefers-reduced-motion:reduce) { .boutique-card .shop-card-photo img { transition:none; } }
