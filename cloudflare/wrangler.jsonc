@@ -1,0 +1,10 @@
+{
+  "name": "prima-admin-api",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-09-27",
+  "vars": {
+    "SUPABASE_URL": "https://dbvqsolzfgqdirpfcfyx.supabase.co",
+    "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_QrGzFZ4eAudqAYEwYigMOQ_ABdL2XUF",
+    "ALLOWED_ORIGINS": "http://127.0.0.1:3100,http://localhost:3100,https://primapackages.pk,https://www.primapackages.pk,https://prima-packages-site.prima-packages-web.workers.dev"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "prima-packages-site",
+  "main": "vinext/server/app-router-entry",
+  "compatibility_date": "2026-09-27",
+  "compatibility_flags": ["nodejs_compat"],
+  "routes": [
+    {"pattern": "primapackages.pk", "custom_domain": true},
+    {"pattern": "www.primapackages.pk", "custom_domain": true}
+  ],
+  "assets": {"not_found_handling": "none"}
+}

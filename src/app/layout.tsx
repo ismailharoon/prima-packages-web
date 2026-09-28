@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Inter } from "next/font/google";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { FloatingWhatsApp } from "@/components/ui/FloatingWhatsApp";
+import { SiteChrome } from "@/components/layout/SiteChrome";
 import { homeSeoKeywords } from "@/data/seo";
 import { SOCIAL_LINKS } from "@/lib/constants";
 import "./globals.css";
@@ -135,10 +133,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
         <CartProvider>
         <a className="skip-link" href="#main-content">Skip to content</a>
-        <Header />
-        <main id="main-content" className="flex-1">{children}</main>
-        <Footer />
-        <FloatingWhatsApp />
+        <SiteChrome>{children}</SiteChrome>
         </CartProvider>
       </body>
     </html>

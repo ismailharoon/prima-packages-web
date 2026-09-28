@@ -16,6 +16,9 @@
 # next.js
 /.next/
 /out/
+/dist/
+/.vinext/
+/.wrangler/
 
 # production
 /build
@@ -39,3 +42,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Private local admin database, workbook previews, exports and Worker secrets
+/.local/
+**/.local/
+**/.dev.vars
+**/.wrangler/
+!/.env.example
+/tmp/
+/output/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal

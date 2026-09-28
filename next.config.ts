@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  serverExternalPackages: ['node:sqlite', 'pdfkit'],
   /* config options here */
   experimental: {
     cpus: 1,

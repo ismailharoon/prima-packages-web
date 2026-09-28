@@ -4,26 +4,50 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:local": "next dev --hostname 127.0.0.1 --port 3100",
+    "start:local": "next start --hostname 127.0.0.1 --port 3100",
+    "test:admin": "node --test tests/admin-domain.test.mjs",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:cloud": "node --test tests/admin-cloud.test.mjs",
+    "cloud:dev": "wrangler dev --config cloudflare/wrangler.jsonc",
+    "cloud:deploy": "wrangler deploy --config cloudflare/wrangler.jsonc",
+    "cloud:migrate:preview": "node --env-file=.env.cloud.local scripts/migrate-admin-cloud.mjs",
+    "cloud:migrate": "node --env-file=.env.cloud.local scripts/migrate-admin-cloud.mjs --apply",
+    "frontend:check": "vinext check",
+    "frontend:build": "vite build",
+    "frontend:preview": "vite preview --host 127.0.0.1 --port 3200",
+    "frontend:deploy": "wrangler deploy --config dist/server/wrangler.json"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.117.2",
+    "@types/pdfkit": "^0.17.6",
     "clsx": "^2.1.1",
     "framer-motion": "^13.2.0",
     "next": "16.3.4",
+    "pdf-lib": "^1.17.1",
+    "pdfkit": "^0.20.2",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.61.0",
+    "@electric-sql/pglite": "^0.5.8",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vinext/cloudflare": "^1.0.0-beta.11",
+    "@vitejs/plugin-rsc": "^0.5.35",
     "eslint": "^9",
     "eslint-config-next": "16.3.4",
     "tailwindcss": "^4",
-    "typescript": "^5"
-  }
+    "typescript": "^5",
+    "vinext": "^1.0.0-beta.13",
+    "vite": "^8.3.1",
+    "wrangler": "^4.141.0"
+  },
+  "type": "module"
 }
