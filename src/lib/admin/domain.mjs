@@ -78,6 +78,24 @@ export function applyCommand(current, command, actor = 'Local owner') {
   const id = crypto.randomUUID()
   const now = new Date().toISOString()
   switch (command.action) {
+    case 'correctPayment': {
+      const o=findOrder(state,p.orderId)
+      if(o.status==='Cancelled') throw new Error('Cancelled order payments need a separate review.')
+      if(o.version!==p.version || receivedFor(state,o.id)!==p.expectedReceived) throw new Error('Payments changed. Refresh before correcting the amount.')
+      const receipt=p.paymentId ? state.payments.find(x=>x.id===p.paymentId&&x.orderId===o.id&&x.kind==='Receipt') : null
+      if(p.paymentId&&!receipt) throw new Error('Receipt not found.')
+      if(!receipt&&state.payments.some(x=>x.orderId===o.id&&x.note==='Advance recorded with order')) throw new Error('The advance already exists. Refresh first.')
+      const previous=receipt?.amount||0,value=amount(p.amount,'Correct amount'),reason=text(p.reason,'correction reason',500,true)
+      if(receipt&&previous!==p.expectedAmount) throw new Error('This receipt changed. Refresh first.')
+      const net=receivedFor(state,o.id)-previous+value
+      if(net<0||net>orderTotal(o)) throw new Error('Corrected receipts must cover refunds and cannot exceed the order total.')
+      if(value===previous) throw new Error('Enter a different amount.')
+      if(receipt){if(value)receipt.amount=value;else state.payments=state.payments.filter(x=>x.id!==receipt.id)}
+      else if(value)state.payments.unshift({id,orderId:o.id,amount:value,date:o.date,method:'Bank transfer',account:'Business',reference:'',kind:'Receipt',note:'Advance recorded with order'})
+      o.version++
+      detail=`${o.number}: corrected receipt ${receipt?.id||id} from Rs. ${previous/100} to Rs. ${value/100}; original date ${receipt?.date||o.date||'unknown'}; account ${receipt?.account||'Business'}; reason: ${reason}`
+      break
+    }
     case 'updateOrderLog': {
       const o = findOrder(state,p.id)
       const costs = state.expenses.filter(e => !e.voided && e.orderId === o.id && e.category === 'Delivery')

@@ -120,3 +120,24 @@ test('contact details can be omitted, added later or cleared without changing fi
  assert.equal(s.orders[0].address,'')
  assert.deepEqual(summarize(s),before)
 })
+
+test('receipt corrections update balances and cash, preserve date and audit old amount',()=>{
+ const s=applyCommand(emptyWorkspace(),{action:'createOrder',payload:{...base,advance:100000}}),o=s.orders[0],r=s.payments[0]
+ const payload={orderId:o.id,version:o.version,paymentId:r.id,expectedAmount:r.amount,expectedReceived:100000,amount:70000,reason:'Typing mistake'}
+ const n=applyCommand(s,{action:'correctPayment',payload})
+ assert.equal(receivedFor(n,o.id),70000);assert.equal(balanceFor(n,n.orders[0]),200000);assert.equal(summarize(n).cash,70000)
+ assert.equal(n.payments[0].date,r.date);assert.match(n.audit[0].detail,/1000 to Rs. 700/);assert.equal(s.payments[0].amount,100000)
+ assert.throws(()=>applyCommand(n,{action:'correctPayment',payload}),/changed/)
+ assert.throws(()=>applyCommand(s,{action:'correctPayment',payload:{...payload,amount:-1}}),/valid/)
+ assert.throws(()=>applyCommand(s,{action:'correctPayment',payload:{...payload,amount:300000}}),/exceed/)
+ assert.throws(()=>applyCommand(s,{action:'correctPayment',payload:{...payload,reason:''}}),/reason/)
+ const zero=applyCommand(s,{action:'correctPayment',payload:{...payload,amount:0}})
+ assert.equal(zero.payments.length,0);assert.equal(summarize(zero).cash,0)
+})
+test('omitted advance can be corrected without overwriting later installments or refunds',()=>{
+ let s=applyCommand(emptyWorkspace(),{action:'createOrder',payload:base});const o=s.orders[0]
+ s=applyCommand(s,{action:'correctPayment',payload:{orderId:o.id,version:o.version,paymentId:'',expectedReceived:0,amount:50000,reason:'Advance omitted'}})
+ const r=s.payments[0]
+ s=applyCommand(s,{action:'addPayment',payload:{orderId:o.id,kind:'Refund',amount:20000,date:base.date,method:'Cash',account:'Business'}})
+ assert.throws(()=>applyCommand(s,{action:'correctPayment',payload:{orderId:o.id,version:s.orders[0].version,paymentId:r.id,expectedReceived:30000,expectedAmount:50000,amount:10000,reason:'Wrong receipt'}}),/refunds/)
+})
