@@ -23,12 +23,12 @@ export function OrderLogRow({ order, state, columns, busy, open, save }: {
       await save('updateOrderLog',{id:order.id,version:order.version,status,deliveryCost:money(delivery),expectedDeliveryCost:cost,expectedBalance:balance,clearRemaining:clear,date:new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Karachi'})})
     } catch(e) { setError(e instanceof Error?e.message:'Check the row.') }
   }
-  return <tr>{columns.map(c=><td key={c.label} className={c.money?'admin-ledger-money':undefined}>
-    {c.label==='Order ID'||c.label==='Brand Name'?<button className="admin-order-link" onClick={open}>{String(c.value(order))||'View details'}</button>
+  return <tr>{columns.map(c=><td key={c.label} data-label={c.label} className={c.money?'admin-ledger-money':undefined}>
+    {['Order ID','Brand Name','Customer Name'].includes(c.label)?<button className="admin-order-link" onClick={open}>{String(c.value(order))||'View details'}</button>
     :c.label==='Order Status'?<select aria-label={`Order status for ${order.number}`} disabled={busy||order.status==='Cancelled'} value={status} onChange={e=>setStatus(e.target.value as Order['status'])}>{[...new Set([order.status,'Confirmed','Production','Dispatched'])].map(s=><option key={s} value={s}>{s==='Production'?'In Production':s}</option>)}</select>
     :c.label==='Delivery Cost (Rs)'?<input aria-label={`Delivery cost for ${order.number}`} disabled={busy||order.status==='Cancelled'} type="number" min="0" step="0.01" value={delivery} onChange={e=>setDelivery(e.target.value)}/>
     :c.label==='Remaining Amount (Rs)'?<div className="admin-row-controls"><strong>{(balance/100).toLocaleString('en-PK',{minimumFractionDigits:2})}</strong>{balance>0&&order.status!=='Cancelled'&&<button type="button" className="admin-btn small secondary" aria-pressed={clear} disabled={busy} onClick={()=>setClear(!clear)}>{clear?'Undo clear':'Clear remaining'}</button>}{clear&&<small>Will record Rs. {(balance/100).toLocaleString('en-PK')} received when you click Update.</small>}</div>
     :c.label==='Payment Status'?<span className="admin-badge">{String(c.value(order))}</span>
     :c.money?Number(c.value(order)).toLocaleString('en-PK',{minimumFractionDigits:2,maximumFractionDigits:2}):String(c.value(order))||'—'}
-  </td>)}<td><button className="admin-btn small" disabled={busy||!changed||order.status==='Cancelled'} onClick={update}>{busy?'Saving…':'Update'}</button>{error&&<p role="alert" className="admin-error">{error}</p>}</td></tr>
+  </td>)}<td data-label="Save changes"><button className="admin-btn small" disabled={busy||!changed||order.status==='Cancelled'} onClick={update}>{busy?'Saving…':'Update'}</button>{error&&<p role="alert" className="admin-error">{error}</p>}</td></tr>
 }

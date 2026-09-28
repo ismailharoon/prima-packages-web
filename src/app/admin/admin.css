@@ -58,3 +58,41 @@
 .admin-ledger-table td:last-child { min-width:110px; }
 
 .admin-cloud-session{display:flex;align-items:center;justify-content:flex-end;gap:16px;padding:10px 24px;background:#173b2c;color:white;font-size:13px}.admin-cloud-session button{padding:6px 12px;border:1px solid currentColor;border-radius:6px;cursor:pointer}.admin-cloud-session button:focus-visible{outline:3px solid #b9d9c5;outline-offset:3px}
+
+/* Readable order names and touch-friendly ledger cards. */
+.admin-table td { color:#20372b; font-size:14px; }
+.admin-table th { color:#34483c; font-size:12px; font-weight:700; }
+.admin-order-link { color:#163d2a; font-size:15px; font-weight:750; text-align:left; line-height:1.5; }
+.admin-order-link span { color:#163d2a; font-weight:700; }
+.admin-table small,.admin-muted,.admin-panel-note { color:#526157; }
+.admin-ledger-table td[data-label="Customer Name"],.admin-ledger-table td[data-label="Brand Name"] { min-width:185px; }
+.admin-payment-correction { border:1px solid #bfcfc3; border-radius:12px; padding:18px; margin:24px 0; background:#f5f8f5; }
+.admin-payment-correction h3 { color:#173b2c; font-size:17px; font-weight:700; margin:0 0 8px; }
+.admin-payment-correction p { color:#44594b; font-size:13px; line-height:1.6; margin:8px 0 14px; }
+.admin-payment-correction form { display:grid; gap:16px; margin-top:20px; }
+@media(max-width:760px) {
+ .admin-ledger-wrap { max-height:none; overflow:visible; }
+ .admin-ledger-table { display:block; width:100%; min-width:0; }
+ .admin-ledger-table thead { display:none; }
+ .admin-ledger-table tbody { display:grid; gap:16px; padding:12px; }
+ .admin-ledger-table tr { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:16px 12px; padding:18px; border:1px solid #cbd7cd; border-radius:14px; background:#fff; box-shadow:0 2px 6px #163d2a08; }
+ .admin-ledger-table td,.admin-ledger-table td:first-child,.admin-ledger-table td:last-child,.admin-ledger-table td[data-label] { position:static; display:block; min-width:0; max-width:none; padding:0; border:0; box-shadow:none; background:transparent; text-align:left; white-space:normal; font-size:14px; }
+ .admin-ledger-table td::before { content:attr(data-label); display:block; margin-bottom:5px; font-size:11px; font-weight:600; color:#526157; }
+ .admin-ledger-table td[data-label="Customer Name"],.admin-ledger-table td[data-label="Brand Name"],.admin-ledger-table td:last-child { grid-column:1 / -1; }
+ .admin-ledger-table td[data-label="Customer Name"] .admin-order-link { font-size:19px; }
+ .admin-ledger-table td[data-label="Brand Name"] .admin-order-link { font-size:17px; }
+ .admin-ledger-table .admin-order-link { min-height:36px; }
+ .admin-ledger-table input,.admin-ledger-table select { width:100%; min-height:44px; font-size:16px; }
+ .admin-ledger-table .admin-btn { min-height:44px; width:100%; }
+ .admin-ledger-table tbody tr:hover td { background:transparent; }
+ .admin-panel-note { font-size:13px; line-height:1.7; }
+ .admin-detail-metrics { grid-template-columns:1fr; }
+ .admin-detail-metrics>div { display:flex; justify-content:space-between; align-items:center; font-size:13px; padding:14px; }
+ .admin-detail-metrics strong { font-size:19px; }
+ .admin-payment-correction { padding:14px; }
+ .admin-payment-correction .admin-btn { width:100%; min-height:44px; }
+ .admin-modal .admin-actions { display:grid; grid-template-columns:1fr; }
+ .admin-cloud-session { flex-wrap:wrap; padding:10px 14px; overflow-wrap:anywhere; }
+}
+.admin-orders-table td:first-child>.admin-order-link { display:block; }
+.admin-modal .admin-history-row small { color:#526157; font-size:12px; }
