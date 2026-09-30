@@ -64,7 +64,7 @@ test('order log clears actual balance and replaces delivery total once, with sta
   assert.throws(()=>run(s,'updateOrderLog',change),/changed/)
   s=run(s,'updateOrderLog',{...change,version:2,expectedBalance:0,expectedDeliveryCost:24000,deliveryCost:25000,clearRemaining:false})
   assert.equal(summarize(s).cash,245000)
-  assert.equal(s.expenses.filter(e=>!e.voided).length,1)
+  assert.equal(s.expenses.filter(e=>!e.voided&&e.category==='Delivery').length,1)
   assert.equal(s.expenses.filter(e=>e.voided).length,1)
 })
 test('COD dispatch leaves amount outstanding; invalid log updates do not mutate records',()=>{
@@ -75,7 +75,7 @@ test('COD dispatch leaves amount outstanding; invalid log updates do not mutate 
   assert.equal(next.payments.length,0)
   assert.throws(()=>run(s,'updateOrderLog',{...p,clearRemaining:true,deliveryCost:-1}),/cost/)
   assert.equal(s.payments.length,0)
-  assert.equal(s.expenses.length,0)
+  assert.equal(s.expenses.filter(e=>e.amount>0).length,0)
 })
 test('multi-product total and atomic initial advance',()=>{const s=run(emptyWorkspace(),'createOrder',{...base,advance:100000});assert.equal(orderTotal(s.orders[0]),270000);assert.equal(receivedFor(s,s.orders[0].id),100000);assert.equal(balanceFor(s,s.orders[0]),170000);assert.equal(summarize(s).cash,100000);assert.equal(emptyWorkspace().orders.length,0)})
 test('production requires approval and 50%, dispatch requires full amount',()=>{
@@ -140,4 +140,39 @@ test('omitted advance can be corrected without overwriting later installments or
  const r=s.payments[0]
  s=applyCommand(s,{action:'addPayment',payload:{orderId:o.id,kind:'Refund',amount:20000,date:base.date,method:'Cash',account:'Business'}})
  assert.throws(()=>applyCommand(s,{action:'correctPayment',payload:{orderId:o.id,version:s.orders[0].version,paymentId:r.id,expectedReceived:30000,expectedAmount:50000,amount:10000,reason:'Wrong receipt'}}),/refunds/)
+})
+
+test('new product lines create distinct zero-cost rows; edits update costs and funding without duplicates',()=>{
+ let s=orderState(),o=s.orders[0]
+ assert.equal(s.expenses.length,2)
+ for(const [i,e] of s.expenses.entries()){assert.equal(e.orderId,o.id);assert.equal(e.itemId,o.items[i].id);assert.equal(e.specification,o.items[i].specification);assert.equal(e.quantity,o.items[i].quantity);assert.equal(e.amount,0);assert.equal(e.paid,false)}
+ assert.equal(summarize(s).costs,0)
+ const e=s.expenses[0],p={id:e.id,expectedRevision:s.revision,amount:30000,date:'2026-09-26',funding:'Ismail',paid:true,paidDate:'2026-09-26'}
+ assert.throws(()=>run(s,'payExpense',{id:e.id,date:'2026-09-26'}),/cost/)
+ assert.throws(()=>run(s,'updateProductExpense',{...p,amount:-1}),/Product cost/)
+ s=run(s,'updateProductExpense',p)
+ assert.equal(s.expenses.length,2);assert.equal(summarize(s).costs,30000);assert.equal(summarize(s).partners.Ismail,30000);assert.equal(summarize(s).cash,0)
+ assert.throws(()=>run(s,'updateProductExpense',p),/changed/)
+ s=run(s,'updateProductExpense',{...p,expectedRevision:s.revision,amount:40000,funding:'Business'})
+ assert.equal(summarize(s).costs,40000);assert.equal(summarize(s).partners.Ismail,0);assert.equal(summarize(s).cash,-40000)
+})
+test('log cancellation preserves receipts/costs and requires a reason without settling payment',()=>{
+ let s=run(emptyWorkspace(),'createOrder',{...base,advance:50000,deliveryCost:10000}),o=s.orders[0]
+ const p={id:o.id,version:o.version,expectedBalance:220000,expectedDeliveryCost:10000,status:'Cancelled',deliveryCost:10000,date:'2026-09-26',reason:'Customer changed plans'}
+ assert.throws(()=>run(s,'updateOrderLog',{...p,reason:''}),/reason/)
+ assert.throws(()=>run(s,'updateOrderLog',{...p,clearRemaining:true}),/separately/)
+ s=run(s,'updateOrderLog',p)
+ assert.equal(s.orders[0].status,'Cancelled');assert.equal(s.payments.length,1);assert.equal(s.expenses.length,3);assert.equal(summarize(s).credits,50000);assert.equal(summarize(s).costs,10000)
+})
+test('permanent deletion removes only linked records, protects stale data, and never reuses order numbers',()=>{
+ let s=run(emptyWorkspace(),'createOrder',{...base,advance:50000,deliveryCost:10000})
+ const keep=s.orders[0]
+ s=run(s,'createOrder',{...base,advance:70000,deliveryCost:15000})
+ const target=s.orders[0],p={id:target.id,version:target.version,expectedRevision:s.revision,confirmNumber:target.number}
+ assert.throws(()=>run(s,'deleteOrder',{...p,confirmNumber:'wrong'}),/exact/)
+ assert.throws(()=>run(s,'deleteOrder',{...p,expectedRevision:0}),/changed/)
+ s=run(s,'deleteOrder',p)
+ assert.equal(s.orders.length,1);assert.equal(s.orders[0].id,keep.id);assert.ok(s.expenses.every(e=>e.orderId===keep.id));assert.ok(s.payments.every(e=>e.orderId===keep.id));assert.equal(summarize(s).cash,40000)
+ assert.equal(s.audit[0].action,'deleteOrder')
+ s=run(s,'createOrder',base);assert.equal(s.orders[0].number,'PP-00003')
 })

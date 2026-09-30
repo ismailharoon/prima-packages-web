@@ -15,17 +15,18 @@ export function OrderLogRow({ order, state, columns, busy, open, save }: {
   const [delivery,setDelivery]=useState(String(cost/100))
   const [clear,setClear]=useState(false)
   const [error,setError]=useState('')
+  const [reason,setReason]=useState('')
   const changed=status!==order.status||Number(delivery)!==cost/100||clear
   async function update() {
     setError('')
     try {
       if(delivery.trim()===''||!Number.isFinite(Number(delivery))||Number(delivery)<0) throw new Error('Enter a valid delivery cost.')
-      await save('updateOrderLog',{id:order.id,version:order.version,status,deliveryCost:money(delivery),expectedDeliveryCost:cost,expectedBalance:balance,clearRemaining:clear,date:new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Karachi'})})
+      await save('updateOrderLog',{id:order.id,version:order.version,status,reason,deliveryCost:money(delivery),expectedDeliveryCost:cost,expectedBalance:balance,clearRemaining:clear,date:new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Karachi'})})
     } catch(e) { setError(e instanceof Error?e.message:'Check the row.') }
   }
   return <tr>{columns.map(c=><td key={c.label} data-label={c.label} className={c.money?'admin-ledger-money':undefined}>
     {['Order ID','Brand Name','Customer Name'].includes(c.label)?<button className="admin-order-link" onClick={open}>{String(c.value(order))||'View details'}</button>
-    :c.label==='Order Status'?<select aria-label={`Order status for ${order.number}`} disabled={busy||order.status==='Cancelled'} value={status} onChange={e=>setStatus(e.target.value as Order['status'])}>{[...new Set([order.status,'Confirmed','Production','Dispatched'])].map(s=><option key={s} value={s}>{s==='Production'?'In Production':s}</option>)}</select>
+    :c.label==='Order Status'?<div><select aria-label={`Order status for ${order.number}`} disabled={busy||order.status==='Cancelled'} value={status} onChange={e=>setStatus(e.target.value as Order['status'])}>{[...new Set([order.status,'Confirmed','Production','Dispatched','Cancelled'])].map(s=><option key={s} value={s}>{s==='Production'?'In Production':s}</option>)}</select>{status==='Cancelled'&&order.status!=='Cancelled'&&<label>Cancellation reason<input value={reason} onChange={e=>setReason(e.target.value)} maxLength={500} required/><small>Payments and expenses are retained. Refunds remain tracked.</small></label>}</div>
     :c.label==='Delivery Cost (Rs)'?<input aria-label={`Delivery cost for ${order.number}`} disabled={busy||order.status==='Cancelled'} type="number" min="0" step="0.01" value={delivery} onChange={e=>setDelivery(e.target.value)}/>
     :c.label==='Remaining Amount (Rs)'?<div className="admin-row-controls"><strong>{(balance/100).toLocaleString('en-PK',{minimumFractionDigits:2})}</strong>{balance>0&&order.status!=='Cancelled'&&<button type="button" className="admin-btn small secondary" aria-pressed={clear} disabled={busy} onClick={()=>setClear(!clear)}>{clear?'Undo clear':'Clear remaining'}</button>}{clear&&<small>Will record Rs. {(balance/100).toLocaleString('en-PK')} received when you click Update.</small>}</div>
     :c.label==='Payment Status'?<span className="admin-badge">{String(c.value(order))}</span>

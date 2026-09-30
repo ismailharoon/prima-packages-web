@@ -1,0 +1,17 @@
+'use client'
+import { useState, type FormEvent } from 'react'
+import type { Expense, Order, Workspace } from '@/lib/admin/types'
+import { money } from '@/lib/admin/domain.mjs'
+type Save = (action:string,payload:unknown)=>Promise<boolean>
+export function DeleteOrder({order,state,busy,save}:{order:Order;state:Workspace;busy:boolean;save:Save}) {
+ const [open,setOpen]=useState(false),[confirm,setConfirm]=useState('')
+ return <section className="admin-panel admin-form"><h3>Delete order permanently</h3><p>This removes the order, its products, all linked payments (including advance) and all linked expenses. Totals will be recalculated. Cancellation keeps these records; deletion does not issue a refund.</p>{!open?<button className="admin-btn secondary" disabled={busy} onClick={()=>setOpen(true)}>Delete this order</button>:<form onSubmit={async e=>{e.preventDefault();await save('deleteOrder',{id:order.id,version:order.version,expectedRevision:state.revision,confirmNumber:confirm})}}><p>{state.payments.filter(p=>p.orderId===order.id).length} payments and {state.expenses.filter(e=>e.orderId===order.id).length} expenses will be removed.</p><label className="admin-field">Type {order.number} to confirm<input value={confirm} onChange={e=>setConfirm(e.target.value)} required autoComplete="off"/></label><div className="admin-actions"><button className="admin-btn" disabled={busy||confirm!==order.number}>Permanently delete</button><button type="button" className="admin-btn secondary" disabled={busy} onClick={()=>setOpen(false)}>Keep order</button></div></form>}</section>
+}
+export function ProductExpenseEditor({expense:e,revision,busy,save}:{expense:Expense;revision:number;busy:boolean;save:Save}) {
+ const [open,setOpen]=useState(false),[error,setError]=useState('')
+ async function submit(event:FormEvent<HTMLFormElement>) {
+  event.preventDefault();setError('');const f=new FormData(event.currentTarget)
+  try {if(await save('updateProductExpense',{id:e.id,expectedRevision:revision,amount:money(String(f.get('amount'))),date:String(f.get('date')),funding:String(f.get('funding')),paid:f.get('paid')==='yes',paidDate:String(f.get('paidDate'))}))setOpen(false)} catch(err){setError(err instanceof Error?err.message:'Check amount')}
+ }
+ return <div><button type="button" className="admin-btn small secondary" disabled={busy} onClick={()=>setOpen(!open)}>{open?'Close editor':e.amount?'Edit product cost':'Enter product cost'}</button>{open&&<form className="admin-form" onSubmit={submit}><label className="admin-field">Total cost (Rs.)<input name="amount" type="number" min="0" step="0.01" required defaultValue={e.amount/100}/></label><label className="admin-field">Expense date<input name="date" type="date" required defaultValue={e.date}/></label><label className="admin-field">Funded by<select name="funding" defaultValue={e.funding}><option>Business</option><option>Ismail</option><option>Rizwan</option></select></label><label className="admin-field">Payment<select name="paid" defaultValue={e.paid?'yes':'no'}><option value="no">Unpaid</option><option value="yes">Paid</option></select></label><label className="admin-field">Payment date (if paid)<input name="paidDate" type="date" defaultValue={e.paidDate||new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Karachi'})}/></label>{error&&<p role="alert">{error}</p>}<button className="admin-btn small" disabled={busy}>Save cost</button></form>}</div>
+}

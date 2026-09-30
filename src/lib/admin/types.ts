@@ -8,7 +8,7 @@ export interface Order {
   paymentDueDate?: string; items: OrderItem[]; discount: number; deliveryCharge: number; version: number; createdAt: string
 }
 export interface Payment { id: string; orderId: string; amount: number; date: string; method: string; account: Funding; reference: string; kind: 'Receipt' | 'Refund'; reversalOf?: string; note: string }
-export interface Expense { id: string; date: string; description: string; category: string; productType: string; brand: string; orderId: string; amount: number; funding: Funding; paid: boolean; paidDate: string; note: string; voided?: boolean }
+export interface Expense { itemId?: string; specification?: string; quantity?: number; id: string; date: string; description: string; category: string; productType: string; brand: string; orderId: string; amount: number; funding: Funding; paid: boolean; paidDate: string; note: string; voided?: boolean }
 export interface Movement { id: string; date: string; type: 'Capital in' | 'Partner repayment' | 'Owner withdrawal'; partner: 'Ismail' | 'Rizwan'; amount: number; note: string }
 export interface AuditEntry { id: string; at: string; action: string; detail: string; actor: string }
 export interface Workspace { schema: number; revision: number; orders: Order[]; payments: Payment[]; expenses: Expense[]; movements: Movement[]; audit: AuditEntry[]; openingBalance: number; importFingerprint?: string }

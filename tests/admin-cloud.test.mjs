@@ -31,6 +31,13 @@ test('Postgres: access isolation, atomic writes, retries and stale revisions',as
   const saved=(await db.query('select data from prima_workspace_state')).rows[0].data
   assert.equal(saved.revision,1);assert.equal(orderTotal(saved.orders[0]),235000)
   assert.equal((await db.query('select count(*)::int as n from prima_orders')).rows[0].n,1)
+  assert.equal(saved.expenses[0].itemId,saved.orders[0].items[0].id)
+  assert.equal((await db.query('select amount from prima_expenses')).rows[0].amount,0)
+  const costed=applyCommand(saved,{action:'updateProductExpense',payload:{id:saved.expenses[0].id,expectedRevision:1,amount:25000,date:'2026-09-28',funding:'Business',paid:true,paidDate:'2026-09-28'}})
+  await commit(costed,1,crypto.randomUUID(),'cost')
+  const deleted=applyCommand(costed,{action:'deleteOrder',payload:{id:costed.orders[0].id,version:costed.orders[0].version,expectedRevision:2,confirmNumber:costed.orders[0].number}})
+  await commit(deleted,2,crypto.randomUUID(),'delete')
+  for(const table of ['prima_orders','prima_order_items','prima_expenses','prima_payments']) assert.equal((await db.query(`select count(*)::int as n from ${table}`)).rows[0].n,0)
  }finally{await db.close()}
 })
 

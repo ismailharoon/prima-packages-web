@@ -78,6 +78,32 @@ export function applyCommand(current, command, actor = 'Local owner') {
   const id = crypto.randomUUID()
   const now = new Date().toISOString()
   switch (command.action) {
+    case 'deleteOrder': {
+      const o = findOrder(state,p.id)
+      if (p.expectedRevision !== state.revision || p.version !== o.version) throw new Error('Workspace changed. Refresh before deleting this order.')
+      if (p.confirmNumber !== o.number) throw new Error('Type the exact order number to confirm deletion.')
+      state.orderNumberFloor = Math.max(state.orderNumberFloor || 0, ...state.orders.map(x=>Number(x.number.match(/^PP-(\d+)$/)?.[1]||0)))
+      const payments = state.payments.filter(x=>x.orderId===o.id).length
+      const expenses = state.expenses.filter(x=>x.orderId===o.id).length
+      state.orders = state.orders.filter(x=>x.id!==o.id)
+      state.payments = state.payments.filter(x=>x.orderId!==o.id)
+      state.expenses = state.expenses.filter(x=>x.orderId!==o.id)
+      detail = `Deleted ${o.number}, ${payments} payments and ${expenses} linked expenses`
+      break
+    }
+    case 'updateProductExpense': {
+      const e=state.expenses.find(x=>x.id===p.id&&!x.voided&&x.itemId)
+      if(!e) throw new Error('Product expense not found.')
+      if(p.expectedRevision!==state.revision) throw new Error('Workspace changed. Refresh before updating this expense.')
+      const previous=e.amount
+      e.amount=amount(p.amount,'Product cost')
+      e.date=date(p.date)
+      e.funding=choice(p.funding,fundingSources,'funding source')
+      e.paid=p.paid===true && e.amount>0
+      e.paidDate=e.paid?date(p.paidDate):''
+      detail=`Updated ${e.description}: Rs. ${previous/100} to Rs. ${e.amount/100}`
+      break
+    }
     case 'correctPayment': {
       const o=findOrder(state,p.orderId)
       if(o.status==='Cancelled') throw new Error('Cancelled order payments need a separate review.')
@@ -104,7 +130,11 @@ export function applyCommand(current, command, actor = 'Local owner') {
       if (o.version !== p.version || p.expectedBalance !== balance || p.expectedDeliveryCost !== currentCost) throw new Error('This order changed. Refresh before updating it.')
       const status = choice(p.status,orderStatuses,'order status')
       if (o.status === 'Cancelled') throw new Error('Cancelled orders cannot be updated here.')
-      if (!['Confirmed','Production','Dispatched'].includes(status) && status !== o.status) throw new Error('Choose a status from the order log.')
+      if (!['Confirmed','Production','Dispatched','Cancelled'].includes(status) && status !== o.status) throw new Error('Choose a status from the order log.')
+      if(status==='Cancelled') {
+        if(p.clearRemaining || p.deliveryCost!==currentCost) throw new Error('Save payment and delivery changes separately before cancelling.')
+        o.notes=[o.notes,`Cancellation: ${text(p.reason,'cancellation reason',500,true)}`].filter(Boolean).join('\n')
+      }
       const paidOn = date(p.date)
       if (paidOn < o.date) throw new Error('Payment date cannot be before the order date.')
       const cost = amount(p.deliveryCost,'Delivery cost')
@@ -133,12 +163,13 @@ export function applyCommand(current, command, actor = 'Local owner') {
     }
     case 'createOrder': {
       validateNewOrder(p)
-      const order = { id, number: `PP-${String(Math.max(0,...state.orders.map(o=>Number(o.number.match(/^PP-(\d+)$/)?.[1]||0)))+1).padStart(5,'0')}`, date: date(p.date), customer: text(p.customer,'customer name',150,true), brand: text(p.brand || '', 'brand'), phone: text(p.phone || '', 'phone',40), address: text(p.address || '', 'address',500), source: choice(p.source,['Instagram','WhatsApp','Website','Other'],'source'), status: choice(p.status,['New request','Confirmed'],'order status'), design: 'Pending artwork', paymentDueDate: date(p.paymentDueDate,false), dueDate: date(p.dueDate,false), notes: text(p.notes || '', 'notes',4000), artwork: text(p.artwork || '', 'artwork reference',1000), items: items(p.items), discount: amount(p.discount || 0,'Discount'), deliveryCharge: amount(p.deliveryCharge || 0,'Delivery charge'), version: 1, createdAt: now }
+      const order = { id, number: `PP-${String(Math.max(state.orderNumberFloor || 0,...state.orders.map(o=>Number(o.number.match(/^PP-(\d+)$/)?.[1]||0)))+1).padStart(5,'0')}`, date: date(p.date), customer: text(p.customer,'customer name',150,true), brand: text(p.brand || '', 'brand'), phone: text(p.phone || '', 'phone',40), address: text(p.address || '', 'address',500), source: choice(p.source,['Instagram','WhatsApp','Website','Other'],'source'), status: choice(p.status,['New request','Confirmed'],'order status'), design: 'Pending artwork', paymentDueDate: date(p.paymentDueDate,false), dueDate: date(p.dueDate,false), notes: text(p.notes || '', 'notes',4000), artwork: text(p.artwork || '', 'artwork reference',1000), items: items(p.items), discount: amount(p.discount || 0,'Discount'), deliveryCharge: amount(p.deliveryCharge || 0,'Delivery charge'), version: 1, createdAt: now }
       if (orderTotal(order) < 0 || orderTotal(order) > 100000000000) throw new Error('Check the order total and discount.')
       if (order.dueDate && order.dueDate < order.date) throw new Error('Due date cannot be before the order date.')
       const deliveryCost = amount(p.deliveryCost || 0,'Delivery cost')
       if (deliveryCost) state.expenses.unshift({ id:crypto.randomUUID(), date:order.date, description:`Delivery — ${order.number}`, category:'Delivery', productType:'Other', brand:order.brand, orderId:id, amount:deliveryCost, funding:'Business', paid:true, paidDate:order.date, note:'Delivery paid with order entry' })
       state.orders.unshift(order)
+      state.expenses.push(...order.items.map(item=>({id:crypto.randomUUID(),orderId:id,itemId:item.id,specification:item.specification,quantity:item.quantity,date:order.date,description:item.name,category:'Product',productType:item.category,brand:order.brand,amount:0,funding:'Business',paid:false,paidDate:'',note:'Product cost pending'})))
       if (p.advance) state.payments.unshift({ id: crypto.randomUUID(), orderId:id, amount:amount(p.advance,'Advance',false), date:date(p.date), method:text(p.paymentMethod || 'Bank transfer','payment method',80,true), account:'Business', reference:'', kind:'Receipt', note:'Advance recorded with order' })
       detail = `Created ${order.number} for ${order.customer}`
       break
@@ -181,6 +212,7 @@ export function applyCommand(current, command, actor = 'Local owner') {
     case 'payExpense': {
       const e = state.expenses.find(e => e.id === p.id)
       if (!e || e.voided || e.paid) throw new Error('Expense is missing, already paid or voided.')
+      if (!e.amount) throw new Error('Enter the product cost before marking it paid.')
       e.paid = true; e.paidDate = date(p.date)
       detail = `Paid expense: ${e.description}`
       break
