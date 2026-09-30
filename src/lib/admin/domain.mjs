@@ -81,7 +81,7 @@ export function applyCommand(current, command, actor = 'Local owner') {
     case 'deleteOrder': {
       const o = findOrder(state,p.id)
       if (p.expectedRevision !== state.revision || p.version !== o.version) throw new Error('Workspace changed. Refresh before deleting this order.')
-      if (p.confirmNumber !== o.number) throw new Error('Type the exact order number to confirm deletion.')
+      if (String(p.confirmNumber || '').trim().toUpperCase() !== o.number.toUpperCase()) throw new Error('Type the exact order number to confirm deletion.')
       state.orderNumberFloor = Math.max(state.orderNumberFloor || 0, ...state.orders.map(x=>Number(x.number.match(/^PP-(\d+)$/)?.[1]||0)))
       const payments = state.payments.filter(x=>x.orderId===o.id).length
       const expenses = state.expenses.filter(x=>x.orderId===o.id).length
