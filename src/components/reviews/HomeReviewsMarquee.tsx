@@ -9,22 +9,19 @@ export function HomeReviewsMarquee() {
   const { allReviews, summary } = useReviews()
   const [modalOpen, setModalOpen] = useState(false)
 
-  // Split reviews into two distinct tracks for visual depth
-  const mid = Math.ceil(allReviews.length / 2)
-  const track1 = allReviews.slice(0, mid)
-  const track2 = allReviews.slice(mid)
+  // Duplicate for seamless infinite loop (translateX: 0% to -50%)
+  const loopTrack = [...allReviews, ...allReviews]
 
-  // Duplicate for seamless infinite loop
-  const loopTrack1 = [...track1, ...track1, ...track1]
-  const loopTrack2 = [...track2, ...track2, ...track2]
+  // Calculate duration so speed is smooth and natural (~3.8s per card)
+  const duration = Math.max(40, allReviews.length * 3.8)
 
   const renderCard = (r: Review, keyIdx: number) => (
     <article
       key={`${r.id}-${keyIdx}`}
       className="review-card-item select-none"
     >
-      <div className="flex items-center justify-between gap-2 mb-2.5">
-        <div className="flex text-amber-400 text-sm">
+      <div className="flex items-center justify-between gap-2 mb-2">
+        <div className="flex text-amber-400 text-xs sm:text-sm">
           {'★'.repeat(r.rating)}
           <span className="text-charcoal/20">{'★'.repeat(5 - r.rating)}</span>
         </div>
@@ -33,20 +30,20 @@ export function HomeReviewsMarquee() {
         </span>
       </div>
 
-      <p className="text-xs sm:text-sm text-charcoal/85 leading-relaxed line-clamp-3 mb-3">
+      <p className="text-xs sm:text-sm text-charcoal/85 leading-relaxed line-clamp-3 mb-2.5">
         “{r.comment}”
       </p>
 
-      <div className="mt-auto pt-2.5 border-t border-charcoal/5 flex items-center justify-between">
-        <div>
-          <span className="text-xs font-bold text-charcoal block">
+      <div className="mt-auto pt-2 border-t border-charcoal/5 flex items-center justify-between gap-2">
+        <div className="min-w-0">
+          <span className="text-xs font-bold text-charcoal block truncate">
             {r.author}
           </span>
-          <span className="text-[11px] text-charcoal/60 font-medium">
+          <span className="text-[10px] sm:text-[11px] text-charcoal/60 font-medium block truncate">
             {r.brandName ? `${r.brandName} · ` : ''}{r.city || 'Pakistan'}
           </span>
         </div>
-        <span className="text-[10px] font-semibold text-sage-dark bg-sage/10 rounded-md px-2 py-0.5 max-w-[120px] truncate">
+        <span className="text-[10px] font-semibold text-sage-dark bg-sage/10 rounded-md px-2 py-0.5 shrink-0 max-w-[120px] truncate">
           {r.productName}
         </span>
       </div>
@@ -54,50 +51,37 @@ export function HomeReviewsMarquee() {
   )
 
   return (
-    <section className="py-14 sm:py-20 bg-[#FAF8F4] overflow-hidden" aria-label="Customer Reviews">
-      <div className="store-shell mb-8 sm:mb-12">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-5">
+    <section className="py-8 sm:py-10 bg-[#FAF8F4] overflow-hidden border-y border-charcoal/5 my-4 sm:my-6" aria-label="Customer Reviews">
+      <div className="store-shell mb-4 sm:mb-5">
+        <div className="flex items-center justify-between gap-4">
           <div>
-            <p className="eyebrow text-emerald-700">LOVED BY 500+ BRANDS ACROSS PAKISTAN</p>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-charcoal tracking-tight mt-1.5">
-              Client Reviews &amp; Experiences
-            </h2>
-            <div className="flex items-center gap-2 mt-2">
-              <div className="flex text-amber-400 text-base">★★★★★</div>
-              <span className="text-xs sm:text-sm font-semibold text-charcoal/75">
-                {summary.average.toFixed(1)} / 5.0 Rating · Based on {allReviews.length} Verified Reviews
+            <p className="eyebrow text-emerald-700">VERIFIED CLIENT REVIEWS</p>
+            <div className="flex flex-wrap items-center gap-2 mt-1">
+              <div className="flex text-amber-400 text-sm">★★★★★</div>
+              <span className="text-xs sm:text-sm font-bold text-charcoal">
+                {summary.average.toFixed(1)} / 5.0 Rating · {allReviews.length} Verified Reviews
               </span>
             </div>
           </div>
 
-          <div>
-            <button
-              type="button"
-              onClick={() => setModalOpen(true)}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-charcoal hover:bg-black px-6 py-3 text-xs font-bold uppercase tracking-wider text-white shadow-md transition-all hover:scale-105"
-            >
-              ★ Leave a Review
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={() => setModalOpen(true)}
+            className="inline-flex items-center justify-center gap-1.5 rounded-full bg-sage hover:bg-sage-dark px-4 py-2 text-[11px] font-bold uppercase tracking-wider text-white shadow-sm shadow-sage/20 transition-all hover:scale-105"
+          >
+            ★ Write a Review
+          </button>
         </div>
       </div>
 
-      {/* Marquee Track 1 (Left to Right) */}
-      <div className="reviews-marquee-container py-2">
-        <div className="reviews-track">
-          {loopTrack1.map((review, idx) => renderCard(review, idx))}
+      {/* Single Continuous Scrolling Line of all reviews */}
+      <div className="reviews-marquee-container py-1.5">
+        <div
+          className="reviews-track"
+          style={{ animationDuration: `${duration}s` }}
+        >
+          {loopTrack.map((review, idx) => renderCard(review, idx))}
         </div>
-      </div>
-
-      {/* Marquee Track 2 (Right to Left) */}
-      <div className="reviews-marquee-container py-2 mt-2">
-        <div className="reviews-track-reverse">
-          {loopTrack2.map((review, idx) => renderCard(review, idx))}
-        </div>
-      </div>
-
-      <div className="mt-8 text-center text-xs text-charcoal/50">
-        <span>Touch or hover over any review to pause scrolling.</span>
       </div>
 
       <ReviewModal
