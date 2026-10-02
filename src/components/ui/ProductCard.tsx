@@ -2,19 +2,21 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { formatPrice } from '@/lib/utils'
 import type { Product } from '@/data/products'
+import { getProductRatingSummary } from '@/data/reviews'
 
 export function ProductCard({ product }: { product: Product; index?: number }) {
   const size = product.sizes.reduce(
     (lowest, current) => (current.price < lowest.price ? current : lowest),
     product.sizes[0]
   )
+  const reviewSummary = getProductRatingSummary(product.slug)
 
   return (
     <article className="group flex flex-col bg-transparent border-0 shadow-none pb-12 sm:pb-0 border-b sm:border-b-0 border-[#E2E7DB] last:border-b-0 last:pb-0">
-      {/* Clean Photo Frame - Identical Aspect Ratio & Seamless Studio Canvas */}
+      {/* Clean Photo Frame - 90 Degree Sharp Corners & White Canvas */}
       <Link
         href={`/products/${product.slug}`}
-        className="relative block aspect-square bg-[#F5F2EB] rounded-2xl overflow-hidden"
+        className="relative block aspect-square bg-white rounded-none border border-[#EAEFE5] overflow-hidden"
         tabIndex={-1}
         aria-hidden="true"
       >
@@ -23,15 +25,28 @@ export function ProductCard({ product }: { product: Product; index?: number }) {
           alt={product.name}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 45vw, 290px"
-          className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+          className="object-contain p-2.5 group-hover:scale-105 transition-transform duration-500 ease-out"
         />
       </Link>
 
       {/* Content - aprints.pk-style Centered Flow */}
-      <div className="pt-5 flex flex-col items-center text-center flex-1">
+      <div className="pt-4 flex flex-col items-center text-center flex-1">
         <h3 className="text-base sm:text-[17px] font-extrabold text-[#182C1E] tracking-wider uppercase group-hover:text-emerald-800 transition-colors">
           <Link href={`/products/${product.slug}`}>{product.name}</Link>
         </h3>
+
+        {/* Rating and review count */}
+        <div className="flex items-center gap-1.5 mt-1.5 mb-1">
+          <div className="flex text-amber-400 text-xs leading-none">
+            {'★'.repeat(Math.round(reviewSummary.average))}
+          </div>
+          <span className="text-xs font-extrabold text-[#182C1E]">
+            {reviewSummary.average.toFixed(1)}
+          </span>
+          <span className="text-xs text-[#5D6B60] font-medium">
+            ({reviewSummary.total} {reviewSummary.total === 1 ? 'review' : 'reviews'})
+          </span>
+        </div>
 
         <div className="mt-1 text-sm font-semibold text-[#182C1E]">
           {product.quoteOnly ? (
@@ -45,7 +60,7 @@ export function ProductCard({ product }: { product: Product; index?: number }) {
         </div>
 
         {product.shortDescription && (
-          <p className="mt-1.5 text-xs text-[#5D6B60] max-w-sm line-clamp-2 leading-relaxed">
+          <p className="mt-1 text-xs text-[#5D6B60] max-w-sm line-clamp-2 leading-relaxed">
             {product.shortDescription}
           </p>
         )}

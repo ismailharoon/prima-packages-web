@@ -181,10 +181,10 @@ a {
 .product-breadcrumb { padding-block: 7px; }
 .product-layout { display: grid; grid-template-columns: 1.05fr 1fr; gap: 60px; align-items: start; padding-top: 8px; }
 .product-gallery { position: sticky; top: 24px; }
-.product-main-photo { position: relative; aspect-ratio: 1.07; background: var(--store-soft); border-radius: var(--store-radius); overflow: hidden; }
-.gallery-counter { position: absolute; right: 15px; bottom: 15px; border-radius: 20px; background: #fffefbd9; font-size: 11px; padding: 6px 12px; }
+.product-main-photo { position: relative; aspect-ratio: 1.07; background: #ffffff; border: 1px solid #e1e7dc; border-radius: 0; overflow: hidden; }
+.gallery-counter { position: absolute; right: 15px; bottom: 15px; border-radius: 0; background: #fffefbd9; font-size: 11px; padding: 6px 12px; }
 .product-thumbnails { display: flex; gap: 10px; margin-top: 14px; overflow-x: auto; padding: 2px; }
-.product-thumbnails button { width: 75px; height: 75px; position: relative; border-radius: 6px; overflow: hidden; border: 2px solid transparent; flex-shrink: 0; cursor: pointer; }
+.product-thumbnails button { width: 75px; height: 75px; position: relative; border-radius: 0; overflow: hidden; border: 1px solid #e1e7dc; flex-shrink: 0; cursor: pointer; background: #ffffff; }
 .product-thumbnails button[aria-pressed=true] { border-color: var(--store-green); }
 .gallery-caption { margin-top: 13px; font-size: 11px; color: #6e7367; line-height: 1.6; }
 .product-buy h1 { font-size: clamp(27px, 3vw, 38px); line-height: 1.2; font-weight: 650; letter-spacing: -.045em; color: var(--store-ink); margin: 10px 0 14px; }

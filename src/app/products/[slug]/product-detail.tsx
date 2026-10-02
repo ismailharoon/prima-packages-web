@@ -10,6 +10,7 @@ import { ProductReviews } from '@/components/reviews/ProductReviews'
 import { minimumQuantity } from '@/lib/cart'
 import { formatPrice } from '@/lib/utils'
 import type { Product } from '@/data/products'
+import { getProductRatingSummary } from '@/data/reviews'
 
 export function ProductDetail({ product, allProducts }: { product: Product; allProducts: Product[] }) {
   const { add, ready } = useCart()
@@ -28,6 +29,7 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
   const valid = Number.isInteger(count) && count >= min && count <= 100000
   const total = Math.round(size.price * (valid ? count : min) * 100) / 100
   const images = product.gallery.length ? product.gallery : [product.heroImage]
+  const ratingSummary = getProductRatingSummary(product.slug)
   const selectSize = (index: number) => { setSizeIndex(index); setQuantity(String(minimumQuantity(product, index))); setAdded(false) }
   const addItem = () => {
     if (!valid || !ready) return
@@ -36,8 +38,16 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
   }
   return <>
     <section className="store-shell product-layout">
-      <div className="product-gallery"><div className="product-main-photo"><Image src={images[imageIndex]} alt={`${product.name}, view ${imageIndex + 1}`} fill loading="eager" fetchPriority="high" sizes="(max-width: 700px) 100vw, 600px" className="object-cover" />{product.discountBadge && <span className="shop-badge">{product.discountBadge}</span>}<span className="gallery-counter">{imageIndex + 1} / {images.length}</span></div><div className="product-thumbnails" aria-label="Product photos">{images.map((src, index) => <button type="button" key={src} onClick={() => setImageIndex(index)} aria-label={`Show photo ${index + 1}`} aria-pressed={index === imageIndex}><Image src={src} alt="" fill sizes="80px" className="object-cover" /></button>)}</div><p className="gallery-caption">Made to order with your artwork. Photos show sample designs.</p></div>
-      <div className="product-buy"><p className="eyebrow">PRIMA PACKAGES / {product.category.toUpperCase()}</p><h1>{product.name}</h1><p className="product-intro">{product.shortDescription}</p>
+      <div className="product-gallery"><div className="product-main-photo"><Image src={images[imageIndex]} alt={`${product.name}, view ${imageIndex + 1}`} fill loading="eager" fetchPriority="high" sizes="(max-width: 700px) 100vw, 600px" className="object-contain p-4" />{product.discountBadge && <span className="shop-badge">{product.discountBadge}</span>}<span className="gallery-counter">{imageIndex + 1} / {images.length}</span></div><div className="product-thumbnails" aria-label="Product photos">{images.map((src, index) => <button type="button" key={src} onClick={() => setImageIndex(index)} aria-label={`Show photo ${index + 1}`} aria-pressed={index === imageIndex}><Image src={src} alt="" fill sizes="80px" className="object-contain p-1" /></button>)}</div><p className="gallery-caption">Made to order with your artwork. Photos show sample designs.</p></div>
+      <div className="product-buy"><p className="eyebrow">PRIMA PACKAGES / {product.category.toUpperCase()}</p><h1>{product.name}</h1>
+        <div className="flex items-center gap-2 mt-1 mb-2.5">
+          <div className="flex text-amber-400 text-sm leading-none">
+            {'★'.repeat(Math.round(ratingSummary.average))}
+          </div>
+          <span className="text-xs font-extrabold text-charcoal">{ratingSummary.average.toFixed(1)} / 5.0</span>
+          <span className="text-xs text-charcoal/60 font-medium">({ratingSummary.total} {ratingSummary.total === 1 ? 'review' : 'reviews'})</span>
+        </div>
+        <p className="product-intro">{product.shortDescription}</p>
         <div className="product-price">{product.quoteOnly ? <strong>Made to your specification</strong> : <><strong>{formatPrice(total)}</strong><span>{size.quantity ? `${count || 1} × ${size.quantity}` : `for ${valid ? count : min} pieces`}</span></>}</div>
         <p className="product-price-note">{product.quoteOnly ? 'Our team will confirm your price on WhatsApp.' : 'Estimated price. Final artwork, options and delivery confirmed on WhatsApp.'}</p>
         <div className="product-trust"><span><Icon name="check" />{product.moq}</span><span><Icon name="box" />{product.dispatchDays} production*</span></div>
