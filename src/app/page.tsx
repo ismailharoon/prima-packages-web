@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { ProductCard } from '@/components/ui/ProductCard'
 import { FAQSection } from '@/components/ui/FAQSection'
 import { Icon } from '@/components/store/Icon'
+import { HomeReviewsMarquee } from '@/components/reviews/HomeReviewsMarquee'
 import { products } from '@/data/products'
 
 const shortcuts = [
@@ -25,6 +26,7 @@ export default function HomePage() {
     <div className="store-shell service-strip"><span><Icon name="box" /> Nationwide delivery</span><span><Icon name="check" /> Design approval first</span><span><Icon name="bag" /> 50% advance to start</span></div>
     <RecentWork />
     <section className="store-shell shop-section category-section"><div className="section-heading"><div><p className="eyebrow">FIND YOUR PERFECT FIT</p><h2>What are you packing?</h2></div><Link href="/catalog">Explore all</Link></div><div className="category-tiles">{shortcuts.map(item => { const product = products.find(p => p.slug === item.slug)!; return <Link href={`/products/${item.slug}`} key={item.slug}><div><Image src={product.heroImage} alt="" fill sizes="(max-width: 700px) 100px, 170px" className="object-cover" /></div><span>{item.name}</span></Link> })}</div></section>
+    <HomeReviewsMarquee />
     <section className="store-shell shop-section"><div className="section-heading"><div><p className="eyebrow">THE EVERYDAY BRAND ESSENTIALS</p><h2>Make it yours.</h2><p>Pick your product. Choose your options. We’ll take care of the print.</p></div><Link href="/catalog">Shop all products</Link></div><div className="store-grid">{products.slice(0, 8).map(product => <ProductCard key={product.slug} product={product} />)}</div></section>
       {/* 3. TOTAL PACKAGING SUCCESS - 360 APPROACH (Inspired by PakFactory) */}
       <section className="bg-white py-12 sm:py-16 lg:py-20">

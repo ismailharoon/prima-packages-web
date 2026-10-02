@@ -9,11 +9,19 @@ export function HomeReviewsMarquee() {
   const { allReviews, summary } = useReviews()
   const [modalOpen, setModalOpen] = useState(false)
 
-  // Duplicate for seamless infinite loop (translateX: 0% to -50%)
-  const loopTrack = [...allReviews, ...allReviews]
+  if (allReviews.length === 0) {
+    return null
+  }
 
-  // Calculate duration so speed is smooth and natural (~3.8s per card)
-  const duration = Math.max(40, allReviews.length * 3.8)
+  // Ensure base track has at least 6 cards to span any screen width before repeating for seamless infinite marquee loop
+  const baseItems: Review[] = []
+  while (baseItems.length < 6 && allReviews.length > 0) {
+    baseItems.push(...allReviews)
+  }
+  const loopTrack = [...baseItems, ...baseItems]
+
+  // Calculate duration so speed is smooth and natural (~4s per card)
+  const duration = Math.max(25, baseItems.length * 4)
 
   const renderCard = (r: Review, keyIdx: number) => (
     <article
@@ -57,9 +65,12 @@ export function HomeReviewsMarquee() {
           <div>
             <p className="eyebrow text-emerald-700">VERIFIED CLIENT REVIEWS</p>
             <div className="flex flex-wrap items-center gap-2 mt-1">
-              <div className="flex text-amber-400 text-sm">★★★★★</div>
+              <div className="flex text-amber-400 text-sm">
+                {'★'.repeat(Math.round(summary.average))}
+                <span className="text-charcoal/20">{'★'.repeat(5 - Math.round(summary.average))}</span>
+              </div>
               <span className="text-xs sm:text-sm font-bold text-charcoal">
-                {summary.average.toFixed(1)} / 5.0 Rating · {allReviews.length} Verified Reviews
+                {summary.average.toFixed(1)} / 5.0 Rating · {allReviews.length} {allReviews.length === 1 ? 'Verified Review' : 'Verified Reviews'}
               </span>
             </div>
           </div>

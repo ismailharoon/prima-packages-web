@@ -1,8 +1,10 @@
+'use client'
+
 import Link from 'next/link'
 import Image from 'next/image'
 import { formatPrice } from '@/lib/utils'
 import type { Product } from '@/data/products'
-import { getProductRatingSummary } from '@/data/reviews'
+import { useReviews } from '@/lib/reviews-storage'
 
 export function ProductCard({ product }: { product: Product; index?: number }) {
   const isOutOfStock = product.slug === 'carry-bags' || product.discountBadge === 'Out of Stock'
@@ -10,7 +12,7 @@ export function ProductCard({ product }: { product: Product; index?: number }) {
     (lowest, current) => (current.price < lowest.price ? current : lowest),
     product.sizes[0]
   )
-  const reviewSummary = getProductRatingSummary(product.slug)
+  const { summary: reviewSummary } = useReviews(product.slug)
 
   return (
     <article className="group flex flex-col bg-transparent border-0 shadow-none pb-12 sm:pb-0 border-b sm:border-b-0 border-[#E2E7DB] last:border-b-0 last:pb-0">
@@ -41,12 +43,13 @@ export function ProductCard({ product }: { product: Product; index?: number }) {
           <div className="flex items-center gap-1.5 mt-1 mb-1">
             <div className="flex text-amber-400 text-xs leading-none">
               {'★'.repeat(Math.round(reviewSummary.average))}
+              <span className="text-charcoal/20">{'★'.repeat(5 - Math.round(reviewSummary.average))}</span>
             </div>
             <span className="text-xs font-semibold text-charcoal">
               {reviewSummary.average.toFixed(1)}
             </span>
             <span className="text-xs text-charcoal/60">
-              ({reviewSummary.total})
+              ({reviewSummary.total} {reviewSummary.total === 1 ? 'review' : 'reviews'})
             </span>
           </div>
         )}
