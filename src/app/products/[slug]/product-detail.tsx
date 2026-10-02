@@ -269,50 +269,6 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
                       <option value="yes">With Tag Card String (+ Rs. {currentStringCost.toLocaleString()})</option>
                     </select>
                   </div>
-
-                  {/* Official Rate List Table */}
-                  <div className="p-3.5 bg-[#FAF8F4] border border-[#CDD5C7] rounded-xl text-xs">
-                    <div className="font-bold text-charcoal mb-2 flex items-center justify-between">
-                      <span className="tracking-wide">TAG CARDS RATE LIST (350 GSM · 2 × 3.5 INCH)</span>
-                      <span className="text-[11px] font-semibold text-emerald-800">Price in PKR</span>
-                    </div>
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-left text-xs border-collapse">
-                        <thead>
-                          <tr className="border-b border-[#CDD5C7] text-charcoal/80">
-                            <th className="py-1.5 font-bold">Print</th>
-                            <th className="py-1.5 font-semibold text-center">100 pcs</th>
-                            <th className="py-1.5 font-semibold text-center">500 pcs</th>
-                            <th className="py-1.5 font-semibold text-center">1,000 pcs</th>
-                            <th className="py-1.5 font-semibold text-center">2,000 pcs</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-[#EAEFE5]">
-                          <tr className={hangTagPrint === 'One Side' ? 'bg-amber-50/60 font-semibold text-charcoal' : ''}>
-                            <td className="py-1.5 font-semibold text-charcoal">One Side</td>
-                            <td className="py-1.5 text-center text-charcoal/90">2,600</td>
-                            <td className="py-1.5 text-center text-charcoal/90">3,200</td>
-                            <td className="py-1.5 text-center text-charcoal/90">3,800</td>
-                            <td className="py-1.5 text-center text-charcoal/90">6,000</td>
-                          </tr>
-                          <tr className={hangTagPrint === 'Double Side' ? 'bg-amber-50/60 font-semibold text-charcoal' : ''}>
-                            <td className="py-1.5 font-semibold text-charcoal">Double Side</td>
-                            <td className="py-1.5 text-center text-charcoal/90">3,600</td>
-                            <td className="py-1.5 text-center text-charcoal/90">4,200</td>
-                            <td className="py-1.5 text-center text-charcoal/90">4,800</td>
-                            <td className="py-1.5 text-center text-charcoal/90">7,800</td>
-                          </tr>
-                          <tr className={hangTagString ? 'bg-emerald-50/80 font-bold text-emerald-950' : 'text-charcoal/80'}>
-                            <td className="py-1.5 font-semibold text-emerald-900">Tag Card String</td>
-                            <td className="py-1.5 text-center text-emerald-900">300</td>
-                            <td className="py-1.5 text-center text-emerald-900">500</td>
-                            <td className="py-1.5 text-center text-emerald-900">600</td>
-                            <td className="py-1.5 text-center text-emerald-900">1,000</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
                 </>
               ) : (
                 <>
