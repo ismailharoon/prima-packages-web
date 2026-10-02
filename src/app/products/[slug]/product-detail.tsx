@@ -13,7 +13,7 @@ import { getProductRatingSummary } from '@/data/reviews'
 
 export function ProductDetail({ product, allProducts }: { product: Product; allProducts: Product[] }) {
   const { add, ready } = useCart()
-  const isOutOfStock = product.discountBadge === 'Out of Stock'
+  const isOutOfStock = product.slug === 'carry-bags' || product.discountBadge === 'Out of Stock'
   const isHangTags = product.slug === 'hang-tags'
   const [sizeIndex, setSizeIndex] = useState(0)
   const [packQuantity, setPackQuantity] = useState('1')
@@ -131,7 +131,6 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
               sizes="(max-width: 700px) 100vw, 600px"
               className="object-contain p-4"
             />
-            {product.discountBadge && <span className="shop-badge">{product.discountBadge}</span>}
             <span className="gallery-counter">
               {imageIndex + 1} / {images.length}
             </span>
@@ -157,31 +156,33 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
           <p className="eyebrow">PRIMA PACKAGES / {product.category.toUpperCase()}</p>
           <h1>{product.name}</h1>
 
-          {/* Rating Summary */}
-          <div className="flex items-center gap-2 mt-1 mb-2.5">
-            <div className="flex text-amber-400 text-sm leading-none">
-              {'★'.repeat(Math.round(ratingSummary.average))}
+          {/* Rating Summary (only if real reviews exist) */}
+          {ratingSummary.total > 0 && (
+            <div className="flex items-center gap-2 mt-1 mb-2">
+              <div className="flex text-amber-400 text-xs leading-none">
+                {'★'.repeat(Math.round(ratingSummary.average))}
+              </div>
+              <span className="text-xs font-semibold text-charcoal">
+                {ratingSummary.average.toFixed(1)} / 5.0
+              </span>
+              <span className="text-xs text-charcoal/60 font-medium">
+                ({ratingSummary.total} {ratingSummary.total === 1 ? 'review' : 'reviews'})
+              </span>
             </div>
-            <span className="text-xs font-extrabold text-charcoal">
-              {ratingSummary.average.toFixed(1)} / 5.0
-            </span>
-            <span className="text-xs text-charcoal/60 font-medium">
-              ({ratingSummary.total} {ratingSummary.total === 1 ? 'review' : 'reviews'})
-            </span>
-          </div>
+          )}
 
           <p className="product-intro">{product.shortDescription}</p>
 
           {/* Dynamic Price Display */}
-          <div className="product-price">
+          <div className="product-price !my-3">
             {isOutOfStock ? (
-              <strong className="text-neutral-600">Currently Out of Stock</strong>
+              <strong className="!text-lg font-semibold text-neutral-600">Currently Out of Stock</strong>
             ) : product.quoteOnly ? (
-              <strong>Made to your specification</strong>
+              <strong className="!text-lg font-semibold text-charcoal">Made to your specification</strong>
             ) : (
               <>
-                <strong>{formatPrice(total)}</strong>
-                <span>
+                <strong className="!text-2xl font-semibold text-charcoal">{formatPrice(total)}</strong>
+                <span className="!text-xs font-normal text-charcoal/70">
                   {size.quantity
                     ? `${countPacks > 1 ? `${countPacks} × ` : ''}${size.quantity}${
                         size.unitPrice ? ` (${formatPrice(size.unitPrice)} / piece)` : ''
@@ -217,19 +218,19 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
 
           {/* Simple Clean Dropdowns For Configuration */}
           {!isOutOfStock && !product.quoteOnly && (
-            <div className="space-y-4 my-5">
+            <div className="space-y-3.5 my-4">
               {isHangTags ? (
                 <>
                   {/* Hang Tag Print Style Dropdown */}
                   <div className="option-block !mt-0">
-                    <label htmlFor="hangtag-print" className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
+                    <label htmlFor="hangtag-print" className="block text-xs font-medium text-charcoal/80 mb-1">
                       1. Print Side (350 GSM · 2 × 3.5 in)
                     </label>
                     <select
                       id="hangtag-print"
                       value={hangTagPrint}
                       onChange={(e) => updateHangTag(e.target.value as 'One Side' | 'Double Side', hangTagQty, hangTagString)}
-                      className="w-full bg-white border border-[#CDD5C7] rounded-lg p-3 text-sm font-semibold text-charcoal shadow-sm focus:border-emerald-600 focus:outline-none"
+                      className="w-full bg-white border border-[#CDD5C7] rounded-md py-2 px-3 text-sm font-normal text-charcoal focus:border-emerald-600 focus:outline-none"
                     >
                       <option value="One Side">One Side Printed</option>
                       <option value="Double Side">Double Side Printed</option>
@@ -238,14 +239,14 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
 
                   {/* Hang Tag Quantity Dropdown */}
                   <div className="option-block !mt-0">
-                    <label htmlFor="hangtag-qty" className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
+                    <label htmlFor="hangtag-qty" className="block text-xs font-medium text-charcoal/80 mb-1">
                       2. Select Quantity
                     </label>
                     <select
                       id="hangtag-qty"
                       value={hangTagQty}
                       onChange={(e) => updateHangTag(hangTagPrint, e.target.value as '100 pcs' | '500 pcs' | '1,000 pcs' | '2,000 pcs', hangTagString)}
-                      className="w-full bg-white border border-[#CDD5C7] rounded-lg p-3 text-sm font-semibold text-charcoal shadow-sm focus:border-emerald-600 focus:outline-none"
+                      className="w-full bg-white border border-[#CDD5C7] rounded-md py-2 px-3 text-sm font-normal text-charcoal focus:border-emerald-600 focus:outline-none"
                     >
                       <option value="100 pcs">100 pcs — {hangTagPrint === 'One Side' ? 'Rs. 2,600' : 'Rs. 3,600'}</option>
                       <option value="500 pcs">500 pcs — {hangTagPrint === 'One Side' ? 'Rs. 3,200' : 'Rs. 4,200'}</option>
@@ -256,14 +257,14 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
 
                   {/* Hang Tag String (Tag Dori) Dropdown */}
                   <div className="option-block !mt-0">
-                    <label htmlFor="hangtag-string" className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
-                      3. Tag Card String (Tag Dori)
+                    <label htmlFor="hangtag-string" className="block text-xs font-medium text-charcoal/80 mb-1">
+                      3. Tag Card String
                     </label>
                     <select
                       id="hangtag-string"
                       value={hangTagString ? 'yes' : 'no'}
                       onChange={(e) => updateHangTag(hangTagPrint, hangTagQty, e.target.value === 'yes')}
-                      className="w-full bg-white border border-[#CDD5C7] rounded-lg p-3 text-sm font-semibold text-charcoal shadow-sm focus:border-emerald-600 focus:outline-none"
+                      className="w-full bg-white border border-[#CDD5C7] rounded-md py-2 px-3 text-sm font-normal text-charcoal focus:border-emerald-600 focus:outline-none"
                     >
                       <option value="no">Without String (Cards Only) — Rs. 0</option>
                       <option value="yes">With Tag Card String (+ Rs. {currentStringCost.toLocaleString()})</option>
@@ -275,14 +276,14 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
                   {/* Color Dropdown */}
                   {colors.length > 0 && (
                     <div className="option-block !mt-0">
-                      <label htmlFor="product-color" className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
+                      <label htmlFor="product-color" className="block text-xs font-medium text-charcoal/80 mb-1">
                         Select Color
                       </label>
                       <select
                         id="product-color"
                         value={selectedColor}
                         onChange={(e) => handleColorChange(e.target.value)}
-                        className="w-full bg-white border border-[#CDD5C7] rounded-lg p-3 text-sm font-semibold text-charcoal shadow-sm focus:border-emerald-600 focus:outline-none"
+                        className="w-full bg-white border border-[#CDD5C7] rounded-md py-2 px-3 text-sm font-normal text-charcoal focus:border-emerald-600 focus:outline-none"
                       >
                         {colors.map((c) => (
                           <option key={c} value={c}>
@@ -296,14 +297,14 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
                   {/* Size Dropdown */}
                   {sizeCategories.length > 0 && (
                     <div className="option-block !mt-0">
-                      <label htmlFor="product-size" className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
-                        1. Select Size
+                      <label htmlFor="product-size" className="block text-xs font-medium text-charcoal/80 mb-1">
+                        Select Size
                       </label>
                       <select
                         id="product-size"
                         value={selectedCategory}
                         onChange={(e) => handleSizeChange(e.target.value)}
-                        className="w-full bg-white border border-[#CDD5C7] rounded-lg p-3 text-sm font-semibold text-charcoal shadow-sm focus:border-emerald-600 focus:outline-none"
+                        className="w-full bg-white border border-[#CDD5C7] rounded-md py-2 px-3 text-sm font-normal text-charcoal focus:border-emerald-600 focus:outline-none"
                       >
                         {sizeCategories.map((category) => (
                           <option key={category} value={category}>
@@ -317,14 +318,14 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
                   {/* Quantity / Pack Dropdown */}
                   {tiersForSize.length > 0 && (
                     <div className="option-block !mt-0">
-                      <label htmlFor="product-tier" className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
-                        2. Select Quantity
+                      <label htmlFor="product-tier" className="block text-xs font-medium text-charcoal/80 mb-1">
+                        Select Quantity
                       </label>
                       <select
                         id="product-tier"
                         value={sizeIndex}
                         onChange={(e) => handleTierChange(Number(e.target.value))}
-                        className="w-full bg-white border border-[#CDD5C7] rounded-lg p-3 text-sm font-semibold text-charcoal shadow-sm focus:border-emerald-600 focus:outline-none"
+                        className="w-full bg-white border border-[#CDD5C7] rounded-md py-2 px-3 text-sm font-normal text-charcoal focus:border-emerald-600 focus:outline-none"
                       >
                         {tiersForSize.map((tier) => (
                           <option key={tier.index} value={tier.index}>
@@ -339,7 +340,7 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
                   {/* Optional Configurator Dropdowns */}
                   {(product.configuratorGroups || []).map((group) => (
                     <div key={group.key} className="option-block !mt-0">
-                      <label htmlFor={`config-${group.key}`} className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
+                      <label htmlFor={`config-${group.key}`} className="block text-xs font-medium text-charcoal/80 mb-1">
                         {group.label}
                       </label>
                       <select
@@ -349,7 +350,7 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
                           setOptions((current) => ({ ...current, [group.key]: e.target.value }))
                           setAdded(false)
                         }}
-                        className="w-full bg-white border border-[#CDD5C7] rounded-lg p-3 text-sm font-semibold text-charcoal shadow-sm focus:border-emerald-600 focus:outline-none"
+                        className="w-full bg-white border border-[#CDD5C7] rounded-md py-2 px-3 text-sm font-normal text-charcoal focus:border-emerald-600 focus:outline-none"
                       >
                         {group.options.map((opt) => (
                           <option key={opt.value} value={opt.value}>
@@ -362,9 +363,9 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
                 </>
               )}
 
-              {/* Number of Packs (if customer wants multiples of 50/100/500) */}
+              {/* Number of Packs */}
               <div className="option-block quantity-block !mt-0">
-                <label htmlFor="product-quantity" className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
+                <label htmlFor="product-quantity" className="block text-xs font-medium text-charcoal/80 mb-1">
                   Number of Packs
                 </label>
                 <input
@@ -379,25 +380,20 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
                     setPackQuantity(e.target.value)
                     setAdded(false)
                   }}
-                  className="w-full bg-white border border-[#CDD5C7] rounded-lg p-3 text-sm font-semibold text-charcoal shadow-sm"
+                  className="w-28 bg-white border border-[#CDD5C7] rounded-md py-2 px-3 text-sm font-normal text-charcoal"
                 />
               </div>
 
-              {/* Custom Size / Bulk Quote Box */}
-              <div className="p-3.5 rounded-xl bg-[#FAF8F4] border border-[#EAEFE5] text-xs text-[#4A554D] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-                <div>
-                  <strong className="block text-charcoal font-bold">Need a custom size, special GSM, or volume order?</strong>
-                  <span className="text-[11px] text-[#6B756E]">
-                    We manufacture customized sizes, materials, and bulk runs tailored to your brand.
-                  </span>
-                </div>
+              {/* Custom Size / Bulk Quote Link */}
+              <div className="pt-2 text-xs text-charcoal/70 flex flex-wrap items-center justify-between gap-1.5 border-t border-[#EAEFE5]">
+                <span>Need a custom size or bulk order?</span>
                 <a
                   href={`https://wa.me/923233231712?text=${encodeURIComponent(
                     `Hi Prima Packages, I need a custom quote for ${product.name}.\nSize / Dimensions:\nQuantity:\nCity:`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 font-bold text-emerald-800 hover:text-emerald-950 underline whitespace-nowrap text-xs"
+                  className="font-medium text-emerald-800 hover:text-emerald-950 underline text-xs"
                 >
                   WhatsApp Quote →
                 </a>

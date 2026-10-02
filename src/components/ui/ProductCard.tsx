@@ -5,7 +5,7 @@ import type { Product } from '@/data/products'
 import { getProductRatingSummary } from '@/data/reviews'
 
 export function ProductCard({ product }: { product: Product; index?: number }) {
-  const isOutOfStock = product.discountBadge === 'Out of Stock'
+  const isOutOfStock = product.slug === 'carry-bags' || product.discountBadge === 'Out of Stock'
   const size = product.sizes.reduce(
     (lowest, current) => (current.price < lowest.price ? current : lowest),
     product.sizes[0]
@@ -28,43 +28,40 @@ export function ProductCard({ product }: { product: Product; index?: number }) {
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 45vw, 290px"
           className="object-contain p-2.5 group-hover:scale-105 transition-transform duration-500 ease-out"
         />
-        {isOutOfStock && (
-          <span className="absolute top-2.5 right-2.5 bg-neutral-900/90 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-sm shadow-sm">
-            Out of Stock
-          </span>
-        )}
       </Link>
 
-      {/* Content - aprints.pk-style Centered Flow */}
-      <div className="pt-4 flex flex-col items-center text-center flex-1">
-        <h3 className="text-base sm:text-[17px] font-extrabold text-[#182C1E] tracking-wider uppercase group-hover:text-emerald-800 transition-colors">
+      {/* Content */}
+      <div className="pt-3.5 flex flex-col items-center text-center flex-1">
+        <h3 className="text-sm sm:text-base font-semibold text-charcoal group-hover:text-emerald-800 transition-colors">
           <Link href={`/products/${product.slug}`}>{product.name}</Link>
         </h3>
 
-        {/* Rating and review count */}
-        <div className="flex items-center gap-1.5 mt-1.5 mb-1">
-          <div className="flex text-amber-400 text-xs leading-none">
-            {'★'.repeat(Math.round(reviewSummary.average))}
+        {/* Rating and review count (only if verified reviews exist) */}
+        {reviewSummary.total > 0 && (
+          <div className="flex items-center gap-1.5 mt-1 mb-1">
+            <div className="flex text-amber-400 text-xs leading-none">
+              {'★'.repeat(Math.round(reviewSummary.average))}
+            </div>
+            <span className="text-xs font-semibold text-charcoal">
+              {reviewSummary.average.toFixed(1)}
+            </span>
+            <span className="text-xs text-charcoal/60">
+              ({reviewSummary.total})
+            </span>
           </div>
-          <span className="text-xs font-extrabold text-[#182C1E]">
-            {reviewSummary.average.toFixed(1)}
-          </span>
-          <span className="text-xs text-[#5D6B60] font-medium">
-            ({reviewSummary.total} {reviewSummary.total === 1 ? 'review' : 'reviews'})
-          </span>
-        </div>
+        )}
 
-        <div className="mt-1 text-sm font-semibold text-[#182C1E]">
+        <div className="mt-1 text-xs sm:text-sm font-normal text-charcoal">
           {isOutOfStock ? (
-            <span className="text-neutral-500 font-bold text-xs uppercase tracking-wider">
+            <span className="text-neutral-500 font-medium text-xs">
               Currently Out of Stock
             </span>
           ) : product.quoteOnly ? (
-            <span>Custom Quote</span>
+            <span className="font-medium text-xs text-charcoal/80">Custom Quote</span>
           ) : (
             <span>
-              Starting from <strong className="font-extrabold">{formatPrice(size.price)}</strong>
-              {size.quantity && <span className="font-medium text-xs text-[#5D6B60]"> / {size.quantity}</span>}
+              Starting from <span className="font-semibold text-charcoal">{formatPrice(size.price)}</span>
+              {size.quantity && <span className="text-xs text-charcoal/65"> / {size.quantity}</span>}
             </span>
           )}
         </div>
