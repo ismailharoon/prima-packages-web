@@ -7,11 +7,12 @@ export const dynamic = 'force-dynamic'
 const memoryReviews: Review[] = []
 
 export async function GET() {
+  const cleanReviews = memoryReviews.filter(r => r && r.id && !/^rev-\d{1,2}$/.test(r.id))
   return Response.json({
-    reviews: [...memoryReviews, ...seedReviews],
+    reviews: cleanReviews,
   }, {
     headers: {
-      'Cache-Control': 'public, max-age=60, s-maxage=120',
+      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
     },
   })
 }

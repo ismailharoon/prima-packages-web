@@ -33,20 +33,22 @@ export function ProductReviews({ product }: { product: Product }) {
           </div>
 
           <div className="flex flex-wrap items-center gap-6">
-            <div className="flex items-center gap-3">
-              <span className="text-4xl font-black text-charcoal">
-                {summary.average.toFixed(1)}
-              </span>
-              <div>
-                <div className="flex text-amber-400 text-lg leading-none">
-                  {'★'.repeat(Math.round(summary.average))}
-                  <span className="text-charcoal/20">{'★'.repeat(5 - Math.round(summary.average))}</span>
-                </div>
-                <span className="text-xs font-medium text-charcoal/60 mt-1 block">
-                  Based on {summary.total} {summary.total === 1 ? 'review' : 'reviews'}
+            {summary.total > 0 && (
+              <div className="flex items-center gap-3">
+                <span className="text-4xl font-black text-charcoal">
+                  {summary.average.toFixed(1)}
                 </span>
+                <div>
+                  <div className="flex text-amber-400 text-lg leading-none">
+                    {'★'.repeat(Math.round(summary.average))}
+                    <span className="text-charcoal/20">{'★'.repeat(5 - Math.round(summary.average))}</span>
+                  </div>
+                  <span className="text-xs font-medium text-charcoal/60 mt-1 block">
+                    Based on {summary.total} {summary.total === 1 ? 'review' : 'reviews'}
+                  </span>
+                </div>
               </div>
-            </div>
+            )}
 
             <button
               type="button"

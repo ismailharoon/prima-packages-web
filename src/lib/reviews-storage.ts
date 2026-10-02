@@ -3,16 +3,23 @@
 import { useState, useEffect } from 'react'
 import { Review, seedReviews, getAllReviews, getReviewsByProduct, calculateRatingSummary } from '@/data/reviews'
 
-const STORAGE_KEY = 'prima_custom_reviews'
+const STORAGE_KEY = 'prima_custom_reviews_v2'
 const EVENT_NAME = 'prima_reviews_updated'
 
 export function getStoredReviews(): Review[] {
   if (typeof window === 'undefined') return []
   try {
+    // Purge old mock reviews key from browser storage
+    try {
+      localStorage.removeItem('prima_custom_reviews')
+    } catch {}
+
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return []
     const parsed = JSON.parse(raw)
-    return Array.isArray(parsed) ? parsed : []
+    if (!Array.isArray(parsed)) return []
+    // Safety check: filter out any legacy mock reviews (rev-01 to rev-99)
+    return parsed.filter((r: Review) => r && r.id && !/^rev-\d{1,2}$/.test(r.id))
   } catch {
     return []
   }

@@ -15,10 +15,12 @@ export const seedReviews: Review[] = []
 
 export function getReviewsByProduct(productSlug: string, customReviews: Review[] = []): Review[] {
   const combined = [...customReviews, ...seedReviews]
-  // Deduplicate by ID
+  // Deduplicate by ID and discard any legacy mock reviews
   const map = new Map<string, Review>()
   for (const r of combined) {
-    if (!map.has(r.id)) map.set(r.id, r)
+    if (r && r.id && !/^rev-\d{1,2}$/.test(r.id) && !map.has(r.id)) {
+      map.set(r.id, r)
+    }
   }
   return Array.from(map.values()).filter((r) => r.productSlug === productSlug)
 }
@@ -27,7 +29,9 @@ export function getAllReviews(customReviews: Review[] = []): Review[] {
   const combined = [...customReviews, ...seedReviews]
   const map = new Map<string, Review>()
   for (const r of combined) {
-    if (!map.has(r.id)) map.set(r.id, r)
+    if (r && r.id && !/^rev-\d{1,2}$/.test(r.id) && !map.has(r.id)) {
+      map.set(r.id, r)
+    }
   }
   return Array.from(map.values())
 }
