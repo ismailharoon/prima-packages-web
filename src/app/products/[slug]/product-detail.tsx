@@ -14,10 +14,42 @@ import { getProductRatingSummary } from '@/data/reviews'
 export function ProductDetail({ product, allProducts }: { product: Product; allProducts: Product[] }) {
   const { add, ready } = useCart()
   const isOutOfStock = product.discountBadge === 'Out of Stock'
+  const isHangTags = product.slug === 'hang-tags'
   const [sizeIndex, setSizeIndex] = useState(0)
   const [packQuantity, setPackQuantity] = useState('1')
   const [imageIndex, setImageIndex] = useState(0)
   const [added, setAdded] = useState(false)
+  const [hangTagPrint, setHangTagPrint] = useState<'One Side' | 'Double Side'>('One Side')
+  const [hangTagQty, setHangTagQty] = useState<'100 pcs' | '500 pcs' | '1,000 pcs' | '2,000 pcs'>('100 pcs')
+  const [hangTagString, setHangTagString] = useState<boolean>(false)
+
+  const stringCosts: Record<string, number> = {
+    '100 pcs': 300,
+    '500 pcs': 500,
+    '1,000 pcs': 600,
+    '2,000 pcs': 1000,
+  }
+  const currentStringCost = stringCosts[hangTagQty] || 300
+
+  const updateHangTag = (
+    newPrint: 'One Side' | 'Double Side',
+    newQty: '100 pcs' | '500 pcs' | '1,000 pcs' | '2,000 pcs',
+    newString: boolean
+  ) => {
+    setHangTagPrint(newPrint)
+    setHangTagQty(newQty)
+    setHangTagString(newString)
+    const targetCategory = newString ? `${newPrint} + Tag Card String` : newPrint
+    const idx = product.sizes.findIndex(
+      (s) => s.sizeCategory === targetCategory && s.quantity === newQty
+    )
+    if (idx !== -1) {
+      setSizeIndex(idx)
+      setPackQuantity('1')
+      setAdded(false)
+    }
+  }
+
   const [options, setOptions] = useState<Record<string, string>>(() =>
     Object.fromEntries(
       (product.configuratorGroups || []).map((group) => [
@@ -165,6 +197,10 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
               ? 'This product is currently out of stock. Contact our team on WhatsApp for availability.'
               : product.quoteOnly
               ? 'Our team will confirm your price on WhatsApp.'
+              : isHangTags
+              ? hangTagString
+                ? `Hang Tag Card: Rs. ${(size.price - currentStringCost).toLocaleString()} + Tag Card String: Rs. ${currentStringCost.toLocaleString()} = Rs. ${size.price.toLocaleString()}`
+                : `350 GSM Bleach Card · Card only (Tag Card String available at Rs. ${currentStringCost.toLocaleString()} for ${hangTagQty})`
               : 'Official rate. Final artwork, design proof and delivery confirmed on WhatsApp.'}
           </p>
 
@@ -182,68 +218,192 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
           {/* Simple Clean Dropdowns For Configuration */}
           {!isOutOfStock && !product.quoteOnly && (
             <div className="space-y-4 my-5">
-              {/* Color Dropdown */}
-              {colors.length > 0 && (
-                <div className="option-block !mt-0">
-                  <label htmlFor="product-color" className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
-                    Select Color
-                  </label>
-                  <select
-                    id="product-color"
-                    value={selectedColor}
-                    onChange={(e) => handleColorChange(e.target.value)}
-                    className="w-full bg-white border border-[#CDD5C7] rounded-lg p-3 text-sm font-semibold text-charcoal shadow-sm focus:border-emerald-600 focus:outline-none"
-                  >
-                    {colors.map((c) => (
-                      <option key={c} value={c}>
-                        {c}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              )}
+              {isHangTags ? (
+                <>
+                  {/* Hang Tag Print Style Dropdown */}
+                  <div className="option-block !mt-0">
+                    <label htmlFor="hangtag-print" className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
+                      1. Print Side (350 GSM · 2 × 3.5 in)
+                    </label>
+                    <select
+                      id="hangtag-print"
+                      value={hangTagPrint}
+                      onChange={(e) => updateHangTag(e.target.value as 'One Side' | 'Double Side', hangTagQty, hangTagString)}
+                      className="w-full bg-white border border-[#CDD5C7] rounded-lg p-3 text-sm font-semibold text-charcoal shadow-sm focus:border-emerald-600 focus:outline-none"
+                    >
+                      <option value="One Side">One Side Printed</option>
+                      <option value="Double Side">Double Side Printed</option>
+                    </select>
+                  </div>
 
-              {/* Size Dropdown */}
-              {sizeCategories.length > 0 && (
-                <div className="option-block !mt-0">
-                  <label htmlFor="product-size" className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
-                    1. Select Size
-                  </label>
-                  <select
-                    id="product-size"
-                    value={selectedCategory}
-                    onChange={(e) => handleSizeChange(e.target.value)}
-                    className="w-full bg-white border border-[#CDD5C7] rounded-lg p-3 text-sm font-semibold text-charcoal shadow-sm focus:border-emerald-600 focus:outline-none"
-                  >
-                    {sizeCategories.map((category) => (
-                      <option key={category} value={category}>
-                        {category}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              )}
+                  {/* Hang Tag Quantity Dropdown */}
+                  <div className="option-block !mt-0">
+                    <label htmlFor="hangtag-qty" className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
+                      2. Select Quantity
+                    </label>
+                    <select
+                      id="hangtag-qty"
+                      value={hangTagQty}
+                      onChange={(e) => updateHangTag(hangTagPrint, e.target.value as '100 pcs' | '500 pcs' | '1,000 pcs' | '2,000 pcs', hangTagString)}
+                      className="w-full bg-white border border-[#CDD5C7] rounded-lg p-3 text-sm font-semibold text-charcoal shadow-sm focus:border-emerald-600 focus:outline-none"
+                    >
+                      <option value="100 pcs">100 pcs — {hangTagPrint === 'One Side' ? 'Rs. 2,600' : 'Rs. 3,600'}</option>
+                      <option value="500 pcs">500 pcs — {hangTagPrint === 'One Side' ? 'Rs. 3,200' : 'Rs. 4,200'}</option>
+                      <option value="1,000 pcs">1,000 pcs — {hangTagPrint === 'One Side' ? 'Rs. 3,800' : 'Rs. 4,800'}</option>
+                      <option value="2,000 pcs">2,000 pcs — {hangTagPrint === 'One Side' ? 'Rs. 6,000' : 'Rs. 7,800'}</option>
+                    </select>
+                  </div>
 
-              {/* Quantity / Pack Dropdown */}
-              {tiersForSize.length > 0 && (
-                <div className="option-block !mt-0">
-                  <label htmlFor="product-tier" className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
-                    2. Select Quantity
-                  </label>
-                  <select
-                    id="product-tier"
-                    value={sizeIndex}
-                    onChange={(e) => handleTierChange(Number(e.target.value))}
-                    className="w-full bg-white border border-[#CDD5C7] rounded-lg p-3 text-sm font-semibold text-charcoal shadow-sm focus:border-emerald-600 focus:outline-none"
-                  >
-                    {tiersForSize.map((tier) => (
-                      <option key={tier.index} value={tier.index}>
-                        {tier.quantity || tier.label} — {formatPrice(tier.price)}
-                        {tier.unitPrice ? ` (${formatPrice(tier.unitPrice)} / piece)` : ''}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                  {/* Hang Tag String (Tag Dori) Dropdown */}
+                  <div className="option-block !mt-0">
+                    <label htmlFor="hangtag-string" className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
+                      3. Tag Card String (Tag Dori)
+                    </label>
+                    <select
+                      id="hangtag-string"
+                      value={hangTagString ? 'yes' : 'no'}
+                      onChange={(e) => updateHangTag(hangTagPrint, hangTagQty, e.target.value === 'yes')}
+                      className="w-full bg-white border border-[#CDD5C7] rounded-lg p-3 text-sm font-semibold text-charcoal shadow-sm focus:border-emerald-600 focus:outline-none"
+                    >
+                      <option value="no">Without String (Cards Only) — Rs. 0</option>
+                      <option value="yes">With Tag Card String (+ Rs. {currentStringCost.toLocaleString()})</option>
+                    </select>
+                  </div>
+
+                  {/* Official Rate List Table */}
+                  <div className="p-3.5 bg-[#FAF8F4] border border-[#CDD5C7] rounded-xl text-xs">
+                    <div className="font-bold text-charcoal mb-2 flex items-center justify-between">
+                      <span className="tracking-wide">TAG CARDS RATE LIST (350 GSM · 2 × 3.5 INCH)</span>
+                      <span className="text-[11px] font-semibold text-emerald-800">Price in PKR</span>
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left text-xs border-collapse">
+                        <thead>
+                          <tr className="border-b border-[#CDD5C7] text-charcoal/80">
+                            <th className="py-1.5 font-bold">Print</th>
+                            <th className="py-1.5 font-semibold text-center">100 pcs</th>
+                            <th className="py-1.5 font-semibold text-center">500 pcs</th>
+                            <th className="py-1.5 font-semibold text-center">1,000 pcs</th>
+                            <th className="py-1.5 font-semibold text-center">2,000 pcs</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#EAEFE5]">
+                          <tr className={hangTagPrint === 'One Side' ? 'bg-amber-50/60 font-semibold text-charcoal' : ''}>
+                            <td className="py-1.5 font-semibold text-charcoal">One Side</td>
+                            <td className="py-1.5 text-center text-charcoal/90">2,600</td>
+                            <td className="py-1.5 text-center text-charcoal/90">3,200</td>
+                            <td className="py-1.5 text-center text-charcoal/90">3,800</td>
+                            <td className="py-1.5 text-center text-charcoal/90">6,000</td>
+                          </tr>
+                          <tr className={hangTagPrint === 'Double Side' ? 'bg-amber-50/60 font-semibold text-charcoal' : ''}>
+                            <td className="py-1.5 font-semibold text-charcoal">Double Side</td>
+                            <td className="py-1.5 text-center text-charcoal/90">3,600</td>
+                            <td className="py-1.5 text-center text-charcoal/90">4,200</td>
+                            <td className="py-1.5 text-center text-charcoal/90">4,800</td>
+                            <td className="py-1.5 text-center text-charcoal/90">7,800</td>
+                          </tr>
+                          <tr className={hangTagString ? 'bg-emerald-50/80 font-bold text-emerald-950' : 'text-charcoal/80'}>
+                            <td className="py-1.5 font-semibold text-emerald-900">Tag Card String</td>
+                            <td className="py-1.5 text-center text-emerald-900">300</td>
+                            <td className="py-1.5 text-center text-emerald-900">500</td>
+                            <td className="py-1.5 text-center text-emerald-900">600</td>
+                            <td className="py-1.5 text-center text-emerald-900">1,000</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* Color Dropdown */}
+                  {colors.length > 0 && (
+                    <div className="option-block !mt-0">
+                      <label htmlFor="product-color" className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
+                        Select Color
+                      </label>
+                      <select
+                        id="product-color"
+                        value={selectedColor}
+                        onChange={(e) => handleColorChange(e.target.value)}
+                        className="w-full bg-white border border-[#CDD5C7] rounded-lg p-3 text-sm font-semibold text-charcoal shadow-sm focus:border-emerald-600 focus:outline-none"
+                      >
+                        {colors.map((c) => (
+                          <option key={c} value={c}>
+                            {c}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
+                  {/* Size Dropdown */}
+                  {sizeCategories.length > 0 && (
+                    <div className="option-block !mt-0">
+                      <label htmlFor="product-size" className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
+                        1. Select Size
+                      </label>
+                      <select
+                        id="product-size"
+                        value={selectedCategory}
+                        onChange={(e) => handleSizeChange(e.target.value)}
+                        className="w-full bg-white border border-[#CDD5C7] rounded-lg p-3 text-sm font-semibold text-charcoal shadow-sm focus:border-emerald-600 focus:outline-none"
+                      >
+                        {sizeCategories.map((category) => (
+                          <option key={category} value={category}>
+                            {category}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
+                  {/* Quantity / Pack Dropdown */}
+                  {tiersForSize.length > 0 && (
+                    <div className="option-block !mt-0">
+                      <label htmlFor="product-tier" className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
+                        2. Select Quantity
+                      </label>
+                      <select
+                        id="product-tier"
+                        value={sizeIndex}
+                        onChange={(e) => handleTierChange(Number(e.target.value))}
+                        className="w-full bg-white border border-[#CDD5C7] rounded-lg p-3 text-sm font-semibold text-charcoal shadow-sm focus:border-emerald-600 focus:outline-none"
+                      >
+                        {tiersForSize.map((tier) => (
+                          <option key={tier.index} value={tier.index}>
+                            {tier.quantity || tier.label} — {formatPrice(tier.price)}
+                            {tier.unitPrice ? ` (${formatPrice(tier.unitPrice)} / piece)` : ''}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
+                  {/* Optional Configurator Dropdowns */}
+                  {(product.configuratorGroups || []).map((group) => (
+                    <div key={group.key} className="option-block !mt-0">
+                      <label htmlFor={`config-${group.key}`} className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
+                        {group.label}
+                      </label>
+                      <select
+                        id={`config-${group.key}`}
+                        value={options[group.key]}
+                        onChange={(e) => {
+                          setOptions((current) => ({ ...current, [group.key]: e.target.value }))
+                          setAdded(false)
+                        }}
+                        className="w-full bg-white border border-[#CDD5C7] rounded-lg p-3 text-sm font-semibold text-charcoal shadow-sm focus:border-emerald-600 focus:outline-none"
+                      >
+                        {group.options.map((opt) => (
+                          <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  ))}
+                </>
               )}
 
               {/* Number of Packs (if customer wants multiples of 50/100/500) */}
@@ -267,36 +427,12 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
                 />
               </div>
 
-              {/* Optional Configurator Dropdowns (e.g. Tag Card String) */}
-              {(product.configuratorGroups || []).map((group) => (
-                <div key={group.key} className="option-block !mt-0">
-                  <label htmlFor={`config-${group.key}`} className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
-                    {group.label}
-                  </label>
-                  <select
-                    id={`config-${group.key}`}
-                    value={options[group.key]}
-                    onChange={(e) => {
-                      setOptions((current) => ({ ...current, [group.key]: e.target.value }))
-                      setAdded(false)
-                    }}
-                    className="w-full bg-white border border-[#CDD5C7] rounded-lg p-3 text-sm font-semibold text-charcoal shadow-sm focus:border-emerald-600 focus:outline-none"
-                  >
-                    {group.options.map((opt) => (
-                      <option key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              ))}
-
               {/* Custom Size / Bulk Quote Box */}
               <div className="p-3.5 rounded-xl bg-[#FAF8F4] border border-[#EAEFE5] text-xs text-[#4A554D] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
                 <div>
                   <strong className="block text-charcoal font-bold">Need a custom size, special GSM, or volume order?</strong>
                   <span className="text-[11px] text-[#6B756E]">
-                    We manufacture customized sizes, special folds, and bulk runs tailored to your brand.
+                    We manufacture customized sizes, materials, and bulk runs tailored to your brand.
                   </span>
                 </div>
                 <a
