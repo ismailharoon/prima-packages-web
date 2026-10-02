@@ -7,65 +7,429 @@ import { useCart } from '@/components/store/CartProvider'
 import { Icon } from '@/components/store/Icon'
 import { ProductCard } from '@/components/ui/ProductCard'
 import { ProductReviews } from '@/components/reviews/ProductReviews'
-import { minimumQuantity } from '@/lib/cart'
 import { formatPrice } from '@/lib/utils'
 import type { Product } from '@/data/products'
 import { getProductRatingSummary } from '@/data/reviews'
 
 export function ProductDetail({ product, allProducts }: { product: Product; allProducts: Product[] }) {
   const { add, ready } = useCart()
+  const isOutOfStock = product.discountBadge === 'Out of Stock'
   const [sizeIndex, setSizeIndex] = useState(0)
-  const [quantity, setQuantity] = useState(String(minimumQuantity(product, 0)))
+  const [packQuantity, setPackQuantity] = useState('1')
   const [imageIndex, setImageIndex] = useState(0)
   const [added, setAdded] = useState(false)
-  const [options, setOptions] = useState<Record<string, string>>(() => Object.fromEntries((product.configuratorGroups || []).map(group => [group.key, (group.options.find(option => option.popular) || group.options[0]).value])))
-  const size = product.sizes[sizeIndex]
-  const sizeCategory = size.sizeCategory || size.label
-  const categories = [...new Set(product.sizes.map(item => item.sizeCategory || item.label))]
-  const colors = [...new Set(product.sizes.map(item => item.color).filter(Boolean))]
-  const tiers = product.sizes.map((item, index) => ({ ...item, index })).filter(item => (item.sizeCategory || item.label) === sizeCategory && item.color === size.color)
-  const min = minimumQuantity(product, sizeIndex)
-  const count = Number(quantity)
-  const valid = Number.isInteger(count) && count >= min && count <= 100000
-  const total = Math.round(size.price * (valid ? count : min) * 100) / 100
+  const [options, setOptions] = useState<Record<string, string>>(() =>
+    Object.fromEntries(
+      (product.configuratorGroups || []).map((group) => [
+        group.key,
+        (group.options.find((option) => option.popular) || group.options[0]).value,
+      ])
+    )
+  )
+
+  const size = product.sizes[sizeIndex] || product.sizes[0]
+  const colors = [...new Set(product.sizes.map((item) => item.color).filter(Boolean))] as string[]
+  const selectedColor = size?.color || (colors.length > 0 ? colors[0] : '')
+
+  // Filter sizes available for selected color
+  const sizesForColor = product.sizes.filter((item) => !selectedColor || item.color === selectedColor)
+  const sizeCategories = [...new Set(sizesForColor.map((item) => item.sizeCategory || item.label))]
+  const selectedCategory = size?.sizeCategory || size?.label || sizeCategories[0]
+
+  // Available quantity packs for selected size and color
+  const tiersForSize = product.sizes
+    .map((item, index) => ({ ...item, index }))
+    .filter(
+      (item) =>
+        (item.sizeCategory || item.label) === selectedCategory &&
+        (!selectedColor || item.color === selectedColor)
+    )
+
+  const countPacks = Math.max(1, parseInt(packQuantity, 10) || 1)
+  const total = Math.round(size.price * countPacks * 100) / 100
   const images = product.gallery.length ? product.gallery : [product.heroImage]
   const ratingSummary = getProductRatingSummary(product.slug)
-  const selectSize = (index: number) => { setSizeIndex(index); setQuantity(String(minimumQuantity(product, index))); setAdded(false) }
+
+  const handleColorChange = (newColor: string) => {
+    const nextItem = product.sizes.find((item) => item.color === newColor)
+    if (nextItem) {
+      setSizeIndex(product.sizes.indexOf(nextItem))
+      setPackQuantity('1')
+      setAdded(false)
+    }
+  }
+
+  const handleSizeChange = (newCategory: string) => {
+    const nextItem = product.sizes.find(
+      (item) =>
+        (item.sizeCategory || item.label) === newCategory &&
+        (!selectedColor || item.color === selectedColor)
+    )
+    if (nextItem) {
+      setSizeIndex(product.sizes.indexOf(nextItem))
+      setPackQuantity('1')
+      setAdded(false)
+    }
+  }
+
+  const handleTierChange = (newIndex: number) => {
+    setSizeIndex(newIndex)
+    setPackQuantity('1')
+    setAdded(false)
+  }
+
   const addItem = () => {
-    if (!valid || !ready) return
-    add({ slug: product.slug, sizeIndex, quantity: count, options })
+    if (!ready || isOutOfStock) return
+    add({ slug: product.slug, sizeIndex, quantity: countPacks, options })
     setAdded(true)
   }
-  return <>
-    <section className="store-shell product-layout">
-      <div className="product-gallery"><div className="product-main-photo"><Image src={images[imageIndex]} alt={`${product.name}, view ${imageIndex + 1}`} fill loading="eager" fetchPriority="high" sizes="(max-width: 700px) 100vw, 600px" className="object-contain p-4" />{product.discountBadge && <span className="shop-badge">{product.discountBadge}</span>}<span className="gallery-counter">{imageIndex + 1} / {images.length}</span></div><div className="product-thumbnails" aria-label="Product photos">{images.map((src, index) => <button type="button" key={src} onClick={() => setImageIndex(index)} aria-label={`Show photo ${index + 1}`} aria-pressed={index === imageIndex}><Image src={src} alt="" fill sizes="80px" className="object-contain p-1" /></button>)}</div><p className="gallery-caption">Made to order with your artwork. Photos show sample designs.</p></div>
-      <div className="product-buy"><p className="eyebrow">PRIMA PACKAGES / {product.category.toUpperCase()}</p><h1>{product.name}</h1>
-        <div className="flex items-center gap-2 mt-1 mb-2.5">
-          <div className="flex text-amber-400 text-sm leading-none">
-            {'★'.repeat(Math.round(ratingSummary.average))}
+
+  return (
+    <>
+      <section className="store-shell product-layout">
+        {/* Photo Gallery */}
+        <div className="product-gallery">
+          <div className="product-main-photo">
+            <Image
+              src={images[imageIndex]}
+              alt={`${product.name}, view ${imageIndex + 1}`}
+              fill
+              loading="eager"
+              fetchPriority="high"
+              sizes="(max-width: 700px) 100vw, 600px"
+              className="object-contain p-4"
+            />
+            {product.discountBadge && <span className="shop-badge">{product.discountBadge}</span>}
+            <span className="gallery-counter">
+              {imageIndex + 1} / {images.length}
+            </span>
           </div>
-          <span className="text-xs font-extrabold text-charcoal">{ratingSummary.average.toFixed(1)} / 5.0</span>
-          <span className="text-xs text-charcoal/60 font-medium">({ratingSummary.total} {ratingSummary.total === 1 ? 'review' : 'reviews'})</span>
+          <div className="product-thumbnails" aria-label="Product photos">
+            {images.map((src, index) => (
+              <button
+                type="button"
+                key={src}
+                onClick={() => setImageIndex(index)}
+                aria-label={`Show photo ${index + 1}`}
+                aria-pressed={index === imageIndex}
+              >
+                <Image src={src} alt="" fill sizes="80px" className="object-contain p-1" />
+              </button>
+            ))}
+          </div>
+          <p className="gallery-caption">Made to order with your artwork. Photos show sample designs.</p>
         </div>
-        <p className="product-intro">{product.shortDescription}</p>
-        <div className="product-price">{product.quoteOnly ? <strong>Made to your specification</strong> : <><strong>{formatPrice(total)}</strong><span>{size.quantity ? `${count || 1} × ${size.quantity}` : `for ${valid ? count : min} pieces`}</span></>}</div>
-        <p className="product-price-note">{product.quoteOnly ? 'Our team will confirm your price on WhatsApp.' : 'Estimated price. Final artwork, options and delivery confirmed on WhatsApp.'}</p>
-        <div className="product-trust"><span><Icon name="check" />{product.moq}</span><span><Icon name="box" />{product.dispatchDays} production*</span></div>
-        {colors.length > 0 && <div className="option-block"><label htmlFor="flyer-color">Flyer color</label><select id="flyer-color" value={size.color} onChange={event => selectSize(product.sizes.findIndex(item => item.color === event.target.value && item.sizeCategory === size.sizeCategory && item.quantity === size.quantity))}>{colors.map(color => <option key={color} value={color}>{color}{color === 'Gray' ? ' — standard rate' : ' — +Rs. 3 / piece'}</option>)}</select><p className="product-price-note">Gray uses standard rates. White, pink and black include Rs. 3 extra per piece.</p></div>}
-        {!product.quoteOnly && <div className="option-block"><label htmlFor="product-size">{product.slug === 'zipper-bags' ? '1. Choose color & size' : '1. Choose your size'}</label><select id="product-size" value={sizeCategory} onChange={event => selectSize(product.sizes.findIndex(item => (item.sizeCategory || item.label) === event.target.value && item.color === size.color))}>{categories.map(category => <option key={category}>{category}</option>)}</select></div>}
-        {!product.quoteOnly && size.quantity && <fieldset className="option-block"><legend>2. Choose your pack</legend><div className="pack-options">{tiers.map(tier => <button type="button" key={tier.index} aria-pressed={tier.index === sizeIndex} onClick={() => selectSize(tier.index)}><strong>{tier.quantity}</strong>{tier.printType && <span>{tier.printType}</span>}<b>{formatPrice(tier.price)}</b>{tier.unitPrice !== undefined && <span>{formatPrice(tier.unitPrice)} / piece</span>}</button>)}</div></fieldset>}
-        {(product.configuratorGroups || []).map(group => <fieldset key={group.key} className="option-block"><legend>{group.label}</legend><div className="choice-chips">{group.options.map(option => <button type="button" key={option.value} aria-pressed={options[group.key] === option.value} onClick={() => { setOptions(current => ({ ...current, [group.key]: option.value })); setAdded(false) }}>{option.label}</button>)}</div></fieldset>)}
-        <div className="option-block quantity-block"><label htmlFor="product-quantity">{size.quantity ? 'Number of packs' : `Quantity (minimum ${min} pieces)`}</label><input id="product-quantity" type="number" inputMode="numeric" min={min} max={100000} step={1} value={quantity} onChange={event => { setQuantity(event.target.value); setAdded(false) }} aria-invalid={!valid} aria-describedby={!valid ? 'quantity-error' : undefined} />{!valid && <p id="quantity-error" className="form-error">Enter a whole number from {min} to 100,000.</p>}</div>
-        <button className="store-button add-cart-button" type="button" disabled={!valid || !ready} onClick={addItem}><Icon name={added ? 'check' : 'bag'} />{!ready ? 'Loading cart…' : added ? 'Add another selection' : product.quoteOnly ? 'Add quote request to cart' : 'Add to cart'}</button>
-        {added && <Link className="view-cart-link" href="/cart">Review your cart & continue</Link>}
-        <div className="custom-order-note"><strong>Your design gets the final say.</strong><p>We’ll finalize your design with you on WhatsApp. Production begins after design approval and 50% advance. Balance before dispatch.</p><small>*Production estimate starts after approval and advance verification. Delivery time is additional.</small></div>
-        <div className="product-details">{[['Product details', product.longDescription], ['Materials & finishes', [...(product.materials || []), ...(product.finishes || [])].join(' · ')], ['More about this product', product.seoContentBlock || ''], ['Artwork & delivery', 'Share your logo or artwork on WhatsApp after sending your order request. Our team will confirm the final specifications, delivery charges and timeline before production.']].filter(([, text]) => text).map(([title, text]) => <details key={title}><summary>{title}<span>+</span></summary><p>{text}</p></details>)}</div>
+
+        {/* Product Details & Purchase Form */}
+        <div className="product-buy">
+          <p className="eyebrow">PRIMA PACKAGES / {product.category.toUpperCase()}</p>
+          <h1>{product.name}</h1>
+
+          {/* Rating Summary */}
+          <div className="flex items-center gap-2 mt-1 mb-2.5">
+            <div className="flex text-amber-400 text-sm leading-none">
+              {'★'.repeat(Math.round(ratingSummary.average))}
+            </div>
+            <span className="text-xs font-extrabold text-charcoal">
+              {ratingSummary.average.toFixed(1)} / 5.0
+            </span>
+            <span className="text-xs text-charcoal/60 font-medium">
+              ({ratingSummary.total} {ratingSummary.total === 1 ? 'review' : 'reviews'})
+            </span>
+          </div>
+
+          <p className="product-intro">{product.shortDescription}</p>
+
+          {/* Dynamic Price Display */}
+          <div className="product-price">
+            {isOutOfStock ? (
+              <strong className="text-neutral-600">Currently Out of Stock</strong>
+            ) : product.quoteOnly ? (
+              <strong>Made to your specification</strong>
+            ) : (
+              <>
+                <strong>{formatPrice(total)}</strong>
+                <span>
+                  {size.quantity
+                    ? `${countPacks > 1 ? `${countPacks} × ` : ''}${size.quantity}${
+                        size.unitPrice ? ` (${formatPrice(size.unitPrice)} / piece)` : ''
+                      }`
+                    : `for ${size.label}`}
+                </span>
+              </>
+            )}
+          </div>
+
+          <p className="product-price-note">
+            {isOutOfStock
+              ? 'This product is currently out of stock. Contact our team on WhatsApp for availability.'
+              : product.quoteOnly
+              ? 'Our team will confirm your price on WhatsApp.'
+              : 'Official rate. Final artwork, design proof and delivery confirmed on WhatsApp.'}
+          </p>
+
+          <div className="product-trust">
+            <span>
+              <Icon name="check" />
+              {product.moq}
+            </span>
+            <span>
+              <Icon name="box" />
+              {product.dispatchDays} production*
+            </span>
+          </div>
+
+          {/* Simple Clean Dropdowns For Configuration */}
+          {!isOutOfStock && !product.quoteOnly && (
+            <div className="space-y-4 my-5">
+              {/* Color Dropdown */}
+              {colors.length > 0 && (
+                <div className="option-block !mt-0">
+                  <label htmlFor="product-color" className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
+                    Select Color
+                  </label>
+                  <select
+                    id="product-color"
+                    value={selectedColor}
+                    onChange={(e) => handleColorChange(e.target.value)}
+                    className="w-full bg-white border border-[#CDD5C7] rounded-lg p-3 text-sm font-semibold text-charcoal shadow-sm focus:border-emerald-600 focus:outline-none"
+                  >
+                    {colors.map((c) => (
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              {/* Size Dropdown */}
+              {sizeCategories.length > 0 && (
+                <div className="option-block !mt-0">
+                  <label htmlFor="product-size" className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
+                    1. Select Size
+                  </label>
+                  <select
+                    id="product-size"
+                    value={selectedCategory}
+                    onChange={(e) => handleSizeChange(e.target.value)}
+                    className="w-full bg-white border border-[#CDD5C7] rounded-lg p-3 text-sm font-semibold text-charcoal shadow-sm focus:border-emerald-600 focus:outline-none"
+                  >
+                    {sizeCategories.map((category) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              {/* Quantity / Pack Dropdown */}
+              {tiersForSize.length > 0 && (
+                <div className="option-block !mt-0">
+                  <label htmlFor="product-tier" className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
+                    2. Select Quantity
+                  </label>
+                  <select
+                    id="product-tier"
+                    value={sizeIndex}
+                    onChange={(e) => handleTierChange(Number(e.target.value))}
+                    className="w-full bg-white border border-[#CDD5C7] rounded-lg p-3 text-sm font-semibold text-charcoal shadow-sm focus:border-emerald-600 focus:outline-none"
+                  >
+                    {tiersForSize.map((tier) => (
+                      <option key={tier.index} value={tier.index}>
+                        {tier.quantity || tier.label} — {formatPrice(tier.price)}
+                        {tier.unitPrice ? ` (${formatPrice(tier.unitPrice)} / piece)` : ''}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              {/* Number of Packs (if customer wants multiples of 50/100/500) */}
+              <div className="option-block quantity-block !mt-0">
+                <label htmlFor="product-quantity" className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
+                  Number of Packs
+                </label>
+                <input
+                  id="product-quantity"
+                  type="number"
+                  inputMode="numeric"
+                  min={1}
+                  max={50}
+                  step={1}
+                  value={packQuantity}
+                  onChange={(e) => {
+                    setPackQuantity(e.target.value)
+                    setAdded(false)
+                  }}
+                  className="w-full bg-white border border-[#CDD5C7] rounded-lg p-3 text-sm font-semibold text-charcoal shadow-sm"
+                />
+              </div>
+
+              {/* Optional Configurator Dropdowns (e.g. Tag Card String) */}
+              {(product.configuratorGroups || []).map((group) => (
+                <div key={group.key} className="option-block !mt-0">
+                  <label htmlFor={`config-${group.key}`} className="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
+                    {group.label}
+                  </label>
+                  <select
+                    id={`config-${group.key}`}
+                    value={options[group.key]}
+                    onChange={(e) => {
+                      setOptions((current) => ({ ...current, [group.key]: e.target.value }))
+                      setAdded(false)
+                    }}
+                    className="w-full bg-white border border-[#CDD5C7] rounded-lg p-3 text-sm font-semibold text-charcoal shadow-sm focus:border-emerald-600 focus:outline-none"
+                  >
+                    {group.options.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              ))}
+
+              {/* Custom Size / Bulk Quote Box */}
+              <div className="p-3.5 rounded-xl bg-[#FAF8F4] border border-[#EAEFE5] text-xs text-[#4A554D] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                <div>
+                  <strong className="block text-charcoal font-bold">Need a custom size, special GSM, or volume order?</strong>
+                  <span className="text-[11px] text-[#6B756E]">
+                    We manufacture customized sizes, special folds, and bulk runs tailored to your brand.
+                  </span>
+                </div>
+                <a
+                  href={`https://wa.me/923233231712?text=${encodeURIComponent(
+                    `Hi Prima Packages, I need a custom quote for ${product.name}.\nSize / Dimensions:\nQuantity:\nCity:`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 font-bold text-emerald-800 hover:text-emerald-950 underline whitespace-nowrap text-xs"
+                >
+                  WhatsApp Quote →
+                </a>
+              </div>
+            </div>
+          )}
+
+          {/* Action Button */}
+          {isOutOfStock ? (
+            <a
+              href={`https://wa.me/923233231712?text=${encodeURIComponent(
+                `Hi Prima Packages, I would like to inquire about stock and availability for ${product.name}.`
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="store-button inline-flex items-center justify-center gap-2 bg-[#2D4A36] text-white w-full py-3.5 text-xs font-bold uppercase tracking-wider rounded-lg shadow-sm hover:bg-[#1E3325] transition-all"
+            >
+              <Icon name="bag" /> Inquire Availability on WhatsApp
+            </a>
+          ) : (
+            <button
+              className="store-button add-cart-button"
+              type="button"
+              disabled={!ready}
+              onClick={addItem}
+            >
+              <Icon name={added ? 'check' : 'bag'} />
+              {!ready
+                ? 'Loading cart…'
+                : added
+                ? 'Add another selection'
+                : product.quoteOnly
+                ? 'Add quote request to cart'
+                : 'Add to cart'}
+            </button>
+          )}
+
+          {added && (
+            <Link className="view-cart-link" href="/cart">
+              Review your cart & continue
+            </Link>
+          )}
+
+          <div className="custom-order-note">
+            <strong>Your design gets the final say.</strong>
+            <p>
+              We’ll finalize your design with you on WhatsApp. Production begins after design approval and 50%
+              advance. Balance before dispatch.
+            </p>
+            <small>*Production estimate starts after approval and advance verification. Delivery time is additional.</small>
+          </div>
+
+          <div className="product-details">
+            {[
+              ['Product details', product.longDescription],
+              ['Materials & finishes', [...(product.materials || []), ...(product.finishes || [])].join(' · ')],
+              ['More about this product', product.seoContentBlock || ''],
+              [
+                'Artwork & delivery',
+                'Share your logo or artwork on WhatsApp after sending your order request. Our team will confirm the final specifications, delivery charges and timeline before production.',
+              ],
+            ]
+              .filter(([, text]) => text)
+              .map(([title, text]) => (
+                <details key={title}>
+                  <summary>
+                    {title}
+                    <span>+</span>
+                  </summary>
+                  <p>{text}</p>
+                </details>
+              ))}
+          </div>
+        </div>
+      </section>
+
+      <ProductReviews product={product} />
+
+      <section className="store-shell shop-section product-related">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">COMPLETE YOUR BRAND PACKAGING</p>
+            <h2>Better together.</h2>
+          </div>
+          <Link href="/catalog">Shop all</Link>
+        </div>
+        <div className="store-grid">
+          {allProducts
+            .filter((item) => item.slug !== product.slug)
+            .slice(0, 4)
+            .map((item) => (
+              <ProductCard product={item} key={item.slug} />
+            ))}
+        </div>
+      </section>
+
+      <div className="mobile-buy-bar">
+        <div>
+          <strong>{isOutOfStock ? 'Out of Stock' : product.quoteOnly ? 'Custom quote' : formatPrice(total)}</strong>
+          <span>
+            {isOutOfStock
+              ? 'Contact WhatsApp'
+              : size.quantity
+              ? `${countPacks > 1 ? `${countPacks} × ` : ''}${size.quantity}`
+              : `for ${size.label}`}
+          </span>
+        </div>
+        {isOutOfStock ? (
+          <a
+            href={`https://wa.me/923233231712?text=${encodeURIComponent(
+              `Hi Prima Packages, I would like to inquire about stock and availability for ${product.name}.`
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="store-button"
+          >
+            <Icon name="bag" /> Inquire
+          </a>
+        ) : (
+          <button type="button" className="store-button" onClick={addItem} disabled={!ready}>
+            <Icon name="bag" /> Add to cart
+          </button>
+        )}
       </div>
-    </section>
-    <ProductReviews product={product} />
-    <section className="store-shell shop-section product-related"><div className="section-heading"><div><p className="eyebrow">COMPLETE YOUR BRAND PACKAGING</p><h2>Better together.</h2></div><Link href="/catalog">Shop all</Link></div><div className="store-grid">{allProducts.filter(item => item.slug !== product.slug).slice(0, 4).map(item => <ProductCard product={item} key={item.slug} />)}</div></section>
-    <div className="mobile-buy-bar"><div><strong>{product.quoteOnly ? 'Custom quote' : formatPrice(total)}</strong><span>{size.quantity ? `${count || 1} × ${size.quantity}` : `${valid ? count : min} pieces`}</span></div><button type="button" className="store-button" onClick={addItem} disabled={!valid || !ready}><Icon name="bag" />Add to cart</button></div>
-  </>
+    </>
+  )
 }
-
-

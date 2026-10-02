@@ -188,18 +188,6 @@ export const products: Product[] = [
     icon: '🏷️',
     moq: 'Min. 50 PCS',
     dispatchDays: '7-8 Days',
-    configuratorGroups: [
-      {
-        key: 'foldStyle',
-        label: 'Fold Style',
-        options: [
-          { label: 'Center Fold', value: 'Center Fold', popular: true },
-          { label: 'End Fold', value: 'End Fold' },
-          { label: 'Mitre Fold', value: 'Mitre Fold' },
-          { label: 'Flat / Heat Cut', value: 'Flat Cut (Heat-Sealed)' },
-        ],
-      },
-    ],
   },
   {
     slug: 'zipper-bags',
@@ -215,366 +203,332 @@ export const products: Product[] = [
       '/images/products/zipper-bags-2.png',
     ],
     sizes: [
+
       {
-        "label": "White · 6 × 8 in",
-        "sizeCategory": "White · 6 × 8 in",
-        "quantity": "50 pcs",
-        "price": 2250,
-        "unitPrice": 45,
-        "printType": "Single side · 1 color"
+            "label": "White \u00b7 8 × 10 in",
+            "sizeCategory": "8 × 10 in",
+            "color": "White",
+            "quantity": "50 pcs",
+            "price": 3000,
+            "unitPrice": 60,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 6 × 8 in",
-        "sizeCategory": "White · 6 × 8 in",
-        "quantity": "100 pcs",
-        "price": 3500,
-        "unitPrice": 35,
-        "printType": "Single side · 1 color"
+            "label": "White \u00b7 8 × 10 in",
+            "sizeCategory": "8 × 10 in",
+            "color": "White",
+            "quantity": "100 pcs",
+            "price": 4000,
+            "unitPrice": 40,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 6 × 8 in",
-        "sizeCategory": "White · 6 × 8 in",
-        "quantity": "500 pcs",
-        "price": 8500,
-        "unitPrice": 17,
-        "printType": "Single side · 1 color"
+            "label": "White \u00b7 8 × 10 in",
+            "sizeCategory": "8 × 10 in",
+            "color": "White",
+            "quantity": "500 pcs",
+            "price": 12500,
+            "unitPrice": 25,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 7 × 9 in",
-        "sizeCategory": "White · 7 × 9 in",
-        "quantity": "50 pcs",
-        "price": 2300,
-        "unitPrice": 46,
-        "printType": "Single side · 1 color"
+            "label": "White \u00b7 10 × 12 in",
+            "sizeCategory": "10 × 12 in",
+            "color": "White",
+            "quantity": "50 pcs",
+            "price": 3100,
+            "unitPrice": 62,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 7 × 9 in",
-        "sizeCategory": "White · 7 × 9 in",
-        "quantity": "100 pcs",
-        "price": 3600,
-        "unitPrice": 36,
-        "printType": "Single side · 1 color"
+            "label": "White \u00b7 10 × 12 in",
+            "sizeCategory": "10 × 12 in",
+            "color": "White",
+            "quantity": "100 pcs",
+            "price": 4200,
+            "unitPrice": 42,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 7 × 9 in",
-        "sizeCategory": "White · 7 × 9 in",
-        "quantity": "500 pcs",
-        "price": 9000,
-        "unitPrice": 18,
-        "printType": "Single side · 1 color"
+            "label": "White \u00b7 10 × 12 in",
+            "sizeCategory": "10 × 12 in",
+            "color": "White",
+            "quantity": "500 pcs",
+            "price": 14000,
+            "unitPrice": 28,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 8 × 10 in",
-        "sizeCategory": "White · 8 × 10 in",
-        "quantity": "50 pcs",
-        "price": 2500,
-        "unitPrice": 50,
-        "printType": "Single side · 1 color"
+            "label": "White \u00b7 11.5 × 13 in",
+            "sizeCategory": "11.5 × 13 in",
+            "color": "White",
+            "quantity": "50 pcs",
+            "price": 3300,
+            "unitPrice": 66,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 8 × 10 in",
-        "sizeCategory": "White · 8 × 10 in",
-        "quantity": "100 pcs",
-        "price": 4000,
-        "unitPrice": 40,
-        "printType": "Single side · 1 color"
+            "label": "White \u00b7 11.5 × 13 in",
+            "sizeCategory": "11.5 × 13 in",
+            "color": "White",
+            "quantity": "100 pcs",
+            "price": 4500,
+            "unitPrice": 45,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 8 × 10 in",
-        "sizeCategory": "White · 8 × 10 in",
-        "quantity": "500 pcs",
-        "price": 11000,
-        "unitPrice": 22,
-        "printType": "Single side · 1 color"
+            "label": "White \u00b7 11.5 × 13 in",
+            "sizeCategory": "11.5 × 13 in",
+            "color": "White",
+            "quantity": "500 pcs",
+            "price": 15000,
+            "unitPrice": 30,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 10 × 12 in",
-        "sizeCategory": "White · 10 × 12 in",
-        "quantity": "50 pcs",
-        "price": 2550,
-        "unitPrice": 51,
-        "printType": "Single side · 1 color"
+            "label": "White \u00b7 12 × 14 in",
+            "sizeCategory": "12 × 14 in",
+            "color": "White",
+            "quantity": "50 pcs",
+            "price": 3400,
+            "unitPrice": 68,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 10 × 12 in",
-        "sizeCategory": "White · 10 × 12 in",
-        "quantity": "100 pcs",
-        "price": 4100,
-        "unitPrice": 41,
-        "printType": "Single side · 1 color"
+            "label": "White \u00b7 12 × 14 in",
+            "sizeCategory": "12 × 14 in",
+            "color": "White",
+            "quantity": "100 pcs",
+            "price": 4700,
+            "unitPrice": 47,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 10 × 12 in",
-        "sizeCategory": "White · 10 × 12 in",
-        "quantity": "500 pcs",
-        "price": 11500,
-        "unitPrice": 23,
-        "printType": "Single side · 1 color"
+            "label": "White \u00b7 12 × 14 in",
+            "sizeCategory": "12 × 14 in",
+            "color": "White",
+            "quantity": "500 pcs",
+            "price": 16000,
+            "unitPrice": 32,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 11 × 12 in",
-        "sizeCategory": "White · 11 × 12 in",
-        "quantity": "50 pcs",
-        "price": 2600,
-        "unitPrice": 52,
-        "printType": "Single side · 1 color"
+            "label": "White \u00b7 12 × 16 in",
+            "sizeCategory": "12 × 16 in",
+            "color": "White",
+            "quantity": "50 pcs",
+            "price": 3500,
+            "unitPrice": 70,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 11 × 12 in",
-        "sizeCategory": "White · 11 × 12 in",
-        "quantity": "100 pcs",
-        "price": 4200,
-        "unitPrice": 42,
-        "printType": "Single side · 1 color"
+            "label": "White \u00b7 12 × 16 in",
+            "sizeCategory": "12 × 16 in",
+            "color": "White",
+            "quantity": "100 pcs",
+            "price": 5000,
+            "unitPrice": 50,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 11 × 12 in",
-        "sizeCategory": "White · 11 × 12 in",
-        "quantity": "500 pcs",
-        "price": 12000,
-        "unitPrice": 24,
-        "printType": "Single side · 1 color"
+            "label": "White \u00b7 12 × 16 in",
+            "sizeCategory": "12 × 16 in",
+            "color": "White",
+            "quantity": "500 pcs",
+            "price": 17000,
+            "unitPrice": 34,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 11.5 × 13 in",
-        "sizeCategory": "White · 11.5 × 13 in",
-        "quantity": "50 pcs",
-        "price": 2700,
-        "unitPrice": 54,
-        "printType": "Single side · 1 color"
+            "label": "White \u00b7 14 × 16 in",
+            "sizeCategory": "14 × 16 in",
+            "color": "White",
+            "quantity": "50 pcs",
+            "price": 3800,
+            "unitPrice": 76,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 11.5 × 13 in",
-        "sizeCategory": "White · 11.5 × 13 in",
-        "quantity": "100 pcs",
-        "price": 4400,
-        "unitPrice": 44,
-        "printType": "Single side · 1 color"
+            "label": "White \u00b7 14 × 16 in",
+            "sizeCategory": "14 × 16 in",
+            "color": "White",
+            "quantity": "100 pcs",
+            "price": 5500,
+            "unitPrice": 55,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 11.5 × 13 in",
-        "sizeCategory": "White · 11.5 × 13 in",
-        "quantity": "500 pcs",
-        "price": 13000,
-        "unitPrice": 26,
-        "printType": "Single side · 1 color"
+            "label": "White \u00b7 14 × 16 in",
+            "sizeCategory": "14 × 16 in",
+            "color": "White",
+            "quantity": "500 pcs",
+            "price": 19000,
+            "unitPrice": 38,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 12 × 14 in",
-        "sizeCategory": "White · 12 × 14 in",
-        "quantity": "50 pcs",
-        "price": 2750,
-        "unitPrice": 55,
-        "printType": "Single side · 1 color"
+            "label": "White \u00b7 14 × 18 in",
+            "sizeCategory": "14 × 18 in",
+            "color": "White",
+            "quantity": "50 pcs",
+            "price": 4000,
+            "unitPrice": 80,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 12 × 14 in",
-        "sizeCategory": "White · 12 × 14 in",
-        "quantity": "100 pcs",
-        "price": 4500,
-        "unitPrice": 45,
-        "printType": "Single side · 1 color"
+            "label": "White \u00b7 14 × 18 in",
+            "sizeCategory": "14 × 18 in",
+            "color": "White",
+            "quantity": "100 pcs",
+            "price": 6000,
+            "unitPrice": 60,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 12 × 14 in",
-        "sizeCategory": "White · 12 × 14 in",
-        "quantity": "500 pcs",
-        "price": 14000,
-        "unitPrice": 28,
-        "printType": "Single side · 1 color"
+            "label": "White \u00b7 14 × 18 in",
+            "sizeCategory": "14 × 18 in",
+            "color": "White",
+            "quantity": "500 pcs",
+            "price": 20000,
+            "unitPrice": 40,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 12 × 16 in",
-        "sizeCategory": "White · 12 × 16 in",
-        "quantity": "50 pcs",
-        "price": 2850,
-        "unitPrice": 57,
-        "printType": "Single side · 1 color"
+            "label": "Black \u00b7 10 × 12 in",
+            "sizeCategory": "10 × 12 in",
+            "color": "Black",
+            "quantity": "50 pcs",
+            "price": 3400,
+            "unitPrice": 68,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 12 × 16 in",
-        "sizeCategory": "White · 12 × 16 in",
-        "quantity": "100 pcs",
-        "price": 4700,
-        "unitPrice": 47,
-        "printType": "Single side · 1 color"
+            "label": "Black \u00b7 10 × 12 in",
+            "sizeCategory": "10 × 12 in",
+            "color": "Black",
+            "quantity": "100 pcs",
+            "price": 4800,
+            "unitPrice": 48,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 12 × 16 in",
-        "sizeCategory": "White · 12 × 16 in",
-        "quantity": "500 pcs",
-        "price": 15000,
-        "unitPrice": 30,
-        "printType": "Single side · 1 color"
+            "label": "Black \u00b7 10 × 12 in",
+            "sizeCategory": "10 × 12 in",
+            "color": "Black",
+            "quantity": "500 pcs",
+            "price": 16500,
+            "unitPrice": 33,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 14 × 16 in",
-        "sizeCategory": "White · 14 × 16 in",
-        "quantity": "50 pcs",
-        "price": 3000,
-        "unitPrice": 60,
-        "printType": "Single side · 1 color"
+            "label": "Black \u00b7 11.5 × 13 in",
+            "sizeCategory": "11.5 × 13 in",
+            "color": "Black",
+            "quantity": "50 pcs",
+            "price": 3500,
+            "unitPrice": 70,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 14 × 16 in",
-        "sizeCategory": "White · 14 × 16 in",
-        "quantity": "100 pcs",
-        "price": 5000,
-        "unitPrice": 50,
-        "printType": "Single side · 1 color"
+            "label": "Black \u00b7 11.5 × 13 in",
+            "sizeCategory": "11.5 × 13 in",
+            "color": "Black",
+            "quantity": "100 pcs",
+            "price": 5000,
+            "unitPrice": 50,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 14 × 16 in",
-        "sizeCategory": "White · 14 × 16 in",
-        "quantity": "500 pcs",
-        "price": 16500,
-        "unitPrice": 33,
-        "printType": "Single side · 1 color"
+            "label": "Black \u00b7 11.5 × 13 in",
+            "sizeCategory": "11.5 × 13 in",
+            "color": "Black",
+            "quantity": "500 pcs",
+            "price": 18000,
+            "unitPrice": 36,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 14 × 18 in",
-        "sizeCategory": "White · 14 × 18 in",
-        "quantity": "50 pcs",
-        "price": 3250,
-        "unitPrice": 65,
-        "printType": "Single side · 1 color"
+            "label": "Black \u00b7 12 × 14 in",
+            "sizeCategory": "12 × 14 in",
+            "color": "Black",
+            "quantity": "50 pcs",
+            "price": 3600,
+            "unitPrice": 72,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 14 × 18 in",
-        "sizeCategory": "White · 14 × 18 in",
-        "quantity": "100 pcs",
-        "price": 5500,
-        "unitPrice": 55,
-        "printType": "Single side · 1 color"
+            "label": "Black \u00b7 12 × 14 in",
+            "sizeCategory": "12 × 14 in",
+            "color": "Black",
+            "quantity": "100 pcs",
+            "price": 5200,
+            "unitPrice": 52,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "White · 14 × 18 in",
-        "sizeCategory": "White · 14 × 18 in",
-        "quantity": "500 pcs",
-        "price": 18500,
-        "unitPrice": 37,
-        "printType": "Single side · 1 color"
+            "label": "Black \u00b7 12 × 14 in",
+            "sizeCategory": "12 × 14 in",
+            "color": "Black",
+            "quantity": "500 pcs",
+            "price": 19000,
+            "unitPrice": 38,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "Black · 10 × 12 in",
-        "sizeCategory": "Black · 10 × 12 in",
-        "quantity": "50 pcs",
-        "price": 2800,
-        "unitPrice": 56,
-        "printType": "Single side · 1 color"
+            "label": "Black \u00b7 14 × 16 in",
+            "sizeCategory": "14 × 16 in",
+            "color": "Black",
+            "quantity": "50 pcs",
+            "price": 3900,
+            "unitPrice": 78,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "Black · 10 × 12 in",
-        "sizeCategory": "Black · 10 × 12 in",
-        "quantity": "100 pcs",
-        "price": 4600,
-        "unitPrice": 46,
-        "printType": "Single side · 1 color"
+            "label": "Black \u00b7 14 × 16 in",
+            "sizeCategory": "14 × 16 in",
+            "color": "Black",
+            "quantity": "100 pcs",
+            "price": 6000,
+            "unitPrice": 60,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "Black · 10 × 12 in",
-        "sizeCategory": "Black · 10 × 12 in",
-        "quantity": "500 pcs",
-        "price": 14000,
-        "unitPrice": 28,
-        "printType": "Single side · 1 color"
+            "label": "Black \u00b7 14 × 16 in",
+            "sizeCategory": "14 × 16 in",
+            "color": "Black",
+            "quantity": "500 pcs",
+            "price": 21500,
+            "unitPrice": 43,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "Black · 11.5 × 13 in",
-        "sizeCategory": "Black · 11.5 × 13 in",
-        "quantity": "50 pcs",
-        "price": 2950,
-        "unitPrice": 59,
-        "printType": "Single side · 1 color"
+            "label": "Black \u00b7 14 × 18 in",
+            "sizeCategory": "14 × 18 in",
+            "color": "Black",
+            "quantity": "50 pcs",
+            "price": 4000,
+            "unitPrice": 80,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "Black · 11.5 × 13 in",
-        "sizeCategory": "Black · 11.5 × 13 in",
-        "quantity": "100 pcs",
-        "price": 4900,
-        "unitPrice": 49,
-        "printType": "Single side · 1 color"
+            "label": "Black \u00b7 14 × 18 in",
+            "sizeCategory": "14 × 18 in",
+            "color": "Black",
+            "quantity": "100 pcs",
+            "price": 6500,
+            "unitPrice": 65,
+            "printType": "Single side \u00b7 1 color"
       },
       {
-        "label": "Black · 11.5 × 13 in",
-        "sizeCategory": "Black · 11.5 × 13 in",
-        "quantity": "500 pcs",
-        "price": 15500,
-        "unitPrice": 31,
-        "printType": "Single side · 1 color"
-      },
-      {
-        "label": "Black · 12 × 14 in",
-        "sizeCategory": "Black · 12 × 14 in",
-        "quantity": "50 pcs",
-        "price": 3000,
-        "unitPrice": 60,
-        "printType": "Single side · 1 color"
-      },
-      {
-        "label": "Black · 12 × 14 in",
-        "sizeCategory": "Black · 12 × 14 in",
-        "quantity": "100 pcs",
-        "price": 5000,
-        "unitPrice": 50,
-        "printType": "Single side · 1 color"
-      },
-      {
-        "label": "Black · 12 × 14 in",
-        "sizeCategory": "Black · 12 × 14 in",
-        "quantity": "500 pcs",
-        "price": 16500,
-        "unitPrice": 33,
-        "printType": "Single side · 1 color"
-      },
-      {
-        "label": "Black · 14 × 16 in",
-        "sizeCategory": "Black · 14 × 16 in",
-        "quantity": "50 pcs",
-        "price": 3250,
-        "unitPrice": 65,
-        "printType": "Single side · 1 color"
-      },
-      {
-        "label": "Black · 14 × 16 in",
-        "sizeCategory": "Black · 14 × 16 in",
-        "quantity": "100 pcs",
-        "price": 5500,
-        "unitPrice": 55,
-        "printType": "Single side · 1 color"
-      },
-      {
-        "label": "Black · 14 × 16 in",
-        "sizeCategory": "Black · 14 × 16 in",
-        "quantity": "500 pcs",
-        "price": 19000,
-        "unitPrice": 38,
-        "printType": "Single side · 1 color"
-      },
-      {
-        "label": "Black · 14 × 18 in",
-        "sizeCategory": "Black · 14 × 18 in",
-        "quantity": "50 pcs",
-        "price": 3500,
-        "unitPrice": 70,
-        "printType": "Single side · 1 color"
-      },
-      {
-        "label": "Black · 14 × 18 in",
-        "sizeCategory": "Black · 14 × 18 in",
-        "quantity": "100 pcs",
-        "price": 6000,
-        "unitPrice": 60,
-        "printType": "Single side · 1 color"
-      },
-      {
-        "label": "Black · 14 × 18 in",
-        "sizeCategory": "Black · 14 × 18 in",
-        "quantity": "500 pcs",
-        "price": 21000,
-        "unitPrice": 42,
-        "printType": "Single side · 1 color"
+            "label": "Black \u00b7 14 × 18 in",
+            "sizeCategory": "14 × 18 in",
+            "color": "Black",
+            "quantity": "500 pcs",
+            "price": 23000,
+            "unitPrice": 46,
+            "printType": "Single side \u00b7 1 color"
       }
+
     ],
     materials: ['White / Black Zipper Bags'],
     finishes: ['Custom Logo Print', 'Slider Zip Closure', 'Multiple Sizes'],
@@ -706,11 +660,43 @@ export const products: Product[] = [
       '/images/products/thank-you-cards-2.jpeg',
     ],
     sizes: [
-      { label: '3.5 × 4 in', sizeCategory: '3.5 × 4 Inch', quantity: '1,000 pcs', printType: 'Single Side Print | 300 GSM', price: 5000 },
-      { label: '3.5 × 4 in', sizeCategory: '3.5 × 4 Inch', quantity: '1,000 pcs', printType: 'Double Side Print | 350 GSM', price: 7000 },
+
+      {
+            "label": "3.5 × 4 in",
+            "sizeCategory": "3.5 × 4 in (Single Side Print)",
+            "quantity": "100 pcs",
+            "printType": "350 GSM Bleach Card \u00b7 Single Side",
+            "price": 4000,
+            "unitPrice": 40
+      },
+      {
+            "label": "3.5 × 4 in",
+            "sizeCategory": "3.5 × 4 in (Single Side Print)",
+            "quantity": "500 pcs",
+            "printType": "350 GSM Bleach Card \u00b7 Single Side",
+            "price": 4800,
+            "unitPrice": 9.6
+      },
+      {
+            "label": "3.5 × 4 in",
+            "sizeCategory": "3.5 × 4 in (Single Side Print)",
+            "quantity": "1,000 pcs",
+            "printType": "350 GSM Bleach Card \u00b7 Single Side",
+            "price": 5800,
+            "unitPrice": 5.8
+      },
+      {
+            "label": "3.5 × 4 in",
+            "sizeCategory": "3.5 × 4 in (Double Side Print)",
+            "quantity": "1,000 pcs",
+            "printType": "350 GSM Bleach Card \u00b7 Double Side",
+            "price": 7400,
+            "unitPrice": 7.4
+      }
+
     ],
-    materials: ['300 GSM Art Card', '350 GSM Art Card'],
-    finishes: ['Matte Lamination', 'Gloss Lamination', 'Spot UV', 'Foil Stamping'],
+    materials: ['350 GSM Bleach Card'],
+    finishes: ['Precision Cut', 'Matte Lamination'],
     customizable: true,
     icon: '💌',
     moq: 'Min. 100 PCS',
@@ -756,132 +742,134 @@ export const products: Product[] = [
       '/images/products/courier-bag-2.jpeg',
     ],
     sizes: [
+
       {
-        "label": "6x9+2 in",
-        "sizeCategory": "6x9+2 in",
-        "quantity": "50 pcs",
-        "price": 2100,
-        "unitPrice": 42
+            "label": "6 × 9 + 2 in",
+            "sizeCategory": "6 × 9 + 2 in",
+            "quantity": "50 pcs",
+            "price": 2500,
+            "unitPrice": 50
       },
       {
-        "label": "6x9+2 in",
-        "sizeCategory": "6x9+2 in",
-        "quantity": "100 pcs",
-        "price": 3200,
-        "unitPrice": 32
+            "label": "6 × 9 + 2 in",
+            "sizeCategory": "6 × 9 + 2 in",
+            "quantity": "100 pcs",
+            "price": 3000,
+            "unitPrice": 30
       },
       {
-        "label": "6x9+2 in",
-        "sizeCategory": "6x9+2 in",
-        "quantity": "500 pcs",
-        "price": 6500,
-        "unitPrice": 13
+            "label": "6 × 9 + 2 in",
+            "sizeCategory": "6 × 9 + 2 in",
+            "quantity": "500 pcs",
+            "price": 8000,
+            "unitPrice": 16
       },
       {
-        "label": "8x11+2 in",
-        "sizeCategory": "8x11+2 in",
-        "quantity": "50 pcs",
-        "price": 2250,
-        "unitPrice": 45
+            "label": "8 × 11 + 2 in",
+            "sizeCategory": "8 × 11 + 2 in",
+            "quantity": "50 pcs",
+            "price": 2800,
+            "unitPrice": 56
       },
       {
-        "label": "8x11+2 in",
-        "sizeCategory": "8x11+2 in",
-        "quantity": "100 pcs",
-        "price": 3500,
-        "unitPrice": 35
+            "label": "8 × 11 + 2 in",
+            "sizeCategory": "8 × 11 + 2 in",
+            "quantity": "100 pcs",
+            "price": 3500,
+            "unitPrice": 35
       },
       {
-        "label": "8x11+2 in",
-        "sizeCategory": "8x11+2 in",
-        "quantity": "500 pcs",
-        "price": 8000,
-        "unitPrice": 16
+            "label": "8 × 11 + 2 in",
+            "sizeCategory": "8 × 11 + 2 in",
+            "quantity": "500 pcs",
+            "price": 10000,
+            "unitPrice": 20
       },
       {
-        "label": "10x12+2 in",
-        "sizeCategory": "10x12+2 in",
-        "quantity": "50 pcs",
-        "price": 2350,
-        "unitPrice": 47
+            "label": "10 × 12 + 2 in",
+            "sizeCategory": "10 × 12 + 2 in",
+            "quantity": "50 pcs",
+            "price": 3000,
+            "unitPrice": 60
       },
       {
-        "label": "10x12+2 in",
-        "sizeCategory": "10x12+2 in",
-        "quantity": "100 pcs",
-        "price": 3700,
-        "unitPrice": 37
+            "label": "10 × 12 + 2 in",
+            "sizeCategory": "10 × 12 + 2 in",
+            "quantity": "100 pcs",
+            "price": 3800,
+            "unitPrice": 38
       },
       {
-        "label": "10x12+2 in",
-        "sizeCategory": "10x12+2 in",
-        "quantity": "500 pcs",
-        "price": 9000,
-        "unitPrice": 18
+            "label": "10 × 12 + 2 in",
+            "sizeCategory": "10 × 12 + 2 in",
+            "quantity": "500 pcs",
+            "price": 11000,
+            "unitPrice": 22
       },
       {
-        "label": "10x14+2 in",
-        "sizeCategory": "10x14+2 in",
-        "quantity": "50 pcs",
-        "price": 2500,
-        "unitPrice": 50
+            "label": "10 × 14 + 2 in",
+            "sizeCategory": "10 × 14 + 2 in",
+            "quantity": "50 pcs",
+            "price": 3100,
+            "unitPrice": 62
       },
       {
-        "label": "10x14+2 in",
-        "sizeCategory": "10x14+2 in",
-        "quantity": "100 pcs",
-        "price": 4000,
-        "unitPrice": 40
+            "label": "10 × 14 + 2 in",
+            "sizeCategory": "10 × 14 + 2 in",
+            "quantity": "100 pcs",
+            "price": 4000,
+            "unitPrice": 40
       },
       {
-        "label": "10x14+2 in",
-        "sizeCategory": "10x14+2 in",
-        "quantity": "500 pcs",
-        "price": 11000,
-        "unitPrice": 22
+            "label": "10 × 14 + 2 in",
+            "sizeCategory": "10 × 14 + 2 in",
+            "quantity": "500 pcs",
+            "price": 12000,
+            "unitPrice": 24
       },
       {
-        "label": "12x16+2 in",
-        "sizeCategory": "12x16+2 in",
-        "quantity": "50 pcs",
-        "price": 2750,
-        "unitPrice": 55
+            "label": "12 × 16 + 2 in",
+            "sizeCategory": "12 × 16 + 2 in",
+            "quantity": "50 pcs",
+            "price": 3250,
+            "unitPrice": 65
       },
       {
-        "label": "12x16+2 in",
-        "sizeCategory": "12x16+2 in",
-        "quantity": "100 pcs",
-        "price": 4500,
-        "unitPrice": 45
+            "label": "12 × 16 + 2 in",
+            "sizeCategory": "12 × 16 + 2 in",
+            "quantity": "100 pcs",
+            "price": 4200,
+            "unitPrice": 42
       },
       {
-        "label": "12x16+2 in",
-        "sizeCategory": "12x16+2 in",
-        "quantity": "500 pcs",
-        "price": 12500,
-        "unitPrice": 25
+            "label": "12 × 16 + 2 in",
+            "sizeCategory": "12 × 16 + 2 in",
+            "quantity": "500 pcs",
+            "price": 14000,
+            "unitPrice": 28
       },
       {
-        "label": "14x19+2 in",
-        "sizeCategory": "14x19+2 in",
-        "quantity": "50 pcs",
-        "price": 3000,
-        "unitPrice": 60
+            "label": "14 × 19 + 2 in",
+            "sizeCategory": "14 × 19 + 2 in",
+            "quantity": "50 pcs",
+            "price": 3500,
+            "unitPrice": 70
       },
       {
-        "label": "14x19+2 in",
-        "sizeCategory": "14x19+2 in",
-        "quantity": "100 pcs",
-        "price": 5500,
-        "unitPrice": 55
+            "label": "14 × 19 + 2 in",
+            "sizeCategory": "14 × 19 + 2 in",
+            "quantity": "100 pcs",
+            "price": 5500,
+            "unitPrice": 55
       },
       {
-        "label": "14x19+2 in",
-        "sizeCategory": "14x19+2 in",
-        "quantity": "500 pcs",
-        "price": 15500,
-        "unitPrice": 31
+            "label": "14 × 19 + 2 in",
+            "sizeCategory": "14 × 19 + 2 in",
+            "quantity": "500 pcs",
+            "price": 16500,
+            "unitPrice": 33
       }
+
     ],
     materials: ['60 Micron Poly', '80 Micron Poly'],
     finishes: ['Full-color print', 'Single-color print'],
@@ -894,6 +882,8 @@ export const products: Product[] = [
     slug: 'carry-bags',
     name: 'Custom Carry Bags / Hand Bags',
     category: 'Packaging',
+    quoteOnly: true,
+    discountBadge: 'Out of Stock',
     shortDescription: 'Premium carry bags that turn your customers into walking brand ambassadors.',
     longDescription: 'Turn your customers into walking brand ambassadors with our premium custom carry bags and hand bags. Crafted meticulously from robust 250 GSM Bleach Card, these bags feature a reinforced bottom and sturdy rope handles, providing a satisfying, premium feel that can carry substantial weight. Ideal for boutique shopping, elegant retail packaging, and corporate gifting, our carry bags are designed to make a statement. At Prima Packages, we offer comprehensive customization for every detail, including specific sizes, base colors, crisp one-color printing, and luxurious finishes like matte lamination or eye-catching foil stamping. Based in Karachi, we understand the specific needs of retail hubs and fashion brands across Pakistan. By choosing us, you benefit from direct factory rates, superior construction quality, and reliable nationwide delivery. Elevate your in-store experience and brand presentation with beautifully designed carry bags that reflect the true value of the products inside.',
     seoContentBlock: 'Premium custom paper carry bags and branded shopping bags in Pakistan. Ideal for clothing boutiques, retail stores, and luxury gifting. Technical specifications include heavy-duty 250 GSM bleach card construction, reinforced base boards, and durable rope or ribbon handles. Available with custom sizing (e.g., 11x15+4 inches), offset one-color or full-color printing, matte/gloss lamination, and foil stamping accents. To place an order, send your design requirements and dimensions via WhatsApp. We manufacture high-quality custom retail packaging bags in Karachi and offer wholesale pricing with secure delivery nationwide. Enhance your customer\'s shopping experience with sturdy, elegant, and fully customized branded hand bags.',
@@ -951,12 +941,80 @@ export const products: Product[] = [
     heroImage: '/images/products/butter-paper-white.jpg',
     gallery: ['/images/products/butter-paper-hero.jpg'],
     sizes: [
-      // 11 × 17 Inch
-      { label: '11 × 17 in', sizeCategory: '11 × 17 Inch', quantity: '500 pcs', printType: 'One Color Print', price: 8500 },
-      { label: '11 × 17 in', sizeCategory: '11 × 17 Inch', quantity: '1,000 pcs', printType: 'One Color Print', price: 12000 },
-      // 17 × 23 Inch
-      { label: '17 × 23 in', sizeCategory: '17 × 23 Inch', quantity: '500 pcs', printType: 'One Color Print', price: 10000 },
-      { label: '17 × 23 in', sizeCategory: '17 × 23 Inch', quantity: '1,000 pcs', printType: 'One Color Print', price: 15000 },
+
+      {
+            "label": "9 × 14 in",
+            "sizeCategory": "9 × 14 in",
+            "quantity": "100 pcs",
+            "printType": "One Color Print",
+            "price": 2800,
+            "unitPrice": 28
+      },
+      {
+            "label": "9 × 14 in",
+            "sizeCategory": "9 × 14 in",
+            "quantity": "500 pcs",
+            "printType": "One Color Print",
+            "price": 4000,
+            "unitPrice": 8
+      },
+      {
+            "label": "9 × 14 in",
+            "sizeCategory": "9 × 14 in",
+            "quantity": "1,000 pcs",
+            "printType": "One Color Print",
+            "price": 6000,
+            "unitPrice": 6
+      },
+      {
+            "label": "11 × 17 in",
+            "sizeCategory": "11 × 17 in",
+            "quantity": "100 pcs",
+            "printType": "One Color Print",
+            "price": 3300,
+            "unitPrice": 33
+      },
+      {
+            "label": "11 × 17 in",
+            "sizeCategory": "11 × 17 in",
+            "quantity": "500 pcs",
+            "printType": "One Color Print",
+            "price": 4500,
+            "unitPrice": 9
+      },
+      {
+            "label": "11 × 17 in",
+            "sizeCategory": "11 × 17 in",
+            "quantity": "1,000 pcs",
+            "printType": "One Color Print",
+            "price": 6500,
+            "unitPrice": 6.5
+      },
+      {
+            "label": "17 × 23 in",
+            "sizeCategory": "17 × 23 in",
+            "quantity": "100 pcs",
+            "printType": "One Color Print",
+            "price": 3800,
+            "unitPrice": 38
+      },
+      {
+            "label": "17 × 23 in",
+            "sizeCategory": "17 × 23 in",
+            "quantity": "500 pcs",
+            "printType": "One Color Print",
+            "price": 5000,
+            "unitPrice": 10
+      },
+      {
+            "label": "17 × 23 in",
+            "sizeCategory": "17 × 23 in",
+            "quantity": "1,000 pcs",
+            "printType": "One Color Print",
+            "price": 7000,
+            "unitPrice": 7
+      }
+
     ],
     materials: ['30 GSM Butter Paper', '40 GSM Butter Paper'],
     finishes: ['One Color Print', 'Sheet Cut'],
@@ -1141,14 +1199,7 @@ export const products: Product[] = [
   },
 ]
 
-// Sheet prices apply to gray flyers; colored stock adds Rs. 3 per piece.
-// Keep gray variants first so existing cart size indexes remain valid.
-const flyers = products.find(product => product.slug === 'courier-flyer-bags')!
-const grayFlyers = flyers.sizes.map(size => ({ ...size, color: 'Gray', printType: 'Gray flyer' }))
-flyers.sizes = [...grayFlyers, ...['White', 'Pink', 'Black'].flatMap(color => grayFlyers.map(size => {
-  const pieces = Number(size.quantity!.replace(/[^0-9]/g, ''))
-  return { ...size, color, printType: `${color} flyer`, unitPrice: size.unitPrice! + 3, price: size.price + pieces * 3 }
-}))]
+
 
 export function getProductBySlug(slug: string): Product | undefined {
   return products.find((p) => p.slug === slug)

@@ -5,6 +5,7 @@ import type { Product } from '@/data/products'
 import { getProductRatingSummary } from '@/data/reviews'
 
 export function ProductCard({ product }: { product: Product; index?: number }) {
+  const isOutOfStock = product.discountBadge === 'Out of Stock'
   const size = product.sizes.reduce(
     (lowest, current) => (current.price < lowest.price ? current : lowest),
     product.sizes[0]
@@ -27,6 +28,11 @@ export function ProductCard({ product }: { product: Product; index?: number }) {
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 45vw, 290px"
           className="object-contain p-2.5 group-hover:scale-105 transition-transform duration-500 ease-out"
         />
+        {isOutOfStock && (
+          <span className="absolute top-2.5 right-2.5 bg-neutral-900/90 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-sm shadow-sm">
+            Out of Stock
+          </span>
+        )}
       </Link>
 
       {/* Content - aprints.pk-style Centered Flow */}
@@ -49,7 +55,11 @@ export function ProductCard({ product }: { product: Product; index?: number }) {
         </div>
 
         <div className="mt-1 text-sm font-semibold text-[#182C1E]">
-          {product.quoteOnly ? (
+          {isOutOfStock ? (
+            <span className="text-neutral-500 font-bold text-xs uppercase tracking-wider">
+              Currently Out of Stock
+            </span>
+          ) : product.quoteOnly ? (
             <span>Custom Quote</span>
           ) : (
             <span>
@@ -70,7 +80,7 @@ export function ProductCard({ product }: { product: Product; index?: number }) {
             href={`/products/${product.slug}`}
             className="inline-flex items-center justify-center gap-2 min-h-[44px] px-8 py-2.5 rounded-full bg-sage hover:bg-sage-dark active:scale-[0.98] text-white text-xs font-bold uppercase tracking-wider transition-all shadow-sm"
           >
-            <span>{product.quoteOnly ? 'Customize Now' : 'Shop Now'}</span>
+            <span>{isOutOfStock ? 'Inquire on WhatsApp' : product.quoteOnly ? 'Customize Now' : 'Shop Now'}</span>
             <svg
               className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5"
               fill="none"
