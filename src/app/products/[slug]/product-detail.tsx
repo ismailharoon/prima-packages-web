@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useCart } from '@/components/store/CartProvider'
 import { Icon } from '@/components/store/Icon'
 import { ProductCard } from '@/components/ui/ProductCard'
+import { ProductReviews } from '@/components/reviews/ProductReviews'
 import { minimumQuantity } from '@/lib/cart'
 import { formatPrice } from '@/lib/utils'
 import type { Product } from '@/data/products'
@@ -51,6 +52,7 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
         <div className="product-details">{[['Product details', product.longDescription], ['Materials & finishes', [...(product.materials || []), ...(product.finishes || [])].join(' · ')], ['More about this product', product.seoContentBlock || ''], ['Artwork & delivery', 'Share your logo or artwork on WhatsApp after sending your order request. Our team will confirm the final specifications, delivery charges and timeline before production.']].filter(([, text]) => text).map(([title, text]) => <details key={title}><summary>{title}<span>+</span></summary><p>{text}</p></details>)}</div>
       </div>
     </section>
+    <ProductReviews product={product} />
     <section className="store-shell shop-section product-related"><div className="section-heading"><div><p className="eyebrow">COMPLETE YOUR BRAND PACKAGING</p><h2>Better together.</h2></div><Link href="/catalog">Shop all</Link></div><div className="store-grid">{allProducts.filter(item => item.slug !== product.slug).slice(0, 4).map(item => <ProductCard product={item} key={item.slug} />)}</div></section>
     <div className="mobile-buy-bar"><div><strong>{product.quoteOnly ? 'Custom quote' : formatPrice(total)}</strong><span>{size.quantity ? `${count || 1} × ${size.quantity}` : `${valid ? count : min} pieces`}</span></div><button type="button" className="store-button" onClick={addItem} disabled={!valid || !ready}><Icon name="bag" />Add to cart</button></div>
   </>

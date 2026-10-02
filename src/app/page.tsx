@@ -7,6 +7,7 @@ import { ProductCard } from '@/components/ui/ProductCard'
 import { FAQSection } from '@/components/ui/FAQSection'
 import { Icon } from '@/components/store/Icon'
 import { products } from '@/data/products'
+import { HomeReviewsMarquee } from '@/components/reviews/HomeReviewsMarquee'
 
 const shortcuts = [
   { name: 'Woven labels', slug: 'woven-labels' }, { name: 'Hang tags', slug: 'hang-tags' },
@@ -133,6 +134,7 @@ export default function HomePage() {
         </div>
       </section>
 
+      <HomeReviewsMarquee />
 
     <section className="store-shell shop-section"><div className="section-heading"><div><p className="eyebrow">CUSTOM DOESN’T HAVE TO BE COMPLICATED</p><h2>Your idea. Our craft.</h2></div></div><div className="order-steps">{[['01', 'Choose your essentials', 'Add your preferred sizes and quantities to your cart.'], ['02', 'Make it your own', 'Send your request on WhatsApp. We’ll finalize your design and price together.'], ['03', 'Approve. Print. Deliver.', 'Approve your design and pay 50% advance. Clear the balance when it’s ready to dispatch.']].map(([n, title, text]) => <div key={n}><span>{n}</span><h3>{title}</h3><p>{text}</p></div>)}</div></section>
     <FAQSection faqs={faqs} heading="A little clarity before you order." />
