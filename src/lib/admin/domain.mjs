@@ -67,7 +67,7 @@ function items(input) {
     if (!Number.isInteger(item.quantity) || item.quantity < 1 || item.quantity > 1000000) throw new Error('Quantity must be a whole number between 1 and 1,000,000.')
     const unitPrice = amount(item.unitPrice, 'Unit price')
     if (unitPrice * item.quantity > 100000000000) throw new Error('Product line total is too large.')
-    return { id: crypto.randomUUID(), name: text(item.name,'product name',200,true), specification: text(item.specification || '', 'specification',500), category: text(item.category || 'Other','category',100), quantity: item.quantity, unitPrice }
+    return { id: item.id || crypto.randomUUID(), name: text(item.name,'product name',200,true), specification: text(item.specification || '', 'specification',500), category: text(item.category || 'Other','category',100), quantity: item.quantity, unitPrice }
   })
 }
 export function applyCommand(current, command, actor = 'Local owner') {
@@ -78,6 +78,64 @@ export function applyCommand(current, command, actor = 'Local owner') {
   const id = crypto.randomUUID()
   const now = new Date().toISOString()
   switch (command.action) {
+    case 'updateOrderItems': {
+      const o = findOrder(state, p.id)
+      if (p.expectedRevision !== state.revision || p.version !== o.version) throw new Error('Workspace changed. Refresh before saving products.')
+      if (o.status === 'Cancelled') throw new Error('Cannot edit products on a cancelled order.')
+      const newItems = items(p.items)
+      if (!newItems.length) throw new Error('An order must have at least one product.')
+      const existingIds = new Set(o.items.map(i => i.id))
+      const newIds = new Set(newItems.map(i => i.id))
+
+      // Check removed items
+      const removed = o.items.filter(i => !newIds.has(i.id))
+      for (const rem of removed) {
+        const linked = state.expenses.filter(e => !e.voided && e.orderId === o.id && e.itemId === rem.id)
+        if (linked.some(e => e.amount > 0 || e.paid)) {
+          throw new Error(`Cannot remove "${rem.name}" because costs are already recorded for it.`)
+        }
+        state.expenses = state.expenses.filter(e => !(e.orderId === o.id && e.itemId === rem.id))
+      }
+
+      // Add 0-cost pending expenses for newly added items
+      const added = newItems.filter(i => !existingIds.has(i.id))
+      state.expenses.push(...added.map(item => ({
+        id: crypto.randomUUID(),
+        orderId: o.id,
+        itemId: item.id,
+        specification: item.specification,
+        quantity: item.quantity,
+        date: o.date,
+        description: item.name,
+        category: 'Product',
+        productType: item.category,
+        brand: o.brand,
+        amount: 0,
+        funding: 'Business',
+        paid: false,
+        paidDate: '',
+        note: 'Product cost pending'
+      })))
+
+      // Update existing items' linked expenses
+      for (const item of newItems) {
+        if (existingIds.has(item.id)) {
+          for (const exp of state.expenses) {
+            if (exp.orderId === o.id && exp.itemId === item.id) {
+              exp.specification = item.specification
+              exp.quantity = item.quantity
+              exp.description = item.name
+            }
+          }
+        }
+      }
+
+      o.items = newItems
+      if (orderTotal(o) < 0 || orderTotal(o) > 100000000000) throw new Error('Check the order total and discount.')
+      o.version++
+      detail = `${o.number}: updated products (${o.items.length} items, total Rs. ${orderTotal(o) / 100})`
+      break
+    }
     case 'deleteOrder': {
       const o = findOrder(state,p.id)
       if (p.expectedRevision !== state.revision || p.version !== o.version) throw new Error('Workspace changed. Refresh before deleting this order.')

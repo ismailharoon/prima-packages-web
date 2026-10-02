@@ -176,3 +176,24 @@ test('permanent deletion removes only linked records, protects stale data, and n
  assert.equal(s.audit[0].action,'deleteOrder')
  s=run(s,'createOrder',base);assert.equal(s.orders[0].number,'PP-00003')
 })
+test('editing order products adds items, updates totals and generates distinct 0-cost expenses',()=>{
+ let s=run(emptyWorkspace(),'createOrder',base),o=s.orders[0]
+ assert.equal(o.items.length,2)
+ assert.equal(s.expenses.length,2)
+ const initialTotal=o.items.reduce((sum,i)=>sum+i.quantity*i.unitPrice,0)
+ const newProduct={name:'Custom Thank You Cards',category:'Thank You Card',specification:'3 × 4 in',quantity:500,unitPrice:500}
+ const updatedItems=[...o.items,newProduct]
+ const p={id:o.id,version:o.version,expectedRevision:s.revision,items:updatedItems}
+ assert.throws(()=>run(s,'updateOrderItems',{...p,expectedRevision:999}),/changed/)
+ s=run(s,'updateOrderItems',p)
+ const updatedOrder=s.orders[0]
+ assert.equal(updatedOrder.items.length,3)
+ assert.equal(s.expenses.length,3)
+ const newExp=s.expenses.find(e=>e.itemId===updatedOrder.items[2].id)
+ assert.ok(newExp)
+ assert.equal(newExp.amount,0)
+ assert.equal(newExp.paid,false)
+ assert.equal(newExp.description,'Custom Thank You Cards')
+ assert.equal(updatedOrder.items.reduce((sum,i)=>sum+i.quantity*i.unitPrice,0),initialTotal+500*500)
+})
+
