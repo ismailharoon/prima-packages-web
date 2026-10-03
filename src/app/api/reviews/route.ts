@@ -1,19 +1,54 @@
-import { seedReviews, type Review } from '@/data/reviews'
+import type { Review } from '@/data/reviews'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
-// Server-side in-memory cache for new reviews during session
+const KV_KEY = 'reviews:all'
+const MAX_REVIEWS = 1000
+
+type KVStore = {
+  get(key: string): Promise<string | null>
+  put(key: string, value: string): Promise<void>
+}
+
+// Fallback only for local `next dev` where Cloudflare bindings are unavailable.
 const memoryReviews: Review[] = []
 
+async function getKV(): Promise<KVStore | null> {
+  try {
+    const mod = (await import('cloudflare:workers')) as { env?: { REVIEWS_KV?: KVStore } }
+    return mod.env?.REVIEWS_KV ?? null
+  } catch {
+    return null
+  }
+}
+
+async function readReviews(): Promise<Review[]> {
+  const kv = await getKV()
+  if (!kv) return memoryReviews
+  const raw = await kv.get(KV_KEY)
+  if (!raw) return []
+  try {
+    const parsed = JSON.parse(raw)
+    return Array.isArray(parsed) ? parsed : []
+  } catch {
+    return []
+  }
+}
+
+async function writeReviews(reviews: Review[]) {
+  const kv = await getKV()
+  if (!kv) {
+    memoryReviews.splice(0, memoryReviews.length, ...reviews)
+    return
+  }
+  await kv.put(KV_KEY, JSON.stringify(reviews.slice(0, MAX_REVIEWS)))
+}
+
 export async function GET() {
-  const cleanReviews = memoryReviews.filter(r => r && r.id && !/^rev-\d{1,2}$/.test(r.id))
-  return Response.json({
-    reviews: cleanReviews,
-  }, {
-    headers: {
-      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-    },
+  const reviews = await readReviews()
+  return Response.json({ reviews }, {
+    headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate' },
   })
 }
 
@@ -39,10 +74,14 @@ export async function POST(request: Request) {
       return Response.json({ error: 'Please write a brief comment (at least 5 characters).' }, { status: 400 })
     }
 
+    const id = typeof body.id === 'string' && /^rev-\d{10,}-[a-z0-9]{1,10}$/.test(body.id)
+      ? body.id
+      : `rev-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`
+
     const newReview: Review = {
-      id: body.id || `rev-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-      productSlug: String(productSlug || 'woven-labels'),
-      productName: String(productName || 'Custom Packaging'),
+      id,
+      productSlug: String(productSlug || 'woven-labels').slice(0, 80),
+      productName: String(productName || 'Custom Packaging').slice(0, 120),
       author: author.trim().slice(0, 100),
       brandName: brandName ? String(brandName).trim().slice(0, 100) : undefined,
       city: city ? String(city).trim().slice(0, 60) : undefined,
@@ -52,12 +91,12 @@ export async function POST(request: Request) {
       verified: true,
     }
 
-    memoryReviews.unshift(newReview)
+    const existing = await readReviews()
+    if (!existing.some(r => r.id === newReview.id)) {
+      await writeReviews([newReview, ...existing])
+    }
 
-    return Response.json({
-      success: true,
-      review: newReview,
-    }, { status: 201 })
+    return Response.json({ success: true, review: newReview }, { status: 201 })
   } catch (error) {
     return Response.json({
       error: error instanceof Error ? error.message : 'Unable to save review.',

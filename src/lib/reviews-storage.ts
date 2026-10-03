@@ -62,20 +62,50 @@ export async function submitReview(data: {
   // Save to client storage immediately for instant UI responsiveness
   saveReviewToStorage(newReview)
 
-  // Try saving to backend API if available
+  // Persist to the server (Cloudflare KV) so every visitor sees it permanently
   try {
-    fetch('/api/reviews', {
+    await fetch('/api/reviews', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newReview),
-    }).catch(() => {
-      // Background sync fail gracefully
     })
   } catch {
-    // Ignore network error
+    // Network error: review stays visible locally on this device
   }
 
   return newReview
+}
+
+let syncPromise: Promise<Review[] | null> | null = null
+
+function syncWithServer(): Promise<Review[] | null> {
+  if (syncPromise) return syncPromise
+  syncPromise = (async () => {
+    const res = await fetch('/api/reviews', { cache: 'no-store' })
+    if (!res.ok) return null
+    const data = await res.json()
+    if (!data || !Array.isArray(data.reviews)) return null
+    const remote: Review[] = data.reviews
+    const remoteIds = new Set(remote.map(r => r.id))
+    const localOnly = getStoredReviews().filter(r => !remoteIds.has(r.id))
+
+    // Re-upload reviews that exist only on this device (recovers reviews lost from old temporary storage).
+    // Sequential to avoid overlapping writes on the server.
+    for (const r of localOnly) {
+      try {
+        await fetch('/api/reviews', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(r),
+        })
+      } catch {}
+    }
+
+    const merged = [...localOnly, ...remote]
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(merged))
+    return merged
+  })().catch(() => null)
+  return syncPromise
 }
 
 export function useReviews(productSlug?: string) {
@@ -91,21 +121,9 @@ export function useReviews(productSlug?: string) {
     window.addEventListener(EVENT_NAME, handleUpdate)
     window.addEventListener('storage', handleUpdate)
 
-    // Optional: fetch from API to get newest community reviews
-    fetch('/api/reviews')
-      .then(res => res.ok ? res.json() : null)
-      .then(data => {
-        if (data && Array.isArray(data.reviews)) {
-          const local = getStoredReviews()
-          const localIds = new Set(local.map(r => r.id))
-          const newFromRemote = data.reviews.filter((r: Review) => !localIds.has(r.id))
-          if (newFromRemote.length > 0) {
-            const merged = [...local, ...newFromRemote]
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(merged))
-            setCustomReviews(merged)
-          }
-        }
-      })
+    // Load permanent reviews from the server (one shared request per page load)
+    syncWithServer()
+      .then(merged => { if (merged) setCustomReviews(merged) })
       .catch(() => {})
 
     return () => {

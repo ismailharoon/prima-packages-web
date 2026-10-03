@@ -8,5 +8,8 @@
     {"pattern": "primapackages.pk", "custom_domain": true},
     {"pattern": "www.primapackages.pk", "custom_domain": true}
   ],
-  "assets": {"not_found_handling": "none"}
+  "assets": {"not_found_handling": "none"},
+  "kv_namespaces": [
+    {"binding": "REVIEWS_KV", "id": "1a42f77c424d4c45a924c1422bce1587"}
+  ]
 }
