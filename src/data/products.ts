@@ -544,8 +544,10 @@ export const products: Product[] = [
     shortDescription: '350 GSM Bleach Card (2 × 3.5 in). Single or double side printed with optional Tag Card String.',
     longDescription: 'Our custom hang tags (tag cards) are printed on premium 350 GSM bleach card in standard 2 × 3.5 inch size with punch hole included. Perfect for clothing brands, boutique apparel, and retail items. Available in single and double-sided printing with optional matching tag card string (tag dori).',
     seoContentBlock: 'Order custom 350 GSM bleach card tag cards and hang tags in Pakistan. Size 2 × 3.5 inch with single or double side printing and optional tag card strings. Fast delivery nationwide.',
-    heroImage: '/images/products/hang-tags-white.jpg',
+    heroImage: '/images/products/hang-tags-studio.jpg',
     gallery: [
+      '/images/products/hang-tags-hero2.jpeg',
+      '/images/products/hang-tags-white.jpg',
       '/images/products/hang-tags-hero.jpeg',
       '/images/products/hang-tag-1.jpeg',
       '/images/products/hang-tag-2.jpeg',
@@ -982,8 +984,12 @@ export const products: Product[] = [
     shortDescription: 'Custom-printed butter paper that wraps your products in branded elegance.',
     longDescription: 'Elevate your unboxing experience with the sophisticated touch of custom-printed butter paper. Perfect for wrapping high-end clothing, tailored suits, elegant abayas, delicate accessories, or premium food items, our butter paper adds a layer of branded elegance to every package. Manufactured from high-quality 30 GSM to 40 GSM translucent paper, it features a smooth, tissue-like quality that protects your products while subtly showcasing them. At Prima Packages, we print your brand logo and custom patterns in crisp, continuous one-color print, cut to your specific sheet dimensions. This lightweight yet durable wrapping solution demonstrates your commitment to quality and attention to detail. As a premier packaging provider in Karachi, we cater to fashion and retail brands across Pakistan, offering low minimum order quantities and direct factory pricing. Enhance the perceived value of your products and delight your customers with beautiful, custom-branded butter paper wrapping.',
     seoContentBlock: 'Custom printed butter paper and branded wrapping tissue for retail packaging in Pakistan. Ideal for clothing brands, bakeries, and luxury retail, providing a premium unboxing experience. Technical specifications include lightweight 30 GSM or 40 GSM translucent paper, custom sheet sizing (e.g., 11x17 or 17x23 inches), and crisp one-color flexographic pattern or logo printing. Ordering is straightforward: provide your logo and preferred sheet size on WhatsApp, and we will create a digital proof for your approval. Based in Karachi, we manufacture and supply bulk custom wrapping paper and printed tissue paper with reliable nationwide delivery, helping you protect and present your products with elegance.',
-    heroImage: '/images/products/butter-paper-white.jpg',
-    gallery: ['/images/products/butter-paper-hero.jpg'],
+    heroImage: '/images/products/butter-paper-studio-opt.jpg',
+    gallery: [
+      '/images/products/butter-paper-studio.jpg',
+      '/images/products/butter-paper-white.jpg',
+      '/images/products/butter-paper-hero.jpg',
+    ],
     sizes: [
 
       {
