@@ -7,13 +7,13 @@ import { useRef, useState } from 'react'
 const collection = [
   {
     slug: 'woven-labels',
-    image: 'woven-labels-zahra.jpg',
+    image: 'woven-labels-nora.jpg',
     name: 'Woven labels',
     headline: 'Small detail.',
     accent: 'Signature style.',
     detail: 'Your logo, woven into every piece.',
     tone: 'sage',
-    alt: 'Zahra couture custom woven clothing labels',
+    alt: 'House of Nora custom woven clothing labels',
   },
   {
     slug: 'zipper-bags',

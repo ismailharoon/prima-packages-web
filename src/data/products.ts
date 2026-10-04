@@ -51,13 +51,12 @@ export const products: Product[] = [
     shortDescription: 'Durable custom polyester labels woven with your logo for clothing, apparel and textile brands.',
     longDescription: 'Our premium polyester woven labels are the ultimate choice for everyday garment branding, tailored specifically for clothing brands across Pakistan. Using advanced damask weaving techniques, your logo, sizing, and brand details are woven directly into the high-density polyester yarn, ensuring a crisp, luxurious, and highly durable finish. These labels are designed to withstand regular wear and intense washing without fading or fraying. We offer multiple fold styles including center fold, end fold, mitre fold, and heat cut to suit your specific stitching requirements. Whether you are a startup boutique in Karachi or a nationwide retail brand, Prima Packages provides top-quality labels with precise detailing. Our custom woven labels offer exceptional value with minimum order quantities designed to support growing businesses. Experience fast production and seamless nationwide delivery across Pakistan. Send us your artwork on WhatsApp, and our design team will guide you through the process, from selecting the right dimensions to confirming the final digital proof before production.',
     seoContentBlock: 'Looking for the best custom clothing brand labels in Pakistan? Our high-density polyester damask woven labels provide a professional finishing touch to garments, apparel, and textiles. Technical specifications include custom sizing, standard 50-denier high-definition yarn, and durable heat-sealed edges to prevent unravelling. Available with center fold, end fold, or flat cut options for easy sewing. The ordering process is simple: share your vector logo on WhatsApp, choose your required dimensions and fold type, and we\'ll provide a digital proof and wholesale quote. We manufacture and supply premium woven tags in Karachi, Lahore, Islamabad, and deliver nationwide. Perfect for neck labels, hem tags, and care labels with fast 5-7 days dispatch.',
-    heroImage: '/images/products/woven-labels-user-white.jpg',
+    heroImage: '/images/products/woven-labels-nora.jpg',
     gallery: [
-      '/images/products/woven-labels-user-white.jpg',
+      '/images/products/woven-labels-nora.jpg',
       '/images/products/woven-labels-zahra.jpg',
       '/images/products/woven-labels-libaas.jpg',
       '/images/products/woven-labels-fiza.jpg',
-      '/images/products/woven-labels-nora.jpg',
       '/images/products/woven-labels-bitwearz.jpg',
     ],
     sizes: [
