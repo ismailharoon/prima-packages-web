@@ -1,5 +1,8 @@
+'use client'
+
 import { cn } from '@/lib/utils'
 import { generateWhatsAppUrl } from '@/lib/utils'
+import { trackWhatsAppClick } from '@/lib/analytics'
 
 interface WhatsAppCTAProps {
   productName?: string
@@ -32,6 +35,14 @@ export function WhatsAppCTA({
       href={url}
       target="_blank"
       rel="noopener noreferrer"
+      data-ga-tracked="true"
+      onClick={() => {
+        trackWhatsAppClick({
+          buttonLocation: 'cta_button',
+          productName,
+          selectedSize: size,
+        })
+      }}
       className={cn(
         'inline-flex items-center gap-2.5 rounded-none px-8 py-3.5 text-sm font-medium uppercase tracking-[0.15em] transition-all duration-300',
         variants[variant],

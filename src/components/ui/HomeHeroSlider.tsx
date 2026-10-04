@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { SOCIAL_LINKS, WHATSAPP_NUMBER } from '@/lib/constants'
+import { trackWhatsAppClick } from '@/lib/analytics'
 
 export interface HeroSlide {
   id: string
@@ -153,6 +154,13 @@ export function HomeHeroSlider() {
                 href={SOCIAL_LINKS.whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-ga-tracked="true"
+                onClick={() => {
+                  trackWhatsAppClick({
+                    buttonLocation: 'hero_slider',
+                    productName: 'Packaging Suite',
+                  })
+                }}
                 className="inline-flex min-h-11 xl:min-h-12 items-center justify-center gap-2 rounded-full border border-charcoal/20 bg-warm-white/95 backdrop-blur-sm px-6 xl:px-7 text-xs xl:text-sm font-semibold uppercase tracking-[0.14em] text-charcoal transition-all hover:bg-charcoal hover:text-white shadow-sm"
               >
                 Get WhatsApp quote
@@ -242,6 +250,13 @@ export function HomeHeroSlider() {
                     href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    data-ga-tracked="true"
+                    onClick={() => {
+                      trackWhatsAppClick({
+                        buttonLocation: 'hero_slider',
+                        productName: currentSlide.title,
+                      })
+                    }}
                     className="inline-flex min-h-[46px] w-full items-center justify-center gap-2 rounded-full border border-charcoal/20 bg-warm-white/95 px-6 text-xs font-semibold uppercase tracking-[0.14em] text-charcoal active:scale-[0.97] transition-transform"
                   >
                     Get WhatsApp Quote

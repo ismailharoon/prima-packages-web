@@ -257,6 +257,7 @@ export function CityLandingView({ city, products }: CityLandingViewProps) {
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
+              data-ga-location="regional_page"
               className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-sage px-8 text-xs font-bold uppercase tracking-wider text-white hover:bg-sage-dark transition-colors shadow-md"
             >
               Contact on WhatsApp ({PHONE_NUMBER})

@@ -124,6 +124,7 @@ export default function HomePage() {
               href={`https://wa.me/923233231712?text=${encodeURIComponent('Hi, I saw your ad on Instagram. I need custom packaging for my brand.\nProduct: \nRequired Quantity: \nCity: ')}`}
               target="_blank"
               rel="noopener noreferrer"
+              data-ga-location="home_ad_banner"
               className="inline-flex min-h-10 items-center justify-center gap-2 rounded-full bg-sage px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-sage-dark transition-all shadow-sm"
             >
               <span>Chat on WhatsApp (+92 323 3231712)</span>

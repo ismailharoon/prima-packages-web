@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '@/components/store/CartProvider'
@@ -10,6 +10,7 @@ import { ProductReviews } from '@/components/reviews/ProductReviews'
 import { formatPrice } from '@/lib/utils'
 import type { Product } from '@/data/products'
 import { getProductRatingSummary } from '@/data/reviews'
+import { trackViewItem, trackAddToCart, trackWhatsAppClick } from '@/lib/analytics'
 
 export function ProductDetail({ product, allProducts }: { product: Product; allProducts: Product[] }) {
   const { add, ready } = useCart()
@@ -110,9 +111,23 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
     setAdded(false)
   }
 
+  useEffect(() => {
+    trackViewItem({
+      product,
+      selectedSize: size,
+      quantity: 1,
+    })
+  }, [product.slug])
+
   const addItem = () => {
     if (!ready || isOutOfStock) return
     add({ slug: product.slug, sizeIndex, quantity: countPacks, options })
+    trackAddToCart({
+      product,
+      size,
+      quantity: countPacks,
+      options,
+    })
     setAdded(true)
   }
 
@@ -401,6 +416,16 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  data-ga-tracked="true"
+                  onClick={() => {
+                    trackWhatsAppClick({
+                      buttonLocation: 'product_page',
+                      productName: product.name,
+                      productId: product.slug,
+                      selectedSize: size?.sizeCategory || size?.label,
+                      selectedQuantity: countPacks,
+                    })
+                  }}
                   className="font-medium text-emerald-800 hover:text-emerald-950 underline text-xs"
                 >
                   WhatsApp Quote →
@@ -417,6 +442,14 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
               )}`}
               target="_blank"
               rel="noopener noreferrer"
+              data-ga-tracked="true"
+              onClick={() => {
+                trackWhatsAppClick({
+                  buttonLocation: 'product_page_out_of_stock',
+                  productName: product.name,
+                  productId: product.slug,
+                })
+              }}
               className="store-button inline-flex items-center justify-center gap-2 bg-[#2D4A36] text-white w-full py-3.5 text-xs font-bold uppercase tracking-wider rounded-lg shadow-sm hover:bg-[#1E3325] transition-all"
             >
               <Icon name="bag" /> Inquire Availability on WhatsApp
@@ -515,6 +548,14 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
             )}`}
             target="_blank"
             rel="noopener noreferrer"
+            data-ga-tracked="true"
+            onClick={() => {
+              trackWhatsAppClick({
+                buttonLocation: 'product_page_out_of_stock',
+                productName: product.name,
+                productId: product.slug,
+              })
+            }}
             className="store-button"
           >
             <Icon name="bag" /> Inquire

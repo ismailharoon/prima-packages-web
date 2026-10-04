@@ -13,7 +13,7 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
   const pathname = usePathname()
   return <header className="store-header">
-    <div className="header-utility"><div className="store-shell"><a href={`tel:+${WHATSAPP_NUMBER}`}>Call us: {PHONE_NUMBER}</a><nav aria-label="Main navigation">{NAV_ITEMS.map(item => <Link href={item.href} key={item.href} aria-current={pathname === item.href ? 'page' : undefined}>{item.label}</Link>)}</nav></div></div><div className="announcement">Made for your brand. Delivered across Pakistan. <span>50% advance · Remaining Cash on Delivery</span></div>
+    <div className="header-utility"><div className="store-shell"><a href={`tel:+${WHATSAPP_NUMBER}`} data-ga-location="header">Call us: {PHONE_NUMBER}</a><nav aria-label="Main navigation">{NAV_ITEMS.map(item => <Link href={item.href} key={item.href} aria-current={pathname === item.href ? 'page' : undefined}>{item.label}</Link>)}</nav></div></div><div className="announcement">Made for your brand. Delivered across Pakistan. <span>50% advance · Remaining Cash on Delivery</span></div>
     <div className="store-shell header-main">
       <Link href="/" aria-label="Prima Packages home" className="store-logo"><Image src="/images/prima-logo-horizontal.png" alt="Prima Packages" width={155} height={54} preload sizes="155px" /></Link>
       <form action="/catalog" role="search" className="header-search"><input name="q" aria-label="Search packaging" placeholder="Search labels, bags, tags & more…" maxLength={80} /><button type="submit" aria-label="Search"><Icon name="search" /></button></form>

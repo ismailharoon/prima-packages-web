@@ -172,6 +172,7 @@ export function Footer() {
               <li>
                 <a
                   href="mailto:hello@primapackages.pk"
+                  data-ga-location="footer"
                   className="hover:text-cream transition-colors duration-200"
                 >
                   hello@primapackages.pk
@@ -180,6 +181,7 @@ export function Footer() {
               <li>
                 <a
                   href="tel:+923233231712"
+                  data-ga-location="footer"
                   className="hover:text-cream transition-colors duration-200"
                 >
                   +92 323 3231712

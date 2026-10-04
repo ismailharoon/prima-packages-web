@@ -69,6 +69,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                   href={SOCIAL_LINKS.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
+                  data-ga-location="mobile_menu"
                   className="flex items-center justify-center gap-3 w-full bg-sage text-warm-white py-4 text-sm font-medium uppercase tracking-[0.15em] hover:bg-sage-dark transition-colors duration-300"
                 >
                   <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">

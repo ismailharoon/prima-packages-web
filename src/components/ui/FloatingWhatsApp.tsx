@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { WHATSAPP_NUMBER, DEFAULT_WHATSAPP_MESSAGE } from '@/lib/constants'
+import { trackWhatsAppClick } from '@/lib/analytics'
 
 export function FloatingWhatsApp() {
   const [isOpen, setIsOpen] = useState(false)
@@ -82,6 +83,12 @@ export function FloatingWhatsApp() {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-ga-tracked="true"
+                onClick={() => {
+                  trackWhatsAppClick({
+                    buttonLocation: 'floating_button',
+                  })
+                }}
                 className="flex items-center justify-center gap-2.5 w-full bg-[#25D366] hover:bg-[#20ba59] text-white py-2.5 px-4 rounded-xl text-xs font-semibold uppercase tracking-wider shadow-md shadow-green-600/20 transition-all duration-300 active:scale-[0.98]"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">

@@ -5,6 +5,7 @@ import { homeSeoKeywords } from "@/data/seo";
 import { SOCIAL_LINKS } from "@/lib/constants";
 import "./globals.css";
 import { CartProvider } from '@/components/store/CartProvider';
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-heading",
@@ -125,6 +126,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <link rel="apple-touch-icon" href="/images/products/icon-logo.png" />
       </head>
       <body className="min-h-full flex flex-col font-sans bg-warm-white text-charcoal">
+        <GoogleAnalytics />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
