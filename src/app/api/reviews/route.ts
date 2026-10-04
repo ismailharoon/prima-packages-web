@@ -4,6 +4,7 @@ export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 const KV_KEY = 'reviews:all'
+const KV_DELETED_KEY = 'reviews:deleted'
 const MAX_REVIEWS = 1000
 
 type KVStore = {
@@ -13,6 +14,7 @@ type KVStore = {
 
 // Fallback only for local `next dev` where Cloudflare bindings are unavailable.
 const memoryReviews: Review[] = []
+const memoryDeleted: string[] = []
 
 async function getKV(): Promise<KVStore | null> {
   try {
@@ -20,6 +22,31 @@ async function getKV(): Promise<KVStore | null> {
     return mod.env?.REVIEWS_KV ?? null
   } catch {
     return null
+  }
+}
+
+async function getDeletedIds(): Promise<string[]> {
+  const kv = await getKV()
+  if (!kv) return memoryDeleted
+  const raw = await kv.get(KV_DELETED_KEY)
+  if (!raw) return []
+  try {
+    const parsed = JSON.parse(raw)
+    return Array.isArray(parsed) ? parsed : []
+  } catch {
+    return []
+  }
+}
+
+async function markReviewDeleted(id: string) {
+  const kv = await getKV()
+  if (!kv) {
+    if (!memoryDeleted.includes(id)) memoryDeleted.push(id)
+    return
+  }
+  const current = await getDeletedIds()
+  if (!current.includes(id)) {
+    await kv.put(KV_DELETED_KEY, JSON.stringify([id, ...current].slice(0, 500)))
   }
 }
 
@@ -78,6 +105,11 @@ export async function POST(request: Request) {
       ? body.id
       : `rev-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`
 
+    const deletedIds = await getDeletedIds()
+    if (deletedIds.includes(id)) {
+      return Response.json({ error: 'This review was removed by an administrator.' }, { status: 400 })
+    }
+
     const newReview: Review = {
       id,
       productSlug: String(productSlug || 'woven-labels').slice(0, 80),
@@ -103,3 +135,39 @@ export async function POST(request: Request) {
     }, { status: 400 })
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    const url = new URL(request.url)
+    let id = url.searchParams.get('id')
+    if (!id) {
+      const body = await request.json().catch(() => null)
+      if (body && typeof body === 'object' && typeof body.id === 'string') {
+        id = body.id
+      }
+    }
+
+    if (!id || typeof id !== 'string') {
+      return Response.json({ error: 'Review ID is required.' }, { status: 400 })
+    }
+
+    const reviews = await readReviews()
+    const target = reviews.find(r => r.id === id)
+    if (!target) {
+      // If already not present, make sure it is in deleted tombstone list
+      await markReviewDeleted(id)
+      return Response.json({ success: true, id, message: 'Review already removed.' })
+    }
+
+    const remaining = reviews.filter(r => r.id !== id)
+    await writeReviews(remaining)
+    await markReviewDeleted(id)
+
+    return Response.json({ success: true, id, remainingCount: remaining.length })
+  } catch (error) {
+    return Response.json({
+      error: error instanceof Error ? error.message : 'Unable to delete review.',
+    }, { status: 500 })
+  }
+}
+

@@ -76,9 +76,28 @@ export async function submitReview(data: {
   return newReview
 }
 
+export async function deleteReview(id: string): Promise<boolean> {
+  syncPromise = null
+  try {
+    const res = await fetch(`/api/reviews?id=${encodeURIComponent(id)}`, {
+      method: 'DELETE',
+    })
+    if (!res.ok) return false
+    const existing = getStoredReviews()
+    const updated = existing.filter(r => r.id !== id)
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated))
+      window.dispatchEvent(new CustomEvent(EVENT_NAME, { detail: { id, deleted: true } }))
+    }
+    return true
+  } catch {
+    return false
+  }
+}
+
 let syncPromise: Promise<Review[] | null> | null = null
 
-function syncWithServer(): Promise<Review[] | null> {
+export function syncWithServer(): Promise<Review[] | null> {
   if (syncPromise) return syncPromise
   syncPromise = (async () => {
     const res = await fetch('/api/reviews', { cache: 'no-store' })
@@ -86,24 +105,10 @@ function syncWithServer(): Promise<Review[] | null> {
     const data = await res.json()
     if (!data || !Array.isArray(data.reviews)) return null
     const remote: Review[] = data.reviews
-    const remoteIds = new Set(remote.map(r => r.id))
-    const localOnly = getStoredReviews().filter(r => !remoteIds.has(r.id))
-
-    // Re-upload reviews that exist only on this device (recovers reviews lost from old temporary storage).
-    // Sequential to avoid overlapping writes on the server.
-    for (const r of localOnly) {
-      try {
-        await fetch('/api/reviews', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(r),
-        })
-      } catch {}
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(remote))
     }
-
-    const merged = [...localOnly, ...remote]
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(merged))
-    return merged
+    return remote
   })().catch(() => null)
   return syncPromise
 }
