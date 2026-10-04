@@ -104,7 +104,7 @@ export const regionalFaqs: Record<string, FAQ[]> = {
   'karachi': [
     { question: 'Can I visit your shop in Karachi?', answer: 'Yes! Our workshop is based at Shop # B-52, Ground Floor, Karim Center, Saddar, Karachi. You are welcome to visit us to check material samples.' },
     { question: 'How long is delivery within Karachi?', answer: 'For local Karachi orders, we offer fast delivery usually within 1-2 working days after the production is complete.' },
-    { question: 'Do you offer cash on delivery in Karachi?', answer: 'We typically require an advance payment to begin custom manufacturing, but balance payments can be coordinated for local Karachi pickups.' },
+    { question: 'Do you offer Cash on Delivery (COD)?', answer: 'Yes! We require 50% advance payment after digital mockup approval to begin custom manufacturing, and the remaining 50% balance is payable via Cash on Delivery (COD) across Pakistan.' },
     { question: 'Can I pick up my packaging order directly?', answer: 'Yes, you can collect your finished order directly from our Saddar, Karachi shop.' }
   ],
   'lahore': [

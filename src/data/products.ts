@@ -804,7 +804,7 @@ export const products: Product[] = [
     slug: 'butter-paper',
     name: 'Custom Butter Paper',
     category: 'Wrapping',
-    shortDescription: 'Custom-printed butter paper that wraps your products in branded elegance.',
+    shortDescription: 'Custom-printed butter paper (9×14, 14×18, 18×28 in) with your logo. 100 pcs MOQ, wholesale bulk quotes on WhatsApp.',
     longDescription: 'Elevate your unboxing experience with the sophisticated touch of custom-printed butter paper. Perfect for wrapping high-end clothing, tailored suits, elegant abayas, delicate accessories, or premium food items, our butter paper adds a layer of branded elegance to every package. Manufactured from high-quality 30 GSM to 40 GSM translucent paper, it features a smooth, tissue-like quality that protects your products while subtly showcasing them. At Prima Packages, we print your brand logo and custom patterns in crisp, continuous one-color print, cut to your specific sheet dimensions. This lightweight yet durable wrapping solution demonstrates your commitment to quality and attention to detail. As a premier packaging provider in Karachi, we cater to fashion and retail brands across Pakistan, offering low minimum order quantities and direct factory pricing. Enhance the perceived value of your products and delight your customers with beautiful, custom-branded butter paper wrapping.',
     seoContentBlock: 'Custom printed butter paper and branded wrapping tissue for retail packaging in Pakistan. Ideal for clothing brands, bakeries, and luxury retail, providing a premium unboxing experience. Technical specifications include lightweight 30 GSM or 40 GSM translucent paper, custom sheet sizing (e.g., 11x17 or 17x23 inches), and crisp one-color flexographic pattern or logo printing. Ordering is straightforward: provide your logo and preferred sheet size on WhatsApp, and we will create a digital proof for your approval. Based in Karachi, we manufacture and supply bulk custom wrapping paper and printed tissue paper with reliable nationwide delivery, helping you protect and present your products with elegance.',
     heroImage: '/images/products/butter-paper-studio-opt.jpg',
@@ -813,81 +813,31 @@ export const products: Product[] = [
       '/images/products/butter-paper-white.jpg',
       '/images/products/butter-paper-hero.jpg',
     ],
-    sizes: [
-
+        sizes: [
       {
-            "label": "9 × 14 in",
-            "sizeCategory": "9 × 14 in",
-            "quantity": "100 pcs",
-            "printType": "One Color Print",
-            "price": 2800,
-            "unitPrice": 28
+        label: '9 × 14 in',
+        sizeCategory: '9 × 14 in',
+        quantity: '100 pcs',
+        printType: 'One Color Print',
+        price: 2500,
+        unitPrice: 25,
       },
       {
-            "label": "9 × 14 in",
-            "sizeCategory": "9 × 14 in",
-            "quantity": "500 pcs",
-            "printType": "One Color Print",
-            "price": 4000,
-            "unitPrice": 8
+        label: '14 × 18 in',
+        sizeCategory: '14 × 18 in',
+        quantity: '100 pcs',
+        printType: 'One Color Print',
+        price: 3000,
+        unitPrice: 30,
       },
       {
-            "label": "9 × 14 in",
-            "sizeCategory": "9 × 14 in",
-            "quantity": "1,000 pcs",
-            "printType": "One Color Print",
-            "price": 6000,
-            "unitPrice": 6
+        label: '18 × 28 in',
+        sizeCategory: '18 × 28 in',
+        quantity: '100 pcs',
+        printType: 'One Color Print',
+        price: 4000,
+        unitPrice: 40,
       },
-      {
-            "label": "11 × 17 in",
-            "sizeCategory": "11 × 17 in",
-            "quantity": "100 pcs",
-            "printType": "One Color Print",
-            "price": 3300,
-            "unitPrice": 33
-      },
-      {
-            "label": "11 × 17 in",
-            "sizeCategory": "11 × 17 in",
-            "quantity": "500 pcs",
-            "printType": "One Color Print",
-            "price": 4500,
-            "unitPrice": 9
-      },
-      {
-            "label": "11 × 17 in",
-            "sizeCategory": "11 × 17 in",
-            "quantity": "1,000 pcs",
-            "printType": "One Color Print",
-            "price": 6500,
-            "unitPrice": 6.5
-      },
-      {
-            "label": "17 × 23 in",
-            "sizeCategory": "17 × 23 in",
-            "quantity": "100 pcs",
-            "printType": "One Color Print",
-            "price": 3800,
-            "unitPrice": 38
-      },
-      {
-            "label": "17 × 23 in",
-            "sizeCategory": "17 × 23 in",
-            "quantity": "500 pcs",
-            "printType": "One Color Print",
-            "price": 5000,
-            "unitPrice": 10
-      },
-      {
-            "label": "17 × 23 in",
-            "sizeCategory": "17 × 23 in",
-            "quantity": "1,000 pcs",
-            "printType": "One Color Print",
-            "price": 7000,
-            "unitPrice": 7
-      }
-
     ],
     materials: ['30 GSM Butter Paper', '40 GSM Butter Paper'],
     finishes: ['One Color Print', 'Sheet Cut'],

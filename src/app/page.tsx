@@ -40,7 +40,7 @@ export default function HomePage() {
       <span><Icon name="box" /> Production Time: 5-7 Days</span>
       <span><Icon name="check" /> Free Design Mockup</span>
       <span><Icon name="bag" /> Low 100 Pcs MOQ</span>
-      <span><Icon name="shield" /> 50% Advance to Start</span>
+      <span><Icon name="shield" /> 50% Advance · Balance COD</span>
     </div>
     <RecentWork />
     <section className="store-shell shop-section category-section">

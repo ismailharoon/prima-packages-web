@@ -448,8 +448,7 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
           <div className="custom-order-note">
             <strong>Your design gets the final say.</strong>
             <p>
-              We’ll finalize your design with you on WhatsApp. Production begins after design approval and 50%
-              advance. Balance before dispatch.
+              We’ll finalize your design with you on WhatsApp. Production begins after design approval and 50% advance. Remaining balance is Cash on Delivery (COD).
             </p>
             <small>*Production estimate starts after approval and advance verification. Delivery time is additional.</small>
           </div>
