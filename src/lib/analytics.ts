@@ -96,6 +96,15 @@ export interface TrackWhatsAppClickParams {
   selectedQuantity?: number | string
   pagePath?: string
   text?: string
+  value?: number
+  currency?: string
+}
+
+export interface TrackGenerateLeadParams {
+  value?: number
+  currency?: string
+  leadSource?: string
+  items?: AnalyticsItem[]
 }
 
 export interface TrackContactClickParams {
@@ -315,6 +324,48 @@ export function trackPurchase({
 }
 
 /**
+ * Track GA4 generate_lead event
+ */
+export function trackGenerateLead({
+  value,
+  currency = 'PKR',
+  leadSource = 'whatsapp_checkout',
+  items,
+}: TrackGenerateLeadParams): void {
+  if (typeof window === 'undefined') return
+
+  const payload: Record<string, unknown> = {
+    currency,
+    lead_source: leadSource,
+  }
+
+  if (value !== undefined) payload.value = value
+  if (items && items.length > 0) payload.items = items
+
+  sendGtag('event', 'generate_lead', payload)
+}
+
+/**
+ * Helper to generate a lead from cart lines
+ */
+export function trackCartGenerateLead({
+  lines,
+  subtotal,
+  getProductBySlug,
+  leadSource = 'whatsapp_checkout',
+}: TrackCartParams & { leadSource?: string }): void {
+  if (typeof window === 'undefined') return
+
+  const items = buildCartItems(lines, getProductBySlug)
+  trackGenerateLead({
+    value: subtotal,
+    currency: 'PKR',
+    leadSource,
+    items,
+  })
+}
+
+/**
  * Track custom whatsapp_click event
  */
 export function trackWhatsAppClick({
@@ -325,6 +376,8 @@ export function trackWhatsAppClick({
   selectedQuantity,
   pagePath,
   text,
+  value,
+  currency,
 }: TrackWhatsAppClickParams): void {
   if (typeof window === 'undefined') return
 
@@ -340,6 +393,8 @@ export function trackWhatsAppClick({
   if (selectedSize) payload.selected_size = selectedSize
   if (selectedQuantity !== undefined) payload.selected_quantity = selectedQuantity
   if (text) payload.message_preview = text.slice(0, 100)
+  if (value !== undefined) payload.value = value
+  if (currency) payload.currency = currency
 
   sendGtag('event', 'whatsapp_click', payload)
 }

@@ -9,7 +9,7 @@ import { cartSubtotal, lineKey, lineTotal, minimumQuantity, orderMessage, type C
 import { getProductBySlug } from '@/data/products'
 import { formatPrice } from '@/lib/utils'
 import { WHATSAPP_NUMBER } from '@/lib/constants'
-import { trackViewCart, trackBeginCheckout, trackPurchase, trackWhatsAppClick } from '@/lib/analytics'
+import { trackViewCart, trackBeginCheckout, trackCartGenerateLead, trackWhatsAppClick } from '@/lib/analytics'
 
 function QuantityField({ line }: { line: CartLine }) {
   const { setQuantity } = useCart()
@@ -46,18 +46,18 @@ export function CartView() {
     setCopied(false)
     setPrepared(currentMessage)
 
-    // GA4 E-commerce Checkout & Conversion Tracking
+    // GA4 E-commerce Checkout & Lead Conversion Tracking
     trackBeginCheckout({ lines, subtotal, getProductBySlug })
-    const transactionId = `PRIMA-${Date.now()}-${Math.floor(Math.random() * 1000)}`
-    trackPurchase({
-      transactionId,
+    trackCartGenerateLead({
       lines,
       subtotal,
       getProductBySlug,
-      customer,
+      leadSource: 'whatsapp_checkout',
     })
     trackWhatsAppClick({
       buttonLocation: 'checkout',
+      value: subtotal,
+      currency: 'PKR',
       pagePath: '/cart',
       text: currentMessage,
     })
@@ -78,7 +78,7 @@ export function CartView() {
       })}<div className="cart-process"><Icon name="check" /><div><strong>No payment needed on this website.</strong><p>Send your selections to our team. We’ll confirm the design and final price before requesting your 50% advance. Remaining balance is Cash on Delivery (COD).</p></div></div></div>
       <aside className="checkout-panel"><p className="eyebrow">ONE STEP CLOSER</p><h2>Let’s make it yours.</h2><div className="cart-totals"><div><span>{hasQuotes ? 'Priced items subtotal' : 'Estimated subtotal'}</span><strong>{formatPrice(subtotal)}</strong></div>{hasQuotes && <div><span>Custom-quote items</span><span>Priced by our team</span></div>}<div><span>Delivery</span><span>Confirmed on WhatsApp</span></div></div><p className="checkout-explainer">This is a custom-order request. Production begins after 50% advance, with remaining balance payable on Cash on Delivery (COD).</p>
       <form onSubmit={submit} className="checkout-form"><h3>Your details</h3>{([{ key: 'name', label: 'Full name', placeholder: 'Your full name', autoComplete: 'name', max: 80 }, { key: 'phone', label: 'WhatsApp number', placeholder: '0300 1234567', autoComplete: 'tel', max: 20 }, { key: 'city', label: 'City', placeholder: 'e.g. Karachi', autoComplete: 'address-level2', max: 60 }] as const).map(field => <label key={field.key}>{field.label}<input name={field.key} type={field.key === 'phone' ? 'tel' : 'text'} autoComplete={field.autoComplete} required maxLength={field.max} placeholder={field.placeholder} value={customer[field.key]} onChange={event => { setCustomer(current => ({ ...current, [field.key]: event.target.value })); setError('') }} /></label>)}<label>Delivery address<textarea name="address" autoComplete="street-address" required minLength={8} maxLength={300} rows={2} placeholder="House / shop, street and area" value={customer.address} onChange={event => setCustomer(current => ({ ...current, address: event.target.value }))} /></label><label>Notes or artwork details <span>(optional)</span><textarea name="notes" maxLength={500} rows={2} placeholder="Brand name, preferred colors, or design help needed…" value={customer.notes} onChange={event => setCustomer(current => ({ ...current, notes: event.target.value }))} /></label><p className="privacy-note">Your details are included in the WhatsApp message you choose to send. Share your logo directly in that chat.</p>{error && <p role="alert" className="form-error">{error}</p>}<button className="store-button" type="submit">Continue on WhatsApp</button><p className="send-note">WhatsApp opens with your summary. Tap <strong>Send</strong> there to share your request.</p></form>
-      {preparedIsCurrent && <div className="whatsapp-fallback" role="status"><strong>Your summary is ready—not yet confirmed.</strong><p>If WhatsApp didn’t open, use the link below. Your cart is still saved.</p><a href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(currentMessage)}`} target="_blank" rel="noopener noreferrer" data-ga-tracked="true" onClick={() => trackWhatsAppClick({ buttonLocation: 'checkout_fallback', pagePath: '/cart', text: currentMessage })}>Open WhatsApp again</a><button type="button" onClick={copy}>{copied ? 'Copied' : 'Copy order summary'}</button><details><summary>View your message</summary><pre>{currentMessage}</pre></details></div>}
+      {preparedIsCurrent && <div className="whatsapp-fallback" role="status"><strong>Your summary is ready—not yet confirmed.</strong><p>If WhatsApp didn’t open, use the link below. Your cart is still saved.</p><a href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(currentMessage)}`} target="_blank" rel="noopener noreferrer" data-ga-tracked="true" onClick={() => trackWhatsAppClick({ buttonLocation: 'checkout_fallback', value: subtotal, currency: 'PKR', pagePath: '/cart', text: currentMessage })}>Open WhatsApp again</a><button type="button" onClick={copy}>{copied ? 'Copied' : 'Copy order summary'}</button><details><summary>View your message</summary><pre>{currentMessage}</pre></details></div>}
       </aside></div>
     </>}
   </div>

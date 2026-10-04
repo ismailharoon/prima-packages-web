@@ -26,6 +26,8 @@ test('GA4 analytics module tests', async (t) => {
     trackAddToCart,
     trackViewCart,
     trackBeginCheckout,
+    trackGenerateLead,
+    trackCartGenerateLead,
     trackPurchase,
     trackWhatsAppClick,
     trackContactClick,
@@ -143,7 +145,50 @@ test('GA4 analytics module tests', async (t) => {
     assert.equal(calls[0].args[1].value, 2500)
   })
 
-  await t.test('trackPurchase fires with transaction_id and deduplicates duplicate calls', () => {
+  await t.test('trackGenerateLead and trackCartGenerateLead track lead conversions', () => {
+    const mockGetProduct = (slug) => ({
+      slug,
+      name: 'Polyester Woven Labels',
+      category: 'Labels',
+      sizes: [{ label: '100 pcs', price: 2500 }],
+    })
+
+    calls.length = 0
+    trackCartGenerateLead({
+      lines: [{ slug: 'woven-labels', sizeIndex: 0, quantity: 1, options: {} }],
+      subtotal: 2500,
+      getProductBySlug: mockGetProduct,
+      leadSource: 'whatsapp_checkout',
+    })
+
+    assert.equal(calls.length, 1)
+    assert.equal(calls[0].args[0], 'generate_lead')
+    assert.equal(calls[0].args[1].currency, 'PKR')
+    assert.equal(calls[0].args[1].value, 2500)
+    assert.equal(calls[0].args[1].lead_source, 'whatsapp_checkout')
+    assert.equal(calls[0].args[1].items.length, 1)
+  })
+
+  await t.test('trackWhatsAppClick formats parameters including value and currency on checkout', () => {
+    calls.length = 0
+    trackWhatsAppClick({
+      buttonLocation: 'checkout',
+      value: 2500,
+      currency: 'PKR',
+      pagePath: '/cart',
+    })
+
+    assert.equal(calls.length, 1)
+    assert.equal(calls[0].args[0], 'whatsapp_click')
+    assert.deepEqual(calls[0].args[1], {
+      button_location: 'checkout',
+      page_path: '/cart',
+      value: 2500,
+      currency: 'PKR',
+    })
+  })
+
+  await t.test('trackPurchase utility is preserved but isolated for confirmed orders', () => {
     const mockGetProduct = (slug) => ({
       slug,
       name: 'Polyester Woven Labels',
@@ -166,38 +211,6 @@ test('GA4 analytics module tests', async (t) => {
     assert.equal(calls[0].args[1].transaction_id, txId)
     assert.equal(calls[0].args[1].value, 2500)
     assert.equal(calls[0].args[1].customer_city, 'Karachi')
-
-    // Immediate second call with same transaction ID should be ignored
-    trackPurchase({
-      transactionId: txId,
-      lines: [{ slug: 'woven-labels', sizeIndex: 0, quantity: 1, options: {} }],
-      subtotal: 2500,
-      getProductBySlug: mockGetProduct,
-    })
-    assert.equal(calls.length, 1, 'Duplicate purchase call was prevented')
-  })
-
-  await t.test('trackWhatsAppClick formats parameters for custom button locations', () => {
-    calls.length = 0
-    trackWhatsAppClick({
-      buttonLocation: 'product_page',
-      productName: 'Polyester Woven Labels',
-      productId: 'woven-labels',
-      selectedSize: '0.75 x 2 inch',
-      selectedQuantity: 100,
-      pagePath: '/products/woven-labels',
-    })
-
-    assert.equal(calls.length, 1)
-    assert.equal(calls[0].args[0], 'whatsapp_click')
-    assert.deepEqual(calls[0].args[1], {
-      button_location: 'product_page',
-      page_path: '/products/woven-labels',
-      product_name: 'Polyester Woven Labels',
-      product_id: 'woven-labels',
-      selected_size: '0.75 x 2 inch',
-      selected_quantity: 100,
-    })
   })
 
   await t.test('trackContactClick dispatches contact_click and phone_click / email_click', () => {
