@@ -129,7 +129,8 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
               loading="eager"
               fetchPriority="high"
               sizes="(max-width: 700px) 100vw, 600px"
-              className="object-contain p-4"
+              style={{ objectFit: 'contain', objectPosition: 'center', padding: '10px' }}
+              className="object-contain"
             />
             <span className="gallery-counter">
               {imageIndex + 1} / {images.length}
@@ -144,7 +145,14 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
                 aria-label={`Show photo ${index + 1}`}
                 aria-pressed={index === imageIndex}
               >
-                <Image src={src} alt="" fill sizes="80px" className="object-contain p-1" />
+                <Image
+                  src={src}
+                  alt=""
+                  fill
+                  sizes="80px"
+                  style={{ objectFit: 'contain', objectPosition: 'center', padding: '4px' }}
+                  className="object-contain"
+                />
               </button>
             ))}
           </div>

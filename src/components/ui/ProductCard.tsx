@@ -28,7 +28,8 @@ export function ProductCard({ product }: { product: Product; index?: number }) {
           alt={product.name}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 45vw, 290px"
-          className="object-contain p-2.5 group-hover:scale-105 transition-transform duration-500 ease-out"
+          style={{ objectFit: 'contain', padding: '10px' }}
+          className="object-contain group-hover:scale-105 transition-transform duration-500 ease-out"
         />
       </Link>
 
