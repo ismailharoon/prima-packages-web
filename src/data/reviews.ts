@@ -2,6 +2,7 @@ export interface Review {
   id: string
   productSlug: string
   productName: string
+  productSlugs?: string[]
   author: string
   brandName?: string
   city?: string
@@ -22,7 +23,9 @@ export function getReviewsByProduct(productSlug: string, customReviews: Review[]
       map.set(r.id, r)
     }
   }
-  return Array.from(map.values()).filter((r) => r.productSlug === productSlug)
+  return Array.from(map.values()).filter((r) => 
+    r.productSlug === productSlug || (Array.isArray(r.productSlugs) && r.productSlugs.includes(productSlug))
+  )
 }
 
 export function getAllReviews(customReviews: Review[] = []): Review[] {

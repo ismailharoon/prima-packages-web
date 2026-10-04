@@ -78,7 +78,9 @@ export function AdminReviews({ onCountChange }: { onCountChange?: (count: number
       const matchesSearch = !search.trim() || 
         `${r.author} ${r.brandName || ''} ${r.city || ''} ${r.comment} ${r.productName}`.toLowerCase().includes(search.toLowerCase().trim())
 
-      const matchesProduct = selectedProduct === 'All' || r.productSlug === selectedProduct
+      const matchesProduct = selectedProduct === 'All' || 
+        r.productSlug === selectedProduct || 
+        (Array.isArray(r.productSlugs) && r.productSlugs.includes(selectedProduct))
       const matchesRating = selectedRating === 'All' || String(r.rating) === selectedRating
 
       return matchesSearch && matchesProduct && matchesRating
@@ -88,7 +90,7 @@ export function AdminReviews({ onCountChange }: { onCountChange?: (count: number
   const totalReviews = reviews.length
   const avgRating = totalReviews > 0 ? (reviews.reduce((acc, r) => acc + r.rating, 0) / totalReviews).toFixed(1) : '0.0'
   const fiveStarCount = reviews.filter(r => r.rating === 5).length
-  const uniqueProductsCount = new Set(reviews.map(r => r.productSlug)).size
+  const uniqueProductsCount = new Set(reviews.flatMap(r => Array.isArray(r.productSlugs) && r.productSlugs.length > 0 ? r.productSlugs : [r.productSlug])).size
 
   return (
     <div className="admin-reviews-section">
@@ -192,6 +194,11 @@ export function AdminReviews({ onCountChange }: { onCountChange?: (count: number
                     </td>
                     <td>
                       <span className="admin-badge">{r.productName || r.productSlug}</span>
+                      {Array.isArray(r.productSlugs) && r.productSlugs.length > 1 && (
+                        <small style={{ display: 'block', color: '#556550', marginTop: '4px' }}>
+                          ({r.productSlugs.length} products linked)
+                        </small>
+                      )}
                     </td>
                     <td>
                       <span style={{ color: '#d97706', fontWeight: 600, fontSize: '13px' }}>

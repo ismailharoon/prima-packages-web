@@ -86,7 +86,7 @@ export async function POST(request: Request) {
       return Response.json({ error: 'Invalid request payload.' }, { status: 400 })
     }
 
-    const { author, rating, comment, productSlug, productName, brandName, city } = body
+    const { author, rating, comment, productSlug, productName, productSlugs, brandName, city } = body
 
     if (!author || typeof author !== 'string' || !author.trim()) {
       return Response.json({ error: 'Please enter your name.' }, { status: 400 })
@@ -110,10 +110,17 @@ export async function POST(request: Request) {
       return Response.json({ error: 'This review was removed by an administrator.' }, { status: 400 })
     }
 
+    const slugsArray = Array.isArray(productSlugs) && productSlugs.length > 0
+      ? productSlugs.map(s => String(s).trim().slice(0, 80)).filter(Boolean)
+      : (productSlug ? [String(productSlug).trim().slice(0, 80)] : ['woven-labels'])
+
+    const primarySlug = slugsArray[0] || 'woven-labels'
+
     const newReview: Review = {
       id,
-      productSlug: String(productSlug || 'woven-labels').slice(0, 80),
-      productName: String(productName || 'Custom Packaging').slice(0, 120),
+      productSlug: primarySlug,
+      productSlugs: slugsArray,
+      productName: String(productName || 'Custom Packaging').slice(0, 200),
       author: author.trim().slice(0, 100),
       brandName: brandName ? String(brandName).trim().slice(0, 100) : undefined,
       city: city ? String(city).trim().slice(0, 60) : undefined,

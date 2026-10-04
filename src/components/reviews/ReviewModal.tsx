@@ -17,7 +17,7 @@ export function ReviewModal({
   initialProductSlug,
   onReviewSubmitted,
 }: ReviewModalProps) {
-  const [productSlug, setProductSlug] = useState(initialProductSlug || products[0].slug)
+  const [selectedSlugs, setSelectedSlugs] = useState<string[]>([initialProductSlug || products[0].slug])
   const [rating, setRating] = useState(5)
   const [hoverRating, setHoverRating] = useState<number | null>(null)
   const [author, setAuthor] = useState('')
@@ -30,7 +30,7 @@ export function ReviewModal({
 
   useEffect(() => {
     if (initialProductSlug) {
-      setProductSlug(initialProductSlug)
+      setSelectedSlugs([initialProductSlug])
     }
   }, [initialProductSlug])
 
@@ -43,13 +43,26 @@ export function ReviewModal({
 
   if (!isOpen) return null
 
-  const selectedProduct = products.find(p => p.slug === productSlug) || products[0]
+  function toggleProduct(slug: string) {
+    setSelectedSlugs(prev => {
+      if (prev.includes(slug)) {
+        if (prev.length <= 1) return prev
+        return prev.filter(s => s !== slug)
+      } else {
+        return [...prev, slug]
+      }
+    })
+  }
 
   const ratingLabels = ['', 'Needs Improvement', 'Fair', 'Good Quality', 'Very Good', 'Excellent / Highly Recommended!']
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     setError('')
+    if (selectedSlugs.length === 0) {
+      setError('Please select at least one product.')
+      return
+    }
     if (!author.trim()) {
       setError('Please enter your name.')
       return
@@ -61,9 +74,13 @@ export function ReviewModal({
 
     setBusy(true)
     try {
+      const selectedProducts = products.filter(p => selectedSlugs.includes(p.slug))
+      const combinedName = selectedProducts.map(p => p.name).join(', ')
+
       await submitReview({
-        productSlug: selectedProduct.slug,
-        productName: selectedProduct.name,
+        productSlug: selectedSlugs[0],
+        productSlugs: selectedSlugs,
+        productName: combinedName,
         author,
         brandName,
         city,
@@ -126,23 +143,40 @@ export function ReviewModal({
               </h2>
             </div>
 
-            {/* Product Picker */}
+            {/* Multi-Product Selector */}
             <div>
-              <label htmlFor="review-product" className="block text-xs font-semibold uppercase tracking-wider text-charcoal/70 mb-1.5">
-                Product
-              </label>
-              <select
-                id="review-product"
-                value={productSlug}
-                onChange={e => setProductSlug(e.target.value)}
-                className="w-full rounded-xl border border-charcoal/15 bg-[#FAF8F4] px-3.5 py-2.5 text-sm text-charcoal focus:border-sage focus:outline-none focus:ring-1 focus:ring-sage"
-              >
-                {products.map(p => (
-                  <option key={p.slug} value={p.slug}>
-                    {p.name}
-                  </option>
-                ))}
-              </select>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/70">
+                  Products In Your Order *
+                </label>
+                <span className="text-[11px] font-bold text-sage">
+                  {selectedSlugs.length} {selectedSlugs.length === 1 ? 'product' : 'products'} selected
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto p-2 bg-[#FAF8F4] border border-charcoal/15 rounded-xl">
+                {products.map(p => {
+                  const isSelected = selectedSlugs.includes(p.slug)
+                  return (
+                    <button
+                      key={p.slug}
+                      type="button"
+                      onClick={() => toggleProduct(p.slug)}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-all ${
+                        isSelected
+                          ? 'bg-sage text-white font-semibold shadow-sm ring-1 ring-sage'
+                          : 'bg-white text-charcoal/75 border border-charcoal/10 hover:border-charcoal/30 hover:bg-charcoal/5 font-medium'
+                      }`}
+                      aria-pressed={isSelected}
+                    >
+                      <span className="text-[10px]">{isSelected ? '✓' : '+'}</span>
+                      <span>{p.name}</span>
+                    </button>
+                  )
+                })}
+              </div>
+              <p className="text-[10px] text-charcoal/50 mt-1">
+                Tap multiple products to include them in this review (e.g. Woven Labels + Zipper Bags + Hang Tags).
+              </p>
             </div>
 
             {/* Star Rating Selector */}

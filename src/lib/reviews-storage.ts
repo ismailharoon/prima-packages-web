@@ -38,18 +38,26 @@ export function saveReviewToStorage(review: Review) {
 }
 
 export async function submitReview(data: {
-  productSlug: string
-  productName: string
+  productSlug?: string
+  productName?: string
+  productSlugs?: string[]
   author: string
   brandName?: string
   city?: string
   rating: number
   comment: string
 }): Promise<Review> {
+  const slugsArray = Array.isArray(data.productSlugs) && data.productSlugs.length > 0
+    ? data.productSlugs
+    : (data.productSlug ? [data.productSlug] : ['woven-labels'])
+
+  const primarySlug = slugsArray[0] || 'woven-labels'
+
   const newReview: Review = {
     id: `rev-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-    productSlug: data.productSlug,
-    productName: data.productName,
+    productSlug: primarySlug,
+    productSlugs: slugsArray,
+    productName: data.productName || 'Custom Packaging',
     author: data.author.trim(),
     brandName: data.brandName?.trim() || undefined,
     city: data.city?.trim() || undefined,
