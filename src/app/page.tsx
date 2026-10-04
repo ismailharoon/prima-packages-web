@@ -37,7 +37,7 @@ export default function HomePage() {
   return <>
     <PackagingHero />
     <div className="store-shell service-strip">
-      <span><Icon name="box" /> Nationwide Delivery (5-7 Days)</span>
+      <span><Icon name="box" /> Production Time: 5-7 Days</span>
       <span><Icon name="check" /> Free Design Mockup</span>
       <span><Icon name="bag" /> Low 100 Pcs MOQ</span>
       <span><Icon name="shield" /> 50% Advance to Start</span>
@@ -103,9 +103,9 @@ export default function HomePage() {
               <p className="text-[11px] sm:text-xs text-charcoal/65 mt-1">Start small without heavy upfront investment.</p>
             </div>
             <div className="bg-white p-3.5 sm:p-5 rounded-xl border border-charcoal/5">
-              <span className="text-xl sm:text-2xl">🚚</span>
-              <h3 className="font-bold text-xs sm:text-base text-charcoal mt-1.5">5-7 Days Dispatch</h3>
-              <p className="text-[11px] sm:text-xs text-charcoal/65 mt-1">Nationwide courier delivery across Pakistan.</p>
+              <span className="text-xl sm:text-2xl">⏱️</span>
+              <h3 className="font-bold text-xs sm:text-base text-charcoal mt-1.5">5-7 Days Production</h3>
+              <p className="text-[11px] sm:text-xs text-charcoal/65 mt-1">Quick manufacturing with nationwide courier dispatch.</p>
             </div>
             <div className="bg-white p-3.5 sm:p-5 rounded-xl border border-charcoal/5">
               <span className="text-xl sm:text-2xl">🎨</span>

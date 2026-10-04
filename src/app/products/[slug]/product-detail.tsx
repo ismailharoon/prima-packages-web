@@ -212,7 +212,7 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
             </span>
             <span>
               <Icon name="box" />
-              {product.dispatchDays} production*
+              Production: {product.dispatchDays}*
             </span>
           </div>
 

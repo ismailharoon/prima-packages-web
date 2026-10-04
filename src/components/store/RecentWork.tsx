@@ -7,13 +7,13 @@ import { useRef, useState } from 'react'
 const collection = [
   {
     slug: 'woven-labels',
-    image: 'woven-label-3.jpg',
+    image: 'woven-labels-zahra.jpg',
     name: 'Woven labels',
     headline: 'Small detail.',
     accent: 'Signature style.',
     detail: 'Your logo, woven into every piece.',
     tone: 'sage',
-    alt: 'Cream IMC custom woven clothing labels',
+    alt: 'Zahra couture custom woven clothing labels',
   },
   {
     slug: 'zipper-bags',
@@ -56,7 +56,7 @@ export function RecentWork() {
   return (
     <section
       className="store-shell label-spotlight collection-promo"
-      aria-label="Custom packaging from 50 pieces"
+      aria-label="Custom packaging from 100 pieces"
       aria-roledescription="carousel"
     >
       <div
@@ -100,7 +100,7 @@ export function RecentWork() {
                 <em>{item.accent}</em>
               </h2>
               <p className="label-spotlight-tagline">{item.detail}</p>
-              <span className="promo-minimum">MOQ 50 Pieces</span>
+              <span className="promo-minimum">MOQ 100 Pieces</span>
               <Link
                 href={`/products/${item.slug}`}
                 className="label-spotlight-cta"
@@ -120,7 +120,7 @@ export function RecentWork() {
                 />
               </div>
               {/* Zigzag Starburst Stamp Seal */}
-              <div className="label-spotlight-seal" aria-label="MOQ 50 Pieces">
+              <div className="label-spotlight-seal" aria-label="MOQ 100 Pieces">
                 <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg select-none">
                   <polygon
                     points="99.0,50.0 89.2,57.8 95.3,68.8 83.3,72.2 84.6,84.6 72.2,83.3 68.8,95.3 57.8,89.2 50.0,99.0 42.2,89.2 31.2,95.3 27.8,83.3 15.4,84.6 16.7,72.2 4.7,68.8 10.8,57.8 1.0,50.0 10.8,42.2 4.7,31.2 16.7,27.8 15.4,15.4 27.8,16.7 31.2,4.7 42.2,10.8 50.0,1.0 57.8,10.8 68.8,4.7 72.2,16.7 84.6,15.4 83.3,27.8 95.3,31.2 89.2,42.2"
@@ -154,11 +154,11 @@ export function RecentWork() {
                     y="69"
                     textAnchor="middle"
                     fill="#ffffff"
-                    fontSize="28"
+                    fontSize="22"
                     fontWeight="900"
                     letterSpacing="-1"
                   >
-                    50
+                    100
                   </text>
                 </svg>
               </div>
@@ -171,7 +171,7 @@ export function RecentWork() {
               <dl>
                 <div>
                   <dt>Minimum order</dt>
-                  <dd>50 pieces</dd>
+                  <dd>100 pieces</dd>
                 </div>
                 <div>
                   <dt>Personalise</dt>

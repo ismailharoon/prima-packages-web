@@ -40,7 +40,7 @@ export const productFaqs: Record<string, FAQ[]> = {
   'woven-labels': [
     { question: 'What is the MOQ for custom woven labels?', answer: 'The minimum order quantity (MOQ) for our custom woven labels is just 100 pieces, making it ideal for both emerging clothing brands and large-scale manufacturers.' },
     { question: 'What fold styles are available?', answer: 'We offer straight cut, center fold (for neck seams), end fold (left and right folded edges), and heat cut (flat cut with sealed edges to prevent fraying).' },
-    { question: 'How long does production take?', answer: 'Standard production time for woven labels is typically 7-8 working days after design approval.' },
+    { question: 'How long does production take?', answer: 'Standard production time for woven labels is typically 5-7 working days after design approval.' },
     { question: 'Can I get a sample before bulk order?', answer: 'We share a confirmed digital mockup before production begins to ensure your design, layout, and colors are accurate.' },
     { question: 'What file format do I need for my logo?', answer: 'We recommend sharing high-resolution PDF, AI (Adobe Illustrator), CDR (CorelDRAW), or high-quality PNG/JPG files via WhatsApp.' }
   ],
@@ -54,7 +54,7 @@ export const productFaqs: Record<string, FAQ[]> = {
     { question: 'What materials are used for your zipper bags?', answer: 'We use high-quality Frosted PE / PEVA for our premium frosted matte zipper bags. Clear transparent options are also available.' },
     { question: 'Are these zipper bags reusable?', answer: 'Absolutely. Our custom frosted zipper bags feature a durable zip slider clip or press-to-lock closure, making them reusable and perfect for storing garments.' },
     { question: 'What sizes are available for clothing packaging?', answer: 'Popular sizes include 8x10 inches (accessories), 10x12 inches (t-shirts), 12x16 inches (hoodies/suits), and 14x18 inches (overcoats). We can also do custom sizes.' },
-    { question: 'What is the MOQ for custom zipper bags?', answer: 'The minimum order quantity for custom printed frosted zipper bags is 500 pieces.' }
+    { question: 'What is the MOQ for custom zipper bags?', answer: 'The minimum order quantity for custom printed frosted zipper bags is 100 pieces.' }
   ],
   'courier-flyer-bags': [
     { question: 'Are the courier bags tear-resistant?', answer: 'Yes, our courier bags are made from durable 60 to 80-micron polyethylene that is waterproof and tear-resistant, ensuring safe transit.' },
@@ -66,7 +66,7 @@ export const productFaqs: Record<string, FAQ[]> = {
     { question: 'What material are the carry bags made from?', answer: 'Our premium custom carry bags are crafted from thick 250 GSM Bleach Card with a reinforced card base for added durability.' },
     { question: 'Do the bags come with handles?', answer: 'Yes, our carry bags feature sturdy rope handles for a premium feel and comfortable carrying.' },
     { question: 'What is the MOQ for custom carry bags?', answer: 'The minimum order quantity for custom bleach card carry bags is 100 pieces.' },
-    { question: 'How long does it take to manufacture carry bags?', answer: 'Production time for custom printed carry bags is generally 10 to 12 working days.' }
+    { question: 'How long does it take to manufacture carry bags?', answer: 'Production time for custom printed carry bags is generally 5 to 7 working days.' }
   ],
   'round-stickers': [
     { question: 'Are your round stickers self-adhesive?', answer: 'Yes, our stickers feature a strong self-adhesive backing that sticks securely to boxes, tissue paper, and jars without peeling off.' },
@@ -95,7 +95,7 @@ export const productFaqs: Record<string, FAQ[]> = {
   'business-cards': [
     { question: 'What makes your business cards premium?', answer: 'Our business cards are crafted on heavyweight 350 GSM Art Card or 400 GSM Textured Card, ensuring a professional and refined first impression.' },
     { question: 'Do you offer matte and gloss laminations?', answer: 'Yes, we offer matte lamination, gloss lamination, as well as premium finishes like spot UV and foil stamping.' },
-    { question: 'How long does it take to print business cards?', answer: 'Standard production for business cards takes 3 to 5 working days.' },
+    { question: 'How long does it take to print business cards?', answer: 'Standard production for business cards takes 5 to 7 working days.' },
     { question: 'What is the MOQ for custom business cards?', answer: 'The minimum order quantity for custom printed business cards is 100 pieces.' }
   ]
 }

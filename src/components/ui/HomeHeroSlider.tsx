@@ -37,7 +37,7 @@ const SLIDES: HeroSlide[] = [
     badge: 'Direct Label Manufacturer',
     title: 'High-Density Damask Woven Labels for Apparel Brands.',
     description: 'Ultra-crisp weaving, laser-sealed edges, zero-fray center folds, and skin-friendly softness. Low MOQs starting from 100 pcs.',
-    image: '/images/products/woven-label-3.jpg',
+    image: '/images/products/woven-labels-zahra.jpg',
     primaryCtaText: 'View Woven Labels',
     primaryCtaLink: '/products/woven-labels',
     whatsappText: 'Salam Prima Packages team, I want to get a quote for custom woven neck labels for my clothing line.',

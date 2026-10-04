@@ -50,23 +50,17 @@ export const products: Product[] = [
     category: 'Labels',
     shortDescription: 'Durable custom polyester labels woven with your logo for clothing, apparel and textile brands.',
     longDescription: 'Our premium polyester woven labels are the ultimate choice for everyday garment branding, tailored specifically for clothing brands across Pakistan. Using advanced damask weaving techniques, your logo, sizing, and brand details are woven directly into the high-density polyester yarn, ensuring a crisp, luxurious, and highly durable finish. These labels are designed to withstand regular wear and intense washing without fading or fraying. We offer multiple fold styles including center fold, end fold, mitre fold, and heat cut to suit your specific stitching requirements. Whether you are a startup boutique in Karachi or a nationwide retail brand, Prima Packages provides top-quality labels with precise detailing. Our custom woven labels offer exceptional value with minimum order quantities designed to support growing businesses. Experience fast production and seamless nationwide delivery across Pakistan. Send us your artwork on WhatsApp, and our design team will guide you through the process, from selecting the right dimensions to confirming the final digital proof before production.',
-    seoContentBlock: 'Looking for the best custom clothing brand labels in Pakistan? Our high-density polyester damask woven labels provide a professional finishing touch to garments, apparel, and textiles. Technical specifications include custom sizing, standard 50-denier high-definition yarn, and durable heat-sealed edges to prevent unravelling. Available with center fold, end fold, or flat cut options for easy sewing. The ordering process is simple: share your vector logo on WhatsApp, choose your required dimensions and fold type, and we\'ll provide a digital proof and wholesale quote. We manufacture and supply premium woven tags in Karachi, Lahore, Islamabad, and deliver nationwide. Perfect for neck labels, hem tags, and care labels with fast 7-8 days dispatch.',
+    seoContentBlock: 'Looking for the best custom clothing brand labels in Pakistan? Our high-density polyester damask woven labels provide a professional finishing touch to garments, apparel, and textiles. Technical specifications include custom sizing, standard 50-denier high-definition yarn, and durable heat-sealed edges to prevent unravelling. Available with center fold, end fold, or flat cut options for easy sewing. The ordering process is simple: share your vector logo on WhatsApp, choose your required dimensions and fold type, and we\'ll provide a digital proof and wholesale quote. We manufacture and supply premium woven tags in Karachi, Lahore, Islamabad, and deliver nationwide. Perfect for neck labels, hem tags, and care labels with fast 5-7 days dispatch.',
     heroImage: '/images/products/woven-labels-user-white.jpg',
     gallery: [
-      '/images/products/woven-labels-dba-studio.jpg',
-      '/images/products/woven-label-1.jpeg',
-      '/images/products/woven-label-2.jpeg',
-      '/images/products/woven-label-3.jpg',
-      '/images/products/woven-label-4.jpg',
-      '/images/products/woven-label-5.jpg',
+      '/images/products/woven-labels-user-white.jpg',
+      '/images/products/woven-labels-zahra.jpg',
+      '/images/products/woven-labels-libaas.jpg',
+      '/images/products/woven-labels-fiza.jpg',
+      '/images/products/woven-labels-nora.jpg',
+      '/images/products/woven-labels-bitwearz.jpg',
     ],
     sizes: [
-      {
-        "label": "0.5 × 2 in",
-        "sizeCategory": "0.5 × 2 in",
-        "quantity": "50 pcs",
-        "price": 1300
-      },
       {
         "label": "0.5 × 2 in",
         "sizeCategory": "0.5 × 2 in",
@@ -90,12 +84,6 @@ export const products: Product[] = [
         "sizeCategory": "0.5 × 2 in",
         "quantity": "2,000 pcs",
         "price": 5000
-      },
-      {
-        "label": "0.75 × 2 in",
-        "sizeCategory": "0.75 × 2 in",
-        "quantity": "50 pcs",
-        "price": 1400
       },
       {
         "label": "0.75 × 2 in",
@@ -124,12 +112,6 @@ export const products: Product[] = [
       {
         "label": "1 × 2 in",
         "sizeCategory": "1 × 2 in",
-        "quantity": "50 pcs",
-        "price": 1500
-      },
-      {
-        "label": "1 × 2 in",
-        "sizeCategory": "1 × 2 in",
         "quantity": "100 pcs",
         "price": 1900
       },
@@ -150,12 +132,6 @@ export const products: Product[] = [
         "sizeCategory": "1 × 2 in",
         "quantity": "2,000 pcs",
         "price": 7000
-      },
-      {
-        "label": "1 × 2.5 in",
-        "sizeCategory": "1 × 2.5 in",
-        "quantity": "50 pcs",
-        "price": 1550
       },
       {
         "label": "1 × 2.5 in",
@@ -186,8 +162,8 @@ export const products: Product[] = [
     finishes: ['Standard Weave Finish', 'Heat-Sealed Edges'],
     customizable: true,
     icon: '🏷️',
-    moq: 'Min. 50 PCS',
-    dispatchDays: '7-8 Days',
+    moq: 'Min. 100 PCS',
+    dispatchDays: '5-7 Days',
   },
   {
     slug: 'zipper-bags',
@@ -203,16 +179,6 @@ export const products: Product[] = [
       '/images/products/zipper-bags-2.png',
     ],
     sizes: [
-
-      {
-            "label": "White \u00b7 8 × 10 in",
-            "sizeCategory": "8 × 10 in",
-            "color": "White",
-            "quantity": "50 pcs",
-            "price": 3000,
-            "unitPrice": 60,
-            "printType": "Single side \u00b7 1 color"
-      },
       {
             "label": "White \u00b7 8 × 10 in",
             "sizeCategory": "8 × 10 in",
@@ -229,15 +195,6 @@ export const products: Product[] = [
             "quantity": "500 pcs",
             "price": 12500,
             "unitPrice": 25,
-            "printType": "Single side \u00b7 1 color"
-      },
-      {
-            "label": "White \u00b7 10 × 12 in",
-            "sizeCategory": "10 × 12 in",
-            "color": "White",
-            "quantity": "50 pcs",
-            "price": 3100,
-            "unitPrice": 62,
             "printType": "Single side \u00b7 1 color"
       },
       {
@@ -262,15 +219,6 @@ export const products: Product[] = [
             "label": "White \u00b7 11.5 × 13 in",
             "sizeCategory": "11.5 × 13 in",
             "color": "White",
-            "quantity": "50 pcs",
-            "price": 3300,
-            "unitPrice": 66,
-            "printType": "Single side \u00b7 1 color"
-      },
-      {
-            "label": "White \u00b7 11.5 × 13 in",
-            "sizeCategory": "11.5 × 13 in",
-            "color": "White",
             "quantity": "100 pcs",
             "price": 4500,
             "unitPrice": 45,
@@ -283,15 +231,6 @@ export const products: Product[] = [
             "quantity": "500 pcs",
             "price": 15000,
             "unitPrice": 30,
-            "printType": "Single side \u00b7 1 color"
-      },
-      {
-            "label": "White \u00b7 12 × 14 in",
-            "sizeCategory": "12 × 14 in",
-            "color": "White",
-            "quantity": "50 pcs",
-            "price": 3400,
-            "unitPrice": 68,
             "printType": "Single side \u00b7 1 color"
       },
       {
@@ -316,15 +255,6 @@ export const products: Product[] = [
             "label": "White \u00b7 12 × 16 in",
             "sizeCategory": "12 × 16 in",
             "color": "White",
-            "quantity": "50 pcs",
-            "price": 3500,
-            "unitPrice": 70,
-            "printType": "Single side \u00b7 1 color"
-      },
-      {
-            "label": "White \u00b7 12 × 16 in",
-            "sizeCategory": "12 × 16 in",
-            "color": "White",
             "quantity": "100 pcs",
             "price": 5000,
             "unitPrice": 50,
@@ -337,15 +267,6 @@ export const products: Product[] = [
             "quantity": "500 pcs",
             "price": 17000,
             "unitPrice": 34,
-            "printType": "Single side \u00b7 1 color"
-      },
-      {
-            "label": "White \u00b7 14 × 16 in",
-            "sizeCategory": "14 × 16 in",
-            "color": "White",
-            "quantity": "50 pcs",
-            "price": 3800,
-            "unitPrice": 76,
             "printType": "Single side \u00b7 1 color"
       },
       {
@@ -370,15 +291,6 @@ export const products: Product[] = [
             "label": "White \u00b7 14 × 18 in",
             "sizeCategory": "14 × 18 in",
             "color": "White",
-            "quantity": "50 pcs",
-            "price": 4000,
-            "unitPrice": 80,
-            "printType": "Single side \u00b7 1 color"
-      },
-      {
-            "label": "White \u00b7 14 × 18 in",
-            "sizeCategory": "14 × 18 in",
-            "color": "White",
             "quantity": "100 pcs",
             "price": 6000,
             "unitPrice": 60,
@@ -391,15 +303,6 @@ export const products: Product[] = [
             "quantity": "500 pcs",
             "price": 20000,
             "unitPrice": 40,
-            "printType": "Single side \u00b7 1 color"
-      },
-      {
-            "label": "Black \u00b7 10 × 12 in",
-            "sizeCategory": "10 × 12 in",
-            "color": "Black",
-            "quantity": "50 pcs",
-            "price": 3400,
-            "unitPrice": 68,
             "printType": "Single side \u00b7 1 color"
       },
       {
@@ -424,15 +327,6 @@ export const products: Product[] = [
             "label": "Black \u00b7 11.5 × 13 in",
             "sizeCategory": "11.5 × 13 in",
             "color": "Black",
-            "quantity": "50 pcs",
-            "price": 3500,
-            "unitPrice": 70,
-            "printType": "Single side \u00b7 1 color"
-      },
-      {
-            "label": "Black \u00b7 11.5 × 13 in",
-            "sizeCategory": "11.5 × 13 in",
-            "color": "Black",
             "quantity": "100 pcs",
             "price": 5000,
             "unitPrice": 50,
@@ -445,15 +339,6 @@ export const products: Product[] = [
             "quantity": "500 pcs",
             "price": 18000,
             "unitPrice": 36,
-            "printType": "Single side \u00b7 1 color"
-      },
-      {
-            "label": "Black \u00b7 12 × 14 in",
-            "sizeCategory": "12 × 14 in",
-            "color": "Black",
-            "quantity": "50 pcs",
-            "price": 3600,
-            "unitPrice": 72,
             "printType": "Single side \u00b7 1 color"
       },
       {
@@ -478,15 +363,6 @@ export const products: Product[] = [
             "label": "Black \u00b7 14 × 16 in",
             "sizeCategory": "14 × 16 in",
             "color": "Black",
-            "quantity": "50 pcs",
-            "price": 3900,
-            "unitPrice": 78,
-            "printType": "Single side \u00b7 1 color"
-      },
-      {
-            "label": "Black \u00b7 14 × 16 in",
-            "sizeCategory": "14 × 16 in",
-            "color": "Black",
             "quantity": "100 pcs",
             "price": 6000,
             "unitPrice": 60,
@@ -499,15 +375,6 @@ export const products: Product[] = [
             "quantity": "500 pcs",
             "price": 21500,
             "unitPrice": 43,
-            "printType": "Single side \u00b7 1 color"
-      },
-      {
-            "label": "Black \u00b7 14 × 18 in",
-            "sizeCategory": "14 × 18 in",
-            "color": "Black",
-            "quantity": "50 pcs",
-            "price": 4000,
-            "unitPrice": 80,
             "printType": "Single side \u00b7 1 color"
       },
       {
@@ -534,8 +401,8 @@ export const products: Product[] = [
     finishes: ['Custom Logo Print', 'Slider Zip Closure', 'Multiple Sizes'],
     customizable: true,
     icon: '♻️',
-    moq: 'Min. 50 PCS',
-    dispatchDays: '10-12 Days',
+    moq: 'Min. 100 PCS',
+    dispatchDays: '5-7 Days',
   },
   {
     slug: 'hang-tags',
@@ -755,7 +622,7 @@ export const products: Product[] = [
     category: 'Cards',
     shortDescription: 'Make every introduction count with cards as refined as your brand.',
     longDescription: 'First impressions matter, and a high-quality business card is an essential tool for networking and establishing professional credibility. At Prima Packages, we ensure that every introduction counts with custom business cards that are as refined as your brand. Crafted on heavyweight 350 GSM art card or 400 GSM textured card stock, our business cards offer a sturdy, premium feel that stands out in any wallet. We utilize crisp offset printing technology to deliver vibrant colors and sharp details, available in both single and double-sided formats. Customize your cards further with sleek matte or gloss lamination, and add luxurious touches like spot UV or foil stamping for a truly distinctive look. Whether you are an entrepreneur in Karachi or a corporate professional across Pakistan, we provide top-tier printing services with fast turnaround times. Choose Prima Packages for professional printing that perfectly captures your brand identity and leaves a lasting impact on your clients and partners.',
-    seoContentBlock: 'Get premium custom business cards printed in Pakistan. We provide high-quality visiting card printing services for professionals, corporate clients, and businesses. Technical specifications feature heavy 350 GSM to 400 GSM card stock, precision offset printing, and standard 3.5x2 inch sizing. Enhance your brand identity with luxury finishes including matte/gloss lamination, metallic foiling, and spot UV coating. Our streamlined ordering process allows you to send your vector design files via WhatsApp for a quick digital proof and quote. Operating from Karachi, we offer bulk business card printing with fast 3-5 days dispatch and secure delivery nationwide, ensuring you always make a professional statement.',
+    seoContentBlock: 'Get premium custom business cards printed in Pakistan. We provide high-quality visiting card printing services for professionals, corporate clients, and businesses. Technical specifications feature heavy 350 GSM to 400 GSM card stock, precision offset printing, and standard 3.5x2 inch sizing. Enhance your brand identity with luxury finishes including matte/gloss lamination, metallic foiling, and spot UV coating. Our streamlined ordering process allows you to send your vector design files via WhatsApp for a quick digital proof and quote. Operating from Karachi, we offer bulk business card printing with fast 5-7 days dispatch and secure delivery nationwide, ensuring you always make a professional statement.',
     heroImage: '/images/products/business-cards-white.jpg',
     gallery: [
       '/images/products/business-cards-hero.jpeg',
@@ -773,7 +640,7 @@ export const products: Product[] = [
     customizable: true,
     icon: '💼',
     moq: 'Min. 100 PCS',
-    dispatchDays: '3-5 Days',
+    dispatchDays: '5-7 Days',
   },
   {
     slug: 'courier-flyer-bags',
@@ -789,14 +656,6 @@ export const products: Product[] = [
       '/images/products/courier-bag-2.jpeg',
     ],
     sizes: [
-
-      {
-            "label": "6 × 9 + 2 in",
-            "sizeCategory": "6 × 9 + 2 in",
-            "quantity": "50 pcs",
-            "price": 2500,
-            "unitPrice": 50
-      },
       {
             "label": "6 × 9 + 2 in",
             "sizeCategory": "6 × 9 + 2 in",
@@ -810,13 +669,6 @@ export const products: Product[] = [
             "quantity": "500 pcs",
             "price": 8000,
             "unitPrice": 16
-      },
-      {
-            "label": "8 × 11 + 2 in",
-            "sizeCategory": "8 × 11 + 2 in",
-            "quantity": "50 pcs",
-            "price": 2800,
-            "unitPrice": 56
       },
       {
             "label": "8 × 11 + 2 in",
@@ -835,13 +687,6 @@ export const products: Product[] = [
       {
             "label": "10 × 12 + 2 in",
             "sizeCategory": "10 × 12 + 2 in",
-            "quantity": "50 pcs",
-            "price": 3000,
-            "unitPrice": 60
-      },
-      {
-            "label": "10 × 12 + 2 in",
-            "sizeCategory": "10 × 12 + 2 in",
             "quantity": "100 pcs",
             "price": 3800,
             "unitPrice": 38
@@ -852,13 +697,6 @@ export const products: Product[] = [
             "quantity": "500 pcs",
             "price": 11000,
             "unitPrice": 22
-      },
-      {
-            "label": "10 × 14 + 2 in",
-            "sizeCategory": "10 × 14 + 2 in",
-            "quantity": "50 pcs",
-            "price": 3100,
-            "unitPrice": 62
       },
       {
             "label": "10 × 14 + 2 in",
@@ -877,13 +715,6 @@ export const products: Product[] = [
       {
             "label": "12 × 16 + 2 in",
             "sizeCategory": "12 × 16 + 2 in",
-            "quantity": "50 pcs",
-            "price": 3250,
-            "unitPrice": 65
-      },
-      {
-            "label": "12 × 16 + 2 in",
-            "sizeCategory": "12 × 16 + 2 in",
             "quantity": "100 pcs",
             "price": 4200,
             "unitPrice": 42
@@ -894,13 +725,6 @@ export const products: Product[] = [
             "quantity": "500 pcs",
             "price": 14000,
             "unitPrice": 28
-      },
-      {
-            "label": "14 × 19 + 2 in",
-            "sizeCategory": "14 × 19 + 2 in",
-            "quantity": "50 pcs",
-            "price": 3500,
-            "unitPrice": 70
       },
       {
             "label": "14 × 19 + 2 in",
@@ -922,8 +746,8 @@ export const products: Product[] = [
     finishes: ['Full-color print', 'Single-color print'],
     customizable: true,
     icon: '📦',
-    moq: 'Min. 50 PCS',
-    dispatchDays: '7-10 Days',
+    moq: 'Min. 100 PCS',
+    dispatchDays: '5-7 Days',
   },
   {
     slug: 'carry-bags',
@@ -949,7 +773,7 @@ export const products: Product[] = [
     customizable: true,
     icon: '🛍️',
     moq: 'Min. 100 PCS',
-    dispatchDays: '10-12 Days',
+    dispatchDays: '5-7 Days',
   },
   {
     slug: 'round-stickers',
@@ -1071,7 +895,7 @@ export const products: Product[] = [
     customizable: true,
     icon: '📜',
     moq: 'Min. 100 Sheets',
-    dispatchDays: '7-10 Days',
+    dispatchDays: '5-7 Days',
   },
   {
     slug: 'ribbon-tags',
@@ -1121,7 +945,7 @@ export const products: Product[] = [
     customizable: true,
     icon: '🎀',
     moq: 'Min. 1 Roll',
-    dispatchDays: '7-10 Days',
+    dispatchDays: '5-7 Days',
   },
   {
     slug: 'tag-card-string',
@@ -1208,7 +1032,7 @@ export const products: Product[] = [
     customizable: false,
     icon: '🧵',
     moq: 'Min. 100 PCS',
-    dispatchDays: '1-2 Days',
+    dispatchDays: '5-7 Days',
   },
   {
     slug: 'size-labels',
@@ -1218,9 +1042,7 @@ export const products: Product[] = [
     longDescription: 'High quality standard woven garment size labels supplied in convenient rolls. Perfect for inner collar, side-seam, or waistband stitching across shirts, hoodies, trousers, and ethnic wear. High contrast lettering ensures clear visibility, and skin-friendly soft woven edges prevent itching.',
     heroImage: '/images/products/size-labels-white.jpg',
     gallery: [
-      '/images/products/woven-label-hero.jpeg',
-      '/images/products/woven-label-1.jpeg',
-      '/images/products/woven-label-2.jpeg',
+      '/images/products/size-labels-white.jpg',
     ],
     sizes: [
       {
@@ -1254,7 +1076,7 @@ export const products: Product[] = [
     customizable: false,
     icon: '📏',
     moq: 'Min. 1 Roll',
-    dispatchDays: '1-2 Days',
+    dispatchDays: '5-7 Days',
   },
 ]
 
