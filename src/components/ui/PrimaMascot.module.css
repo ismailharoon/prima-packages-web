@@ -1,0 +1,37 @@
+.mascot { position:relative; display:flex; align-items:flex-end; color:#203a2b; }
+.character { position:relative; display:block; width:100px; height:104px; padding:0; border:0; background:transparent; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+.character svg { width:100%; height:100%; overflow:visible; }
+.character:focus-visible,.pause:focus-visible { outline:2px solid #284b36; outline-offset:3px; border-radius:14px; }
+.pause { width:44px; height:44px; display:grid; place-items:center; cursor:pointer; border:0; background:transparent; margin-left:-14px; }
+.pause span { background:#fffaf0; border:1px solid #c6d1bc; border-radius:50%; width:24px; height:24px; font-size:11px; display:grid; place-items:center; box-shadow:0 2px 8px #203a2b12; }
+.tip { position:absolute; bottom:100%; right:0; padding:8px 12px; border-radius:12px; background:#203a2b; color:#fffaf0; font-size:11px; white-space:nowrap; opacity:1; pointer-events:none; transition:opacity .15s; }
+.character:hover .tip,.character:focus-visible .tip { opacity:1; }
+.body { transform-origin:80px 140px; animation:breathe 3.8s ease-in-out infinite; }
+.eyes { transform-box:fill-box; transform-origin:center; animation:blink 5.2s infinite; }
+.arm { transform-origin:30px 91px; }
+.happyEyes,.sparkles,.sleep { opacity:0; }
+.mascot[data-mood=happy] .body,.mascot[data-mood=waking] .body { animation:bounce .7s ease-in-out 3; }
+.mascot[data-mood=happy] .eyes { opacity:0; }
+.mascot[data-mood=happy] .happyEyes,.mascot[data-mood=happy] .sparkles { opacity:1; }
+.mascot[data-mood=waking] .arm,.character:hover .arm { animation:wave .5s ease-in-out 3; }
+.mascot[data-mood=sleeping] .eyes { animation:none; transform:scaleY(.14); }
+.mascot[data-mood=sleeping] .sleep { opacity:1; }
+.mascot[data-paused=true] * { animation:none!important; }
+@keyframes breathe { 50% { transform:translateY(-3px) rotate(1deg); } }
+@keyframes blink { 0%,43%,47%,100% { transform:scaleY(1); } 45% { transform:scaleY(.08); } }
+@keyframes bounce { 0%,100% { transform:translateY(0); } 45% { transform:translateY(-9px) rotate(-4deg); } }
+@keyframes wave { 50% { transform:rotate(20deg); } }
+@media(max-width:700px) { .character { width:70px; height:76px; } .pause { margin-left:-8px; } .tip { font-size:10px; padding:6px 9px; } }
+@media(prefers-reduced-motion:reduce) { .mascot * { animation:none!important; transition:none!important; } .eyes { transform:none!important; opacity:1!important; } .happyEyes,.sleep,.sparkles { opacity:0!important; } }
+.mascot[data-open=true] .happyEyes { opacity:1; }
+.mascot[data-open=true] .eyes { opacity:0; }
+.mascot[data-open=true] .body { animation:bounce .7s ease-in-out 1; }
+
+.mascot[data-open=true] .tip { visibility:hidden; }
+/* Stronger gestures remain inside the floating helper's reserved footprint. */
+.gaze { transition:transform .12s ease-out; }
+.mascot[data-mood=happy] .arm { animation:wave .35s ease-in-out 6; }
+@keyframes bounce { 0%,100% { transform:translateY(0) scale(1); } 25% { transform:translateY(2px) scale(1.06,.94); } 55% { transform:translateY(-17px) rotate(-8deg); } 75% { transform:translateY(-8px) rotate(6deg); } }
+@keyframes wave { 50% { transform:rotate(40deg); } }
+@keyframes breathe { 50% { transform:translateY(-5px) rotate(3deg); } }
+@media(prefers-reduced-motion:reduce) { .gaze { transform:none!important; } }

@@ -2,20 +2,23 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { motion, AnimatePresence } from 'framer-motion'
+import { PrimaMascot } from './PrimaMascot'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { WHATSAPP_NUMBER, DEFAULT_WHATSAPP_MESSAGE } from '@/lib/constants'
 import { trackWhatsAppClick } from '@/lib/analytics'
 
 export function FloatingWhatsApp() {
   const [isOpen, setIsOpen] = useState(false)
 
+  const [revealed, setRevealed] = useState(false)
+  const reduceMotion = useReducedMotion()
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsOpen(true)
-    }, 3500)
-    return () => clearTimeout(timer)
+    const close = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { setRevealed(false); setIsOpen(false) }
+    }
+    window.addEventListener('keydown', close)
+    return () => window.removeEventListener('keydown', close)
   }, [])
-
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
     DEFAULT_WHATSAPP_MESSAGE
   )}`
@@ -102,7 +105,17 @@ export function FloatingWhatsApp() {
       </AnimatePresence>
 
       {/* Floating Trigger Button */}
-      <div className="relative group">
+      <div className="relative flex items-end gap-1">
+      <PrimaMascot onHelp={() => { setRevealed(!revealed); setIsOpen(false) }} expanded={revealed} />
+            <AnimatePresence>
+      {revealed && !isOpen && <motion.div
+        id="pip-whatsapp"
+        className="absolute bottom-[72px] right-[44px] sm:bottom-[102px] sm:right-[54px]"
+        initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 54, scale: 0.15, rotate: -25 }}
+        animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
+        exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 54, scale: 0.15, rotate: 20 }}
+        transition={reduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 320, damping: 17 }}
+      >
         {/* Soft pulsing ring */}
         <span className="absolute -inset-1 rounded-full bg-[#25D366] opacity-30 blur-xs animate-ping pointer-events-none" />
 
@@ -121,12 +134,9 @@ export function FloatingWhatsApp() {
           </svg>
         </button>
 
-        {/* Hover Tooltip if closed */}
-        {!isOpen && (
-          <span className="hidden sm:block absolute right-16 top-1/2 -translate-y-1/2 bg-charcoal text-cream text-[11px] font-medium tracking-wider uppercase px-3 py-1.5 rounded-lg shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
-            Chat on WhatsApp
-          </span>
-        )}
+        <span className="absolute right-full mr-2 top-2 whitespace-nowrap rounded-lg bg-charcoal px-3 py-2 text-xs text-white pointer-events-none">Let’s chat!</span>
+      </motion.div>}
+      </AnimatePresence>
       </div>
     </div>
   )
