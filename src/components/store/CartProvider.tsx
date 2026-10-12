@@ -43,7 +43,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     const timer = setTimeout(() => dispatch({ type: 'dismiss' }), 5000)
     return () => clearTimeout(timer)
   }, [state.notice, state.lines])
-  return <CartContext.Provider value={{ lines: state.lines, ready: state.ready, storageError: state.storageError, add: line => { dispatch({ type: 'add', line }); window.dispatchEvent(new Event('prima:cart-added')) }, remove: key => dispatch({ type: 'remove', key }), setQuantity: (key, quantity) => dispatch({ type: 'quantity', key, quantity }) }}>
+  return <CartContext.Provider value={{ lines: state.lines, ready: state.ready, storageError: state.storageError, add: line => { dispatch({ type: 'add', line }); window.dispatchEvent(new Event('prima:cart-added')) }, remove: key => { dispatch({ type: 'remove', key }); window.dispatchEvent(new Event('prima:cart-removed')) }, setQuantity: (key, quantity) => dispatch({ type: 'quantity', key, quantity }) }}>
     {children}
     {state.notice && <div className="cart-notice" role="status"><span>✓ {state.notice}</span><Link href="/cart" onClick={() => dispatch({ type: 'dismiss' })}>View cart</Link><button aria-label="Dismiss notification" onClick={() => dispatch({ type: 'dismiss' })}>×</button></div>}
   </CartContext.Provider>

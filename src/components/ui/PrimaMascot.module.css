@@ -4,7 +4,7 @@
 .character:focus-visible,.pause:focus-visible { outline:2px solid #284b36; outline-offset:3px; border-radius:14px; }
 .pause { width:44px; height:44px; display:grid; place-items:center; cursor:pointer; border:0; background:transparent; margin-left:-14px; }
 .pause span { background:#fffaf0; border:1px solid #c6d1bc; border-radius:50%; width:24px; height:24px; font-size:11px; display:grid; place-items:center; box-shadow:0 2px 8px #203a2b12; }
-.tip { position:absolute; bottom:100%; right:0; padding:8px 12px; border-radius:12px; background:#203a2b; color:#fffaf0; font-size:11px; white-space:nowrap; opacity:1; pointer-events:none; transition:opacity .15s; }
+.tip { position:absolute; bottom:100%; right:0; width:max-content; max-width:min(230px,calc(100vw - 80px)); padding:10px 13px; border-radius:14px 14px 4px 14px; background:#203a2b; color:#fffaf0; font-size:12px; line-height:1.5; text-align:left; white-space:normal; box-shadow:0 4px 16px #203a2b20; opacity:1; pointer-events:none; transition:opacity .15s; }
 .character:hover .tip,.character:focus-visible .tip { opacity:1; }
 .body { transform-origin:80px 140px; animation:breathe 3.8s ease-in-out infinite; }
 .eyes { transform-box:fill-box; transform-origin:center; animation:blink 5.2s infinite; }
@@ -21,7 +21,7 @@
 @keyframes blink { 0%,43%,47%,100% { transform:scaleY(1); } 45% { transform:scaleY(.08); } }
 @keyframes bounce { 0%,100% { transform:translateY(0); } 45% { transform:translateY(-9px) rotate(-4deg); } }
 @keyframes wave { 50% { transform:rotate(20deg); } }
-@media(max-width:700px) { .character { width:70px; height:76px; } .pause { margin-left:-8px; } .tip { font-size:10px; padding:6px 9px; } }
+@media(max-width:700px) { .character { width:70px; height:76px; } .pause { margin-left:-8px; } .tip { font-size:12px; padding:8px 11px; } }
 @media(prefers-reduced-motion:reduce) { .mascot * { animation:none!important; transition:none!important; } .eyes { transform:none!important; opacity:1!important; } .happyEyes,.sleep,.sparkles { opacity:0!important; } }
 .mascot[data-open=true] .happyEyes { opacity:1; }
 .mascot[data-open=true] .eyes { opacity:0; }
@@ -35,3 +35,21 @@
 @keyframes wave { 50% { transform:rotate(40deg); } }
 @keyframes breathe { 50% { transform:translateY(-5px) rotate(3deg); } }
 @media(prefers-reduced-motion:reduce) { .gaze { transform:none!important; } }
+
+/* Move the artwork only: the chat hit target and shopping layout stay stable. */
+.mascot { --walk-distance:-42px; }
+.mascot[data-gesture=enter] .character svg { animation:arrive 1.5s ease-out both; }
+.mascot[data-gesture=stroll] .character svg { animation:stroll 4s ease-in-out; }
+.mascot[data-gesture=peek] .character svg { animation:peek 1.5s ease-in-out; }
+.mascot[data-gesture=look] .body { animation:lookAround 4s ease-in-out; }
+.flap { transform-origin:97px 30px; transition:transform .35s ease; }
+.mascot[data-open=true] .flap { transform:rotate(-24deg); }
+.mascot[data-mood=happy] .flap { animation:pack .65s ease-in-out 3; }
+.mascot:focus-within .character svg,.character:hover svg { animation-play-state:paused; }
+@keyframes arrive { from { transform:translateX(65px) rotate(12deg); opacity:0; } 55% { transform:translateX(-12px) rotate(-8deg); opacity:1; } to { transform:translateX(0) rotate(0); opacity:1; } }
+@keyframes stroll { 0%,100% { transform:translateX(0) rotate(0); } 20% { transform:translateX(calc(var(--walk-distance) * .5)) translateY(-5px) rotate(-8deg); } 40%,55% { transform:translateX(var(--walk-distance)) rotate(5deg); } 75% { transform:translateX(calc(var(--walk-distance) * .5)) translateY(-5px) rotate(8deg); } }
+@keyframes peek { 35%,65% { transform:translateY(-14px) rotate(-12deg); } }
+@keyframes lookAround { 20%,40% { transform:rotate(-8deg) translateX(-4px); } 60%,80% { transform:rotate(7deg) translateX(4px); } }
+@keyframes pack { 50% { transform:rotate(18deg); } }
+@media(max-width:700px) { .mascot { --walk-distance:-20px; } }
+@media(prefers-reduced-motion:reduce) { .flap { transform:none!important; } }

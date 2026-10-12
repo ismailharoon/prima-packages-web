@@ -1,13 +1,12 @@
 'use client'
 
-import { useState, type FormEvent, useEffect } from 'react'
+import { useState, useRef, type FormEvent, useEffect } from 'react'
 import { products } from '@/data/products'
 import { submitReview } from '@/lib/reviews-storage'
 
 interface ReviewModalProps {
   isOpen: boolean
   onClose: () => void
-  initialProductSlug?: string
   onReviewSubmitted?: () => void
 }
 
@@ -29,10 +28,12 @@ const productShortNames: Record<string, string> = {
 export function ReviewModal({
   isOpen,
   onClose,
-  initialProductSlug,
   onReviewSubmitted,
 }: ReviewModalProps) {
-  const [selectedSlugs, setSelectedSlugs] = useState<string[]>([initialProductSlug || products[0].slug])
+  const [selectedSlugs, setSelectedSlugs] = useState<string[]>([])
+  const [step, setStep] = useState<'products' | 'review'>('products')
+  const [pipHint, setPipHint] = useState(false)
+  const dialog = useRef<HTMLDivElement>(null)
   const [rating, setRating] = useState(5)
   const [hoverRating, setHoverRating] = useState<number | null>(null)
   const [author, setAuthor] = useState('')
@@ -44,10 +45,17 @@ export function ReviewModal({
   const [success, setSuccess] = useState(false)
 
   useEffect(() => {
-    if (initialProductSlug) {
-      setSelectedSlugs([initialProductSlug])
+    if (isOpen) {
+      setStep('products')
+      setPipHint(false)
+      setSelectedSlugs([])
+      const previous = document.activeElement as HTMLElement | null
+      const overflow = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
+      dialog.current?.focus()
+      return () => { document.body.style.overflow = overflow; previous?.focus() }
     }
-  }, [initialProductSlug])
+  }, [isOpen])
 
   useEffect(() => {
     if (!isOpen) {
@@ -61,7 +69,6 @@ export function ReviewModal({
   function toggleProduct(slug: string) {
     setSelectedSlugs(prev => {
       if (prev.includes(slug)) {
-        if (prev.length <= 1) return prev
         return prev.filter(s => s !== slug)
       } else {
         return [...prev, slug]
@@ -73,6 +80,7 @@ export function ReviewModal({
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
+    if (step !== 'review' || busy) return
     setError('')
     if (selectedSlugs.length === 0) {
       setError('Please select at least one product.')
@@ -118,11 +126,22 @@ export function ReviewModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-3 sm:p-4 animate-in fade-in duration-200"
+      ref={dialog}
+      tabIndex={-1}
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-3 sm:p-4 animate-in fade-in duration-200"
       role="dialog"
       aria-modal="true"
       aria-labelledby="review-modal-title"
       onClick={onClose}
+      onKeyDown={e => {
+        if (e.key === 'Escape' && !busy) onClose()
+        if (e.key !== 'Tab') return
+        const items = dialog.current?.querySelectorAll<HTMLElement>('button:not(:disabled), input, textarea, select')
+        if (!items?.length) return
+        const first = items[0], last = items[items.length - 1]
+        if (e.shiftKey && (document.activeElement === first || document.activeElement === dialog.current)) { e.preventDefault(); last.focus() }
+        else if (!e.shiftKey && (document.activeElement === last || document.activeElement === dialog.current)) { e.preventDefault(); first.focus() }
+      }}
     >
       <div
         className="relative w-full max-w-md max-h-[92vh] overflow-y-auto rounded-2xl bg-white p-5 sm:p-6 shadow-2xl transition-all"
@@ -154,12 +173,13 @@ export function ReviewModal({
             <div className="pr-8">
               <p className="text-[10px] font-bold uppercase tracking-wider text-sage-dark">Customer Feedback</p>
               <h2 id="review-modal-title" className="text-lg sm:text-xl font-extrabold text-charcoal">
-                Write a Product Review
+                {step === 'products' ? 'Which product would you like to review?' : 'Write a Product Review'}
               </h2>
             </div>
 
             {/* Compact Multi-Product Selector */}
-            <div>
+            {step === 'products' ? <div>
+              <p className="mb-4 text-sm text-charcoal/75">Choose the products you ordered, then share your experience.</p>
               <div className="flex items-center justify-between mb-1">
                 <label className="block text-[11px] font-semibold uppercase tracking-wider text-charcoal/70">
                   Products In Your Order *
@@ -168,7 +188,7 @@ export function ReviewModal({
                   {selectedSlugs.length} {selectedSlugs.length === 1 ? 'product' : 'products'} selected
                 </span>
               </div>
-              <div className="flex flex-wrap gap-1 max-h-24 overflow-y-auto p-1.5 bg-[#FAF8F4] border border-charcoal/15 rounded-lg">
+              <div className="grid grid-cols-2 gap-2 p-2 bg-[#FAF8F4] border border-charcoal/15 rounded-lg">
                 {products.map(p => {
                   const isSelected = selectedSlugs.includes(p.slug)
                   return (
@@ -176,7 +196,7 @@ export function ReviewModal({
                       key={p.slug}
                       type="button"
                       onClick={() => toggleProduct(p.slug)}
-                      className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] transition-all ${
+                      className={`inline-flex min-h-11 items-center gap-2 px-3 py-2 rounded-md text-sm transition-all focus-visible:outline-2 focus-visible:outline-offset-2 ${
                         isSelected
                           ? 'bg-sage text-white font-semibold shadow-xs ring-1 ring-sage'
                           : 'bg-white text-charcoal/75 border border-charcoal/15 hover:border-charcoal/30 hover:bg-charcoal/5 font-medium'
@@ -189,6 +209,11 @@ export function ReviewModal({
                   )
                 })}
               </div>
+              <button type="button" disabled={!selectedSlugs.length} onClick={() => { setStep('review'); setTimeout(() => document.getElementById('review-author')?.focus(), 0) }} className="mt-4 min-h-11 w-full rounded-lg bg-sage-dark px-4 py-3 font-bold text-white disabled:opacity-40">Continue to review</button>
+            </div> : <>
+            <div className="flex items-center justify-between gap-3 rounded-lg bg-sage/10 p-3 text-sm">
+              <span>{selectedSlugs.map(slug => productShortNames[slug] || products.find(p => p.slug === slug)?.name).join(', ')}</span>
+              <button type="button" disabled={busy} onClick={() => setStep('products')} className="min-h-11 font-bold text-sage-dark underline">Change</button>
             </div>
 
             {/* Star Rating Selector */}
@@ -280,9 +305,20 @@ export function ReviewModal({
                 rows={2}
                 placeholder="Share your thoughts on print clarity, materials, packaging, or customer service..."
                 value={comment}
+                onFocus={() => setPipHint(true)}
                 onChange={e => setComment(e.target.value)}
                 className="w-full rounded-lg border border-charcoal/15 bg-white px-3 py-1.5 text-xs sm:text-sm text-charcoal placeholder:text-charcoal/40 focus:border-sage focus:outline-none focus:ring-1 focus:ring-sage resize-none"
               />
+              {pipHint && <div role="status" className="mt-2 flex items-center gap-3 rounded-xl bg-[#f0f4ea] p-3 text-sm text-[#203a2b]">
+                <svg className="h-16 w-16 shrink-0 motion-safe:animate-bounce" style={{ animationIterationCount: 2 }} viewBox="0 0 160 164" aria-hidden="true">
+                  <path d="M30 91Q12 83 15 60M130 89q17-2 15-17" fill="none" stroke="#6e8566" strokeWidth="9" strokeLinecap="round"/>
+                  <path d="m33 47 64-17 1-18-45 9Z" fill="#bdcaaa"/><path d="m97 30 34 20 13-22-37-15Z" fill="#e1e7d8"/>
+                  <path d="m32 47 65 16v76l-55-11q-10-2-10-13Z" fill="#9cad8c"/><path d="m97 63 34-13v68q0 10-9 13l-25 8Z" fill="#4c674f"/>
+                  <path d="m61 54 13 3v25l-6-4-7 2Z" fill="#f4e6c6"/>
+                  <path d="M43 96q6-12 12 2M74 101q6-12 12 2" fill="none" stroke="#203a2b" strokeWidth="4" strokeLinecap="round"/>
+                </svg>
+                <p><strong>Pip says:</strong><br/>Itna mat socho 😄 Apna honest experience likh do!</p>
+              </div>}
             </div>
 
             {error && (
@@ -308,6 +344,7 @@ export function ReviewModal({
                 {busy ? 'Submitting…' : 'Submit Review'}
               </button>
             </div>
+            </>}
           </form>
         )}
       </div>

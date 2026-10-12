@@ -158,7 +158,6 @@ export function ProductReviews({ product }: { product: Product }) {
       <ReviewModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
-        initialProductSlug={product.slug}
       />
     </section>
   )
