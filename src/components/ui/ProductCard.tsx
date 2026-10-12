@@ -15,7 +15,7 @@ export function ProductCard({ product }: { product: Product; index?: number }) {
   const { summary: reviewSummary } = useReviews(product.slug)
 
   return (
-    <article className="group flex flex-col bg-transparent border-0 shadow-none pb-12 sm:pb-0 border-b sm:border-b-0 border-[#E2E7DB] last:border-b-0 last:pb-0">
+    <article data-pip-product={product.slug} className="group flex flex-col bg-transparent border-0 shadow-none pb-12 sm:pb-0 border-b sm:border-b-0 border-[#E2E7DB] last:border-b-0 last:pb-0">
       {/* Clean Photo Frame - 90 Degree Sharp Corners & White Canvas */}
       <Link
         href={`/products/${product.slug}`}

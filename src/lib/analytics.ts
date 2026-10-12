@@ -76,6 +76,7 @@ export interface TrackPurchaseParams extends TrackCartParams {
 export interface TrackWhatsAppClickParams {
   buttonLocation:
     | 'floating_button'
+    | 'pip_guided_chat'
     | 'header'
     | 'product_page'
     | 'product_page_out_of_stock'
