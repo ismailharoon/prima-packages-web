@@ -1,5 +1,5 @@
 'use client'
-import { useState, type FormEvent } from 'react'
+import { useState, useMemo, type FormEvent } from 'react'
 import type { Expense, Order, Workspace } from '@/lib/admin/types'
 import { money } from '@/lib/admin/domain.mjs'
 import { products } from '@/data/products'
@@ -15,10 +15,11 @@ const categories:Record<string,string>={
   'courier-flyer-bags':'Courier Flyers',
   'carry-bags':'Carry Bag',
   'round-stickers':'Round Stickers',
-  'butter-paper':'Other',
+  'butter-paper':'Butter Paper',
   'ribbon-tags':'Ribbons',
   'tag-card-string':'Tag Card String',
-  'size-labels':'Size Label'
+  'size-labels':'Size Label',
+  'bop-theli':'BOP Theli',
 }
 
 export function DeleteOrder({order,state,busy,save}:{order:Order;state:Workspace;busy:boolean;save:Save}) {
@@ -34,7 +35,7 @@ export function ProductExpenseEditor({expense:e,revision,busy,save}:{expense:Exp
  return <div><button type="button" className="admin-btn small secondary" disabled={busy} onClick={()=>setOpen(!open)}>{open?'Close editor':e.amount?'Edit product cost':'Enter product cost'}</button>{open&&<form className="admin-form" onSubmit={submit}><label className="admin-field">Total cost (Rs.)<input name="amount" type="number" min="0" step="0.01" required defaultValue={e.amount/100}/></label><label className="admin-field">Expense date<input name="date" type="date" required defaultValue={e.date}/></label><label className="admin-field">Funded by<select name="funding" defaultValue={e.funding}><option>Business</option><option>Ismail</option><option>Rizwan</option></select></label><label className="admin-field">Payment<select name="paid" defaultValue={e.paid?'yes':'no'}><option value="no">Unpaid</option><option value="yes">Paid</option></select></label><label className="admin-field">Payment date (if paid)<input name="paidDate" type="date" defaultValue={e.paidDate||new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Karachi'})}/></label>{error&&<p role="alert">{error}</p>}<button className="admin-btn small" disabled={busy}>Save cost</button></form>}</div>
 }
 
-type LineState = { id: string; name: string; category: string; size: string; quantity: string; price: string; pricingMode?: 'unit'|'total' }
+type LineState = { id: string; name: string; category: string; size: string; quantity: string; price: string; pricingMode: 'unit'|'total' }
 
 export function OrderProductsEditor({order,state,busy,save}:{order:Order;state:Workspace;busy:boolean;save:Save}) {
   const [open,setOpen]=useState(false)
@@ -42,53 +43,66 @@ export function OrderProductsEditor({order,state,busy,save}:{order:Order;state:W
   const [lines,setLines]=useState<LineState[]>([])
   const [slug,setSlug]=useState(products[0].slug)
   const [size,setSize]=useState('')
+  const [isCustomSize,setIsCustomSize]=useState(false)
+  const [customSizeText,setCustomSizeText]=useState('')
 
   function initLines() {
     setLines(order.items.map(i => {
-      const isStr = i.category === 'Tag Card String' || i.name.toLowerCase().includes('string')
       return {
         id: i.id,
         name: i.name,
         category: i.category,
         size: i.specification || '',
         quantity: String(i.quantity),
-        price: isStr ? String((i.unitPrice * i.quantity) / 100) : String(i.unitPrice / 100),
-        pricingMode: isStr ? 'total' : 'unit'
+        price: String((i.unitPrice * i.quantity) / 100),
+        pricingMode: 'total'
       }
     }))
     setError('')
     setOpen(true)
   }
 
-  const isStringLine = (l: { category: string; name: string; pricingMode?: 'unit'|'total' }) =>
-    l.category === 'Tag Card String' || l.name.toLowerCase().includes('string') || l.pricingMode === 'total'
-  const isRollLine = (l: { category: string; name: string; size: string }) =>
-    l.category === 'Size Label' || l.name.toLowerCase().includes('size label') || l.size.toLowerCase().includes('roll')
-  
-  const lineTotal = (l: { category: string; name: string; size: string; quantity: string; price: string; pricingMode?: 'unit'|'total' }) =>
-    isStringLine(l) ? money(l.price || 0) : Number(l.quantity) * money(l.price || 0)
+  const lineTotal = (l: LineState) =>
+    l.pricingMode === 'total' ? money(l.price || 0) : Number(l.quantity || 0) * money(l.price || 0)
 
   const product = products.find(p => p.slug === slug) || products[0]
-  const sizes = [...new Set(product.sizes.map(s => [s.sizeCategory || s.label, s.color, s.printType].filter(Boolean).join(' · ')))]
+  const sizes = useMemo(() => {
+    return [...new Set(product.sizes.map(s => [s.sizeCategory || s.label, s.color, s.printType].filter(Boolean).join(' · ')))]
+  }, [product])
+
+  function togglePricingMode(l: LineState, newMode: 'total' | 'unit') {
+    if (l.pricingMode === newMode) return
+    const qty = Math.max(1, Number(l.quantity) || 1)
+    const currentPrice = Number(l.price) || 0
+
+    let newPrice = l.price
+    if (newMode === 'unit' && currentPrice > 0) {
+      newPrice = (currentPrice / qty).toFixed(2).replace(/\.00$/, '')
+    } else if (newMode === 'total' && currentPrice > 0) {
+      newPrice = (currentPrice * qty).toFixed(2).replace(/\.00$/, '')
+    }
+
+    patch(l.id, { pricingMode: newMode, price: newPrice })
+  }
 
   function addProduct() {
-    const selectedSize = size || sizes[0] || ''
-    const isString = slug === 'tag-card-string'
-    const isRoll = slug === 'size-labels'
+    const selectedSize = isCustomSize ? (customSizeText.trim() || 'Custom size') : (size || sizes[0] || '')
     const variantObj = product.sizes.find(s => [s.sizeCategory || s.label, s.color, s.printType].filter(Boolean).join(' · ') === selectedSize) || product.sizes[0]
     let defaultQty = '100'
     let defaultPrice = ''
-    let pricingMode: 'unit' | 'total' = isString ? 'total' : 'unit'
-    if (isString) {
+    const pricingMode: 'unit' | 'total' = 'total'
+    
+    if (slug === 'tag-card-string') {
       defaultQty = variantObj?.quantity ? String(Number(variantObj.quantity.replace(/[^0-9]/g, '')) || 1000) : '1000'
       defaultPrice = variantObj?.price ? String(variantObj.price) : ''
-    } else if (isRoll) {
+    } else if (slug === 'size-labels') {
       defaultQty = variantObj?.quantity ? String(Number(variantObj.quantity.replace(/[^0-9]/g, '')) || 1) : '1'
       defaultPrice = variantObj?.price ? String(variantObj.price) : ''
     } else if (variantObj) {
       defaultQty = variantObj.quantity ? String(Number(variantObj.quantity.replace(/[^0-9]/g, '')) || 100) : '100'
-      defaultPrice = variantObj.unitPrice ? String(variantObj.unitPrice) : variantObj.price ? String(variantObj.price / Math.max(1, Number(defaultQty))) : ''
+      defaultPrice = variantObj.price ? String(variantObj.price) : ''
     }
+    
     setLines([...lines, {
       id: crypto.randomUUID(),
       name: product.name,
@@ -98,9 +112,14 @@ export function OrderProductsEditor({order,state,busy,save}:{order:Order;state:W
       price: defaultPrice,
       pricingMode
     }])
+
+    if (isCustomSize) {
+      setCustomSizeText('')
+      setIsCustomSize(false)
+    }
   }
 
-  function patch(id: string, values: Partial<{ name: string; size: string; quantity: string; price: string }>) {
+  function patch(id: string, values: Partial<LineState>) {
     setLines(lines.map(l => l.id === id ? { ...l, ...values } : l))
   }
 
@@ -118,7 +137,7 @@ export function OrderProductsEditor({order,state,busy,save}:{order:Order;state:W
       }
       const formattedItems = lines.map(l => {
         const qty = Number(l.quantity) || 1
-        const uPrice = isStringLine(l) ? Math.round(money(l.price) / qty) : money(l.price)
+        const uPrice = l.pricingMode === 'total' ? Math.round(money(l.price) / qty) : money(l.price)
         return {
           id: l.id,
           name: l.name,
@@ -158,20 +177,42 @@ export function OrderProductsEditor({order,state,busy,save}:{order:Order;state:W
             <button type="button" className="admin-text-btn" onClick={() => setOpen(false)}>Close</button>
           </div>
           <div className="admin-product-picker">
-            <select aria-label="Product name" value={slug} onChange={e => { setSlug(e.target.value); setSize('') }}>
+            <select aria-label="Product name" value={slug} onChange={e => { setSlug(e.target.value); setSize(''); setIsCustomSize(false); setCustomSizeText('') }}>
               {products.map(p => <option key={p.slug} value={p.slug}>{p.name}</option>)}
             </select>
-            <select aria-label="Product size" value={size || sizes[0] || ''} onChange={e => setSize(e.target.value)}>
-              {sizes.map(s => <option key={s}>{s}</option>)}
-            </select>
+            {!isCustomSize ? (
+              <select aria-label="Product size" value={size || sizes[0] || ''} onChange={e => {
+                if (e.target.value === '__custom__') {
+                  setIsCustomSize(true)
+                } else {
+                  setSize(e.target.value)
+                }
+              }}>
+                {sizes.map(s => <option key={s} value={s}>{s}</option>)}
+                <option value="__custom__">✎ + Custom size...</option>
+              </select>
+            ) : (
+              <div className="admin-custom-size-box">
+                <input
+                  type="text"
+                  placeholder="Enter custom size (e.g. 3 x 4.5 in)"
+                  value={customSizeText}
+                  onChange={e => setCustomSizeText(e.target.value)}
+                  autoFocus
+                />
+                <button type="button" className="admin-btn small secondary" onClick={() => { setIsCustomSize(false); setCustomSizeText('') }}>Reset</button>
+              </div>
+            )}
             <button type="button" className="admin-btn secondary" onClick={addProduct}>Add to order</button>
-            <button type="button" className="admin-text-btn" onClick={() => setLines([...lines, { id: crypto.randomUUID(), name: '', category: 'Other', size: '', quantity: '1', price: '', pricingMode: 'unit' }])}>
+            <button type="button" className="admin-text-btn" onClick={() => setLines([...lines, { id: crypto.randomUUID(), name: '', category: 'Other', size: '', quantity: '1', price: '', pricingMode: 'total' }])}>
               + Custom product
             </button>
           </div>
           {lines.map((l, index) => {
-            const isStr = isStringLine(l)
-            const isRoll = isRollLine(l)
+            const qty = Number(l.quantity) || 1
+            const priceNum = Number(l.price) || 0
+            const isTotalMode = l.pricingMode === 'total'
+
             return (
               <div className="admin-edit-line" key={l.id}>
                 <label className="admin-field">
@@ -179,21 +220,49 @@ export function OrderProductsEditor({order,state,busy,save}:{order:Order;state:W
                   <input value={l.name} required onChange={e => patch(l.id, { name: e.target.value })} />
                 </label>
                 <label className="admin-field">
-                  <span>{isRoll ? 'Roll specification' : 'Size / specification'}</span>
-                  <input required maxLength={500} value={l.size} onChange={e => patch(l.id, { size: e.target.value })} />
+                  <span>Size / specification (Customizable)</span>
+                  <input required maxLength={500} placeholder="e.g. 0.75 x 2 in, 3 x 4.5 in" value={l.size} onChange={e => patch(l.id, { size: e.target.value })} />
                 </label>
                 <label className="admin-field">
-                  <span>{isRoll ? 'Rolls' : 'Quantity'}</span>
+                  <span>Quantity</span>
                   <input type="number" min="1" max="1000000" step="1" required value={l.quantity} onChange={e => patch(l.id, { quantity: e.target.value })} />
                 </label>
                 <label className="admin-field">
-                  <span>{isStr ? 'Total price (Rs.)' : isRoll ? 'Price per roll (Rs.)' : 'Price per piece (Rs.)'}</span>
-                  <input type="number" min="0" step="0.01" required placeholder="Enter price" value={l.price} onChange={e => patch(l.id, { price: e.target.value })} />
-                  {isStr && Number(l.quantity) > 0 && Number(l.price) > 0 && (
-                    <small className="admin-muted">Rs. {(Number(l.price) / Number(l.quantity)).toFixed(2)} / pc</small>
+                  <div className="admin-price-toggle-group">
+                    <span>{isTotalMode ? 'Total price (Rs.)' : 'Price per piece (Rs.)'}</span>
+                    <div className="admin-price-toggle-btns">
+                      <button
+                        type="button"
+                        className={`admin-price-toggle-btn ${isTotalMode ? 'active' : ''}`}
+                        onClick={() => togglePricingMode(l, 'total')}
+                        title="Enter total amount for this quantity"
+                      >
+                        Total
+                      </button>
+                      <button
+                        type="button"
+                        className={`admin-price-toggle-btn ${!isTotalMode ? 'active' : ''}`}
+                        onClick={() => togglePricingMode(l, 'unit')}
+                        title="Enter price per single piece"
+                      >
+                        Per piece
+                      </button>
+                    </div>
+                  </div>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    required
+                    placeholder={isTotalMode ? 'e.g. 3500' : 'e.g. 35'}
+                    value={l.price}
+                    onChange={e => patch(l.id, { price: e.target.value })}
+                  />
+                  {isTotalMode && qty > 0 && priceNum > 0 && (
+                    <small className="admin-muted">Rs. {(priceNum / qty).toFixed(2)} / pc</small>
                   )}
-                  {isRoll && Number(l.quantity) > 0 && Number(l.price) > 0 && (
-                    <small className="admin-muted">{l.quantity} roll(s) × Rs. {l.price}</small>
+                  {!isTotalMode && qty > 0 && priceNum > 0 && (
+                    <small className="admin-muted">{qty} pcs × Rs. {priceNum} = Rs. {(qty * priceNum).toLocaleString()}</small>
                   )}
                 </label>
                 <strong>Rs. {(lineTotal(l) / 100).toLocaleString('en-PK', { maximumFractionDigits: 2 })}</strong>
@@ -218,4 +287,3 @@ export function OrderProductsEditor({order,state,busy,save}:{order:Order;state:W
     </div>
   )
 }
-

@@ -96,3 +96,31 @@
 }
 .admin-orders-table td:first-child>.admin-order-link { display:block; }
 .admin-modal .admin-history-row small { color:#526157; font-size:12px; }
+
+/* Customer Search & Autofill in NewOrderForm */
+.admin-customer-search-box { position:relative; margin-bottom:16px; background:#f8faf5; border:1px solid #dce4d6; border-radius:9px; padding:12px 14px; }
+.admin-customer-search-box>label { display:flex; align-items:center; gap:8px; font-size:11px; font-weight:600; color:#4f614b; margin-bottom:6px; }
+.admin-customer-search-input { width:100%; border:1px solid #cad5c3 !important; border-radius:7px; padding:10px 12px !important; background:#fff; font-size:13px !important; color:#243b2d; min-height:40px !important; }
+.admin-customer-search-input:focus { outline:none; border-color:#3b5c46 !important; box-shadow:0 0 0 3px rgba(59,92,70,0.12); }
+.admin-customer-dropdown { position:absolute; top:100%; left:0; right:0; z-index:20; background:#fff; border:1px solid #c9d5c3; border-radius:9px; box-shadow:0 12px 36px rgba(18,35,23,0.16); margin-top:4px; max-height:280px; overflow-y:auto; }
+.admin-customer-item { display:flex; flex-direction:column; gap:3px; width:100%; text-align:left; padding:10px 14px; border:none; background:transparent; border-bottom:1px solid #edf2e8; cursor:pointer; transition:background 0.15s; }
+.admin-customer-item:last-child { border-bottom:none; }
+.admin-customer-item:hover { background:#f2f7ee; }
+.admin-customer-item-top { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.admin-customer-item-brand { font-weight:600; font-size:13px; color:#243b2d; }
+.admin-customer-item-badge { font-size:10px; padding:2px 7px; border-radius:12px; background:#e6ede0; color:#4b6245; font-weight:500; }
+.admin-customer-item-details { font-size:11px; color:#6a7964; display:flex; flex-wrap:wrap; gap:12px; }
+.admin-customer-badge { display:flex; align-items:center; justify-content:space-between; gap:12px; background:#eaf3e5; border:1px solid #c8dcc1; color:#294632; padding:8px 12px; border-radius:7px; margin-top:8px; font-size:12px; }
+.admin-customer-badge button { background:transparent; border:none; color:#7a3c26; font-size:11px; cursor:pointer; font-weight:600; text-decoration:underline; }
+.admin-customer-suggestion-pill { margin-top:5px; font-size:11px; background:#f7f3e8; border:1px solid #e7dcbf; color:#795d28; padding:5px 9px; border-radius:6px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.admin-customer-suggestion-pill button { background:#507044; color:#fff; border:none; border-radius:4px; padding:2px 8px; font-size:10px; cursor:pointer; }
+
+/* Pricing Mode Toggle */
+.admin-price-toggle-group { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+.admin-price-toggle-btns { display:inline-flex; border:1px solid #cbd5c5; border-radius:6px; overflow:hidden; background:#e9eee4; }
+.admin-price-toggle-btn { border:none; background:transparent; padding:2px 8px; font-size:10px; font-weight:600; color:#5c6c57; cursor:pointer; }
+.admin-price-toggle-btn.active { background:#2b4535; color:#fff; }
+
+/* Custom Size Field in Product Picker */
+.admin-custom-size-box { display:flex; gap:8px; align-items:center; }
+.admin-custom-size-box input { min-height:43px; padding:10px 12px; font-size:13px; border:1px solid #dce3d6; border-radius:7px; background:#fff; }
