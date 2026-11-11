@@ -22,6 +22,7 @@ export interface TrackViewItemParams {
     slug: string
     name: string
     category: string
+    quoteOnly?: boolean
     sizes?: Array<{ price: number; label: string; sizeCategory?: string }>
   }
   selectedSize?: {
@@ -37,6 +38,7 @@ export interface TrackAddToCartParams {
     slug: string
     name: string
     category: string
+    quoteOnly?: boolean
   }
   size: {
     price: number
@@ -168,7 +170,7 @@ export function trackViewItem({ product, selectedSize, quantity = 1 }: TrackView
   lastViewItemTime = now
 
   const size = selectedSize || product.sizes?.[0]
-  const price = size?.price || 0
+  const price = product.quoteOnly ? 0 : size?.price || 0
   const variant = size?.sizeCategory || size?.label || ''
 
   const item: AnalyticsItem = {
@@ -196,7 +198,7 @@ export function trackViewItem({ product, selectedSize, quantity = 1 }: TrackView
 export function trackAddToCart({ product, size, quantity, options }: TrackAddToCartParams): void {
   if (typeof window === 'undefined') return
 
-  const price = size.price || 0
+  const price = product.quoteOnly ? 0 : size.price || 0
   const totalValue = price * quantity
   const variant = size.sizeCategory || size.label || ''
 

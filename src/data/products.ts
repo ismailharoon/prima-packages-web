@@ -167,6 +167,7 @@ export const products: Product[] = [
   {
     slug: 'zipper-bags',
     name: 'Custom Zipper Bags',
+    quoteOnly: true,
     category: 'Packaging',
     shortDescription: 'White and black zipper bags with single-side, one-color printing. Choose your color, size and pack quantity.',
     longDescription: 'Give your garments and ecommerce products a clean, professional, and reusable outer package with our custom frosted zipper bags. Made from premium frosted PE (Polyethylene) and PEVA materials, these bags offer a luxurious semi-transparent matte finish that elevates the unboxing experience. Featuring a smooth slider zip closure, they provide secure, airtight protection against dust and moisture during transit. These versatile packaging bags are ideal for clothing, accessories, cosmetics, and retail items. At Prima Packages, we customize every detail to align with your brand identity. We offer customized sizing and high-quality screen printing of your brand logo and details directly on the front. As a leading packaging supplier in Karachi, we ensure top-notch quality and offer reliable nationwide delivery across Pakistan. Enhance your brand\'s perceived value and promote sustainability, as customers love to repurpose these durable zipper bags for travel and storage. Contact our team to discuss your dimensions, material thickness, and print colors for a tailored wholesale quote.',
@@ -644,6 +645,7 @@ export const products: Product[] = [
   {
     slug: 'courier-flyer-bags',
     name: 'Courier Flyer Bags',
+    quoteOnly: true,
     category: 'Packaging',
     shortDescription: 'Branded courier bags that make every delivery a branded experience.',
     longDescription: 'Transform your standard shipping process into a memorable brand touchpoint with our custom-printed courier flyer bags. Designed specifically for ecommerce shipping and secure product delivery, these bags are manufactured from highly durable, tear-resistant, and waterproof polyethylene. Featuring a strong self-sealing adhesive strip, they guarantee tamper-evident protection for your products in transit. At Prima Packages, we help you elevate your unboxing experience by showcasing your brand logo and custom graphics in vibrant full-color or sleek single-color print, available on white or colored poly materials. We offer a range of sizes to accommodate everything from small accessories to bulky apparel. As ecommerce continues to grow in Pakistan, branded delivery is crucial for standing out. We proudly supply custom courier bags to businesses in Karachi and deliver nationwide, offering competitive factory rates, low minimum order quantities, and high-quality micron thickness to ensure your packages arrive safely and in style.',

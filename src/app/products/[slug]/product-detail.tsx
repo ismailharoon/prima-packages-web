@@ -201,7 +201,7 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
             {isOutOfStock ? (
               <strong className="!text-lg font-semibold text-neutral-600">Currently Out of Stock</strong>
             ) : product.quoteOnly ? (
-              <strong className="!text-lg font-semibold text-charcoal">Made to your specification</strong>
+              <strong className="!text-lg font-semibold text-emerald-800">Get Quote on WhatsApp</strong>
             ) : (
               <>
                 <strong className="!text-2xl font-semibold text-charcoal">{formatPrice(total)}</strong>
@@ -220,7 +220,7 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
             {isOutOfStock
               ? 'This product is currently out of stock. Contact our team on WhatsApp for availability.'
               : product.quoteOnly
-              ? 'Our team will confirm your price on WhatsApp.'
+              ? 'Select your preferred size and quantity below, then get a price quote on WhatsApp.'
               : isHangTags
               ? hangTagString
                 ? `Hang Tag Card: Rs. ${(size.price - currentStringCost).toLocaleString()} + Tag Card String: Rs. ${currentStringCost.toLocaleString()} = Rs. ${size.price.toLocaleString()}`
@@ -240,7 +240,7 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
           </div>
 
           {/* Simple Clean Dropdowns For Configuration */}
-          {!isOutOfStock && !product.quoteOnly && (
+          {!isOutOfStock && (
             <div className="space-y-3.5 my-4">
               {isHangTags ? (
                 <>
@@ -352,8 +352,11 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
                       >
                         {tiersForSize.map((tier) => (
                           <option key={tier.index} value={tier.index}>
-                            {tier.quantity || tier.label} — {formatPrice(tier.price)}
-                            {tier.unitPrice ? ` (${formatPrice(tier.unitPrice)} / piece)` : ''}
+                            {product.quoteOnly
+                              ? tier.quantity || tier.label
+                              : `${tier.quantity || tier.label} — ${formatPrice(tier.price)}${
+                                  tier.unitPrice ? ` (${formatPrice(tier.unitPrice)} / piece)` : ''
+                                }`}
                           </option>
                         ))}
                       </select>
@@ -454,6 +457,33 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
             >
               <Icon name="bag" /> Inquire Availability on WhatsApp
             </a>
+          ) : product.quoteOnly ? (
+            <a
+              href={`https://wa.me/923233231712?text=${encodeURIComponent(
+                `Hi Prima Packages, I would like a price quote for ${product.name}.\n${
+                  selectedColor ? `Color: ${selectedColor}\n` : ''
+                }Size: ${size?.sizeCategory || size?.label || ''}\nQuantity: ${
+                  size?.quantity
+                    ? `${countPacks > 1 ? `${countPacks} × ` : ''}${size.quantity}`
+                    : `${countPacks} pcs`
+                }\nCity:`
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-ga-tracked="true"
+              onClick={() => {
+                trackWhatsAppClick({
+                  buttonLocation: 'product_page',
+                  productName: product.name,
+                  productId: product.slug,
+                  selectedSize: size?.sizeCategory || size?.label,
+                  selectedQuantity: countPacks,
+                })
+              }}
+              className="store-button add-cart-button inline-flex items-center justify-center gap-2 text-center no-underline"
+            >
+              <Icon name="bag" /> Get Quote on WhatsApp
+            </a>
           ) : (
             <button
               className="store-button add-cart-button"
@@ -466,8 +496,6 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
                 ? 'Loading cart…'
                 : added
                 ? 'Add another selection'
-                : product.quoteOnly
-                ? 'Add quote request to cart'
                 : 'Add to cart'}
             </button>
           )}
@@ -532,7 +560,7 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
 
       <div className="mobile-buy-bar">
         <div>
-          <strong>{isOutOfStock ? 'Out of Stock' : product.quoteOnly ? 'Custom quote' : formatPrice(total)}</strong>
+          <strong>{isOutOfStock ? 'Out of Stock' : product.quoteOnly ? 'WhatsApp Quote' : formatPrice(total)}</strong>
           <span>
             {isOutOfStock
               ? 'Contact WhatsApp'
@@ -559,6 +587,33 @@ export function ProductDetail({ product, allProducts }: { product: Product; allP
             className="store-button"
           >
             <Icon name="bag" /> Inquire
+          </a>
+        ) : product.quoteOnly ? (
+          <a
+            href={`https://wa.me/923233231712?text=${encodeURIComponent(
+              `Hi Prima Packages, I would like a price quote for ${product.name}.\n${
+                selectedColor ? `Color: ${selectedColor}\n` : ''
+              }Size: ${size?.sizeCategory || size?.label || ''}\nQuantity: ${
+                size?.quantity
+                  ? `${countPacks > 1 ? `${countPacks} × ` : ''}${size.quantity}`
+                  : `${countPacks} pcs`
+              }\nCity:`
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-ga-tracked="true"
+            onClick={() => {
+              trackWhatsAppClick({
+                buttonLocation: 'product_page',
+                productName: product.name,
+                productId: product.slug,
+                selectedSize: size?.sizeCategory || size?.label,
+                selectedQuantity: countPacks,
+              })
+            }}
+            className="store-button no-underline"
+          >
+            <Icon name="bag" /> Get Quote
           </a>
         ) : (
           <button type="button" className="store-button" onClick={addItem} disabled={!ready}>

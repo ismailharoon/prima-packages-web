@@ -61,7 +61,7 @@ export function ProductCard({ product }: { product: Product; index?: number }) {
               Currently Out of Stock
             </span>
           ) : product.quoteOnly ? (
-            <span className="font-medium text-xs text-charcoal/80">Custom Quote</span>
+            <span className="font-semibold text-xs text-emerald-800">Get Quote on WhatsApp</span>
           ) : (
             <span>
               Starting from <span className="font-semibold text-charcoal">{formatPrice(size.price)}</span>
@@ -75,7 +75,7 @@ export function ProductCard({ product }: { product: Product; index?: number }) {
             href={`/products/${product.slug}`}
             className="inline-flex items-center justify-center gap-2 min-h-[44px] px-8 py-2.5 rounded-full bg-sage hover:bg-sage-dark active:scale-[0.98] text-white text-xs font-bold uppercase tracking-wider transition-all shadow-sm"
           >
-            <span>{isOutOfStock ? 'Inquire on WhatsApp' : product.quoteOnly ? 'Customize Now' : 'Shop Now'}</span>
+            <span>{isOutOfStock ? 'Inquire on WhatsApp' : product.quoteOnly ? 'Get WhatsApp Quote' : 'Shop Now'}</span>
             <svg
               className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5"
               fill="none"
